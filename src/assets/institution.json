@@ -1,0 +1,408 @@
+{
+    "name": "McDonnald MOFIFIER",
+    "city": "Paris",
+    "postalAddress": "BP TEST",
+    "phoneNumber": "+3331648585812",
+    "email": "donald@gmail.com",
+    "siretNumber": "7778899665544",
+    "dailyTurnover": 0,
+    "tableQuantity": 100,
+    "morningTurnover": 0,
+    "eveningTurnover": 0,
+    "weeklyTurnover": 0,
+    "monthlyTurnover": 0,
+    "yearlyTurnover": 0,
+    "numberOfHapy": 0,
+    "averageTicketPerHapy": 0,
+    "averageServiceTime": 0,
+    "amountOfHapyTips": 0,
+    "institutionCategory": {
+        "name": "Restaurant ambulant",
+        "createdAt": "2023-01-16T12:10:15.638Z",
+        "updatedAt": "2023-01-18T23:35:09.385Z",
+        "id": "63c53ea7e251cbfe981982ce"
+    },
+    "teamMembers": [
+        {
+            "image": "profile.jpg",
+            "imageFile": {},
+            "imageData": "",
+            "firstName": "Amadou Diadie",
+            "lastName": "Coulibaly",
+            "fullName": "Amadou Diadie Coulibaly",
+            "role": "Chef Cuisto",
+            "email": "amadou@gmail.com",
+            "password": "azerty"
+        },
+        {
+            "image": "profile.jpg",
+            "imageFile": {},
+            "imageData": "",
+            "firstName": "Amadou Diadie",
+            "lastName": "Coulibaly",
+            "fullName": "Amadou Diadie Coulibaly",
+            "role": "Administrateur",
+            "email": "amadou2@gmail.com",
+            "password": "azerty"
+        },
+        {
+            "firstName": "Kentin",
+            "lastName": "Hogbounoto",
+            "fullName": "Kentin Hogbounoto",
+            "role": "Chef de Rang",
+            "email": "kentin@gmail.com",
+            "password": "hogbounoto@kentin1",
+            "imageData": "",
+            "imageFile": {},
+            "image": "qr.png"
+        },
+        {
+            "firstName": "Kentin",
+            "lastName": "Hogbounoto",
+            "fullName": "Kentin Hogbounoto",
+            "role": "Serveur",
+            "email": "kentin2@gmail.com",
+            "password": "hogbounoto@kentin1",
+            "imageData": "",
+            "imageFile": {},
+            "image": "qr.png"
+        }
+    ],
+    "zones": [
+        {
+            "name": "Zone 1",
+            "tableNumStart": 1,
+            "tableNumEnd": 50,
+            "numberOfTables": 50
+        },
+        {
+            "name": "Zone 2",
+            "tableNumStart": 51,
+            "tableNumEnd": 100,
+            "numberOfTables": 50
+        }
+    ],
+    "ingredients": [
+        {
+            "entitled": "Ingredient 1",
+            "stockQuantity": "100",
+            "limitBeforeAlert": "50",
+            "supplierReference": "00000000000",
+            "measureUnit": "l'unité",
+            "ingredientCategory": {
+                "name": "Categorie Ingredient 1",
+                "order": 0
+            }
+        },
+        {
+            "entitled": "Ingredient 2",
+            "ingredientCategory": {
+                "name": "Categorie Ingredient 1",
+                "order": 0
+            },
+            "supplierReference": "00000000000",
+            "measureUnit": "g",
+            "stockQuantity": "150",
+            "limitBeforeAlert": "25"
+        },
+        {
+            "entitled": "Ingredient 3",
+            "ingredientCategory": {
+                "name": "Categorie Ingredient 3",
+                "order": 2
+            },
+            "supplierReference": "01321146546546",
+            "measureUnit": "kg",
+            "stockQuantity": "1500",
+            "limitBeforeAlert": "500"
+        }
+    ],
+    "productCategories": [
+        {
+            "name": "Categorie produit 1",
+            "categoryOnMenu": {
+                "name": "Categorie On Menu 1",
+                "cookingStation": "Cuisine",
+                "order": 0
+            },
+            "order": 0
+        },
+        {
+            "name": "Categorie produit 2",
+            "categoryOnMenu": {
+                "name": "Categorie On Menu 1",
+                "cookingStation": "Cuisine",
+                "order": 0
+            },
+            "order": 1
+        },
+        {
+            "name": "Categorie produit 3",
+            "categoryOnMenu": {
+                "name": "Categorie On Menu 2",
+                "cookingStation": "Bar",
+                "order": 1
+            },
+            "order": 2
+        }
+    ],
+    "cookings": [
+        {
+            "name": "Blue",
+            "order": 0
+        },
+        {
+            "name": "Saignant",
+            "order": 1
+        },
+        {
+            "name": "A point",
+            "order": 2
+        },
+        {
+            "name": "Cuit",
+            "order": 3
+        },
+        {
+            "name": "Bien Cuit",
+            "order": 4
+        },
+        {
+            "name": "Un peu brulée",
+            "order": 5
+        },
+        {
+            "name": "Très épicé",
+            "order": 6
+        }
+    ],
+    "orders": [],
+    "categoryOnMenus": [],
+    "createdAt": "2023-01-18T23:35:09.081Z",
+    "updatedAt": "2023-01-18T23:54:20.837Z",
+    "endTime": "23:00",
+    "startTime": "07:00",
+    "id": "63c8822d7d3a52696de7ac30",
+    "timeBetweenTwoService": "14:00",
+    "rooms": [
+        {
+            "name": "Poste Salle 1"
+        },
+        {
+            "name": "Poste Salle 2"
+        }
+    ],
+    "bartenders": [
+        {
+            "name": "Poste Bar 1"
+        },
+        {
+            "name": "Poste Bar 2"
+        }
+    ],
+    "cookingStations": [
+        {
+            "name": "Poste Cuisine 1"
+        },
+        {
+            "name": "Poste Cuisine 2"
+        }
+    ],
+    "numberOfBartender": 2,
+    "ingredientCategories": [
+        {
+            "name": "Categorie Ingredient 1",
+            "order": 0
+        },
+        {
+            "name": "Categorie Ingredient 2",
+            "order": 1
+        },
+        {
+            "name": "Categorie Ingredient 3",
+            "order": 2
+        }
+    ],
+    "categoryOnMenu": [
+        {
+            "name": "Categorie On Menu 1",
+            "cookingStation": "Cuisine",
+            "order": 0
+        },
+        {
+            "name": "Categorie On Menu 2",
+            "cookingStation": "Bar",
+            "order": 1
+        }
+    ],
+    "listProduct": [
+        {
+            "name": "Produit 1",
+            "productCategory": {
+                "name": "Categorie produit 1",
+                "categoryOnMenu": {
+                    "name": "Categorie On Menu 1",
+                    "cookingStation": "Cuisine",
+                    "order": 0
+                },
+                "order": 0
+            },
+            "cookingStation": {
+                "name": "Poste Cuisine 1"
+            },
+            "variants": [
+                {
+                    "image": "pizza-g12edac58b_640.jpg",
+                    "imageFile": {},
+                    "imageData": "",
+                    "name": "Variant 1",
+                    "cooking": {
+                        "name": "Cuit",
+                        "order": 3
+                    },
+                    "sellingPrice": "50.50",
+                    "description": "Description Var ",
+                    "allergene": " Allergene Var",
+                    "productIngredients": [
+                        {
+                            "ingredient": {
+                                "entitled": "Ingredient 1",
+                                "stockQuantity": "100",
+                                "limitBeforeAlert": "50",
+                                "supplierReference": "00000000000",
+                                "measureUnit": "l'unité",
+                                "ingredientCategory": {
+                                    "name": "Categorie Ingredient 1",
+                                    "order": 0
+                                }
+                            },
+                            "quantity": "10"
+                        },
+                        {
+                            "ingredient": {
+                                "entitled": "Ingredient 2",
+                                "ingredientCategory": {
+                                    "name": "Categorie Ingredient 1",
+                                    "order": 0
+                                },
+                                "supplierReference": "00000000000",
+                                "measureUnit": "g",
+                                "stockQuantity": "150",
+                                "limitBeforeAlert": "25"
+                            },
+                            "quantity": "5",
+                            "isIngredientModifiable": true
+                        },
+                        {
+                            "ingredient": {
+                                "entitled": "Ingredient 3",
+                                "ingredientCategory": {
+                                    "name": "Categorie Ingredient 3",
+                                    "order": 2
+                                },
+                                "supplierReference": "01321146546546",
+                                "measureUnit": "kg",
+                                "stockQuantity": "1500",
+                                "limitBeforeAlert": "500"
+                            },
+                            "quantity": "15",
+                            "isIngredientModifiable": true
+                        }
+                    ],
+                    "listIngredientForCooking": []
+                },
+                {
+                    "image": "chocolate-g21535686e_640.jpg",
+                    "imageFile": {},
+                    "imageData": "",
+                    "name": "Variant 2",
+                    "cooking": {
+                        "name": "Très épicé",
+                        "order": 6
+                    },
+                    "sellingPrice": "60",
+                    "description": " desc",
+                    "allergene": " allergene",
+                    "productIngredients": [
+                        {
+                            "ingredient": {
+                                "entitled": "Ingredient 1",
+                                "stockQuantity": "100",
+                                "limitBeforeAlert": "50",
+                                "supplierReference": "00000000000",
+                                "measureUnit": "l'unité",
+                                "ingredientCategory": {
+                                    "name": "Categorie Ingredient 1",
+                                    "order": 0
+                                }
+                            },
+                            "quantity": "20",
+                            "isIngredientModifiable": true
+                        },
+                        {
+                            "ingredient": {
+                                "entitled": "Ingredient 2",
+                                "ingredientCategory": {
+                                    "name": "Categorie Ingredient 1",
+                                    "order": 0
+                                },
+                                "supplierReference": "00000000000",
+                                "measureUnit": "g",
+                                "stockQuantity": "150",
+                                "limitBeforeAlert": "25"
+                            },
+                            "quantity": "10",
+                            "isIngredientModifiable": false
+                        }
+                    ],
+                    "listIngredientForCooking": []
+                }
+            ],
+            "hapyHour": true
+        },
+        {
+            "name": "Produit 2",
+            "productCategory": {
+                "name": "Categorie produit 3",
+                "categoryOnMenu": {
+                    "name": "Categorie On Menu 2",
+                    "cookingStation": "Bar",
+                    "order": 1
+                },
+                "order": 2
+            },
+            "cookingStation": "Bar",
+            "variants": [
+                {
+                    "image": "barbecue-gf16e14599_640.jpg",
+                    "imageFile": {},
+                    "imageData": "",
+                    "name": "Variant 1",
+                    "cooking": null,
+                    "sellingPrice": "10",
+                    "description": " desc",
+                    "allergene": " desc",
+                    "productIngredients": [
+                        {
+                            "ingredient": {
+                                "entitled": "Ingredient 2",
+                                "ingredientCategory": {
+                                    "name": "Categorie Ingredient 1",
+                                    "order": 0
+                                },
+                                "supplierReference": "00000000000",
+                                "measureUnit": "g",
+                                "stockQuantity": "150",
+                                "limitBeforeAlert": "25"
+                            },
+                            "quantity": "5"
+                        }
+                    ],
+                    "listIngredientForCooking": []
+                }
+            ],
+            "hapyHour": false
+        }
+    ],
+    "password": "azerty"
+}
