@@ -1,9 +1,9 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import Preparation_Top from "./Preparation_Top";
 import IconTimer2 from "../../globals/icons-components/IconTimer2";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import IconArrowLeft from "../../globals/icons-components/IconArrowLeft";
-import {useNavigate} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import IconVerify from "../../globals/icons-components/IconVerify";
 import PreparationCommandBox from "./PreparationCommandBox";
 import {PreparationProcessModel} from "../../globals/models/models";
@@ -13,14 +13,17 @@ type PropsType = {
 }
 
 function Preparation_Attente(props:PropsType) {
-    const {preparationProcess, setPreparationProcess} = useContext<{preparationProcess:PreparationProcessModel, setPreparationProcess: any}>(preparationContext) ;
+    const location = useLocation() ;
+    const navigate = useNavigate() ;
+    const [preparationProcess, setPreparationProcess] = useState(location.state.temp); //useContext<{preparationProcess:PreparationProcessModel, setPreparationProcess: any}>(preparationContext) ;
     const [pause, setPause] = useState<boolean>(false);
     const [blurBG, setBlurBG] = useState<string>('');
     const [isModalOpened, setIsModalOpened] = useState<{state:boolean,modalToOpen:any}>({state:false,modalToOpen:null});
-    const navigate = useNavigate() ;
     const [showError, setShowError] = useState<boolean>(false) ;
     const [errorMessage, setErrorMessage] = useState<string>('') ;
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
+
+    console.log(location)
 
     const handleOpenModal = (modalToOpen) => {
         setBlurBG('blur-bg') ;
@@ -73,6 +76,8 @@ function Preparation_Attente(props:PropsType) {
         }, timeout) ;
     } ;
 
+    useEffect(()=>{},[])
+
     return (
         <>
             <Preparation_Top handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} classAdditional={blurBG}/>
@@ -117,7 +122,7 @@ function Preparation_Attente(props:PropsType) {
                                     <span className="fw-8">8</span>
                                     <span style={{marginLeft:4}}>
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M18 18.86H17.24C16.44 18.86 15.68 19.17 15.12 19.73L13.41 21.42C12.63 22.19 11.36 22.19 10.58 21.42L8.87 19.73C8.31 19.17 7.54 18.86 6.75 18.86H6C4.34 18.86 3 17.53 3 15.89V4.97C3 3.33 4.34 2 6 2H18C19.66 2 21 3.33 21 4.97V15.88C21 17.52 19.66 18.86 18 18.86Z" stroke="#323232" strokeWidth="1.5" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                                                <path d="M18 18.86H17.24C16.44 18.86 15.68 19.17 15.12 19.73L13.41 21.42C12.63 22.19 11.36 22.19 10.58 21.42L8.87 19.73C8.31 19.17 7.54 18.86 6.75 18.86H6C4.34 18.86 3 17.53 3 15.89V4.97C3 3.33 4.34 2 6 2H18C19.66 2 21 3.33 21 4.97V15.88C21 17.52 19.66 18.86 18 18.86Z" stroke="#323232" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
                                                 <path d="M12.0701 8.95005C12.0301 8.95005 11.97 8.95005 11.92 8.95005C10.87 8.91005 10.04 8.06005 10.04 7.00005C10.04 5.92005 10.9101 5.05005 11.9901 5.05005C13.0701 5.05005 13.9401 5.93005 13.9401 7.00005C13.9501 8.06005 13.1201 8.92005 12.0701 8.95005Z" stroke="#323232" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                                 <path d="M9.25043 11.96C7.92043 12.85 7.92043 14.3 9.25043 15.19C10.7604 16.2 13.2404 16.2 14.7504 15.19C16.0804 14.3 16.0804 12.85 14.7504 11.96C13.2404 10.96 10.7704 10.96 9.25043 11.96Z" stroke="#323232" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                             </svg>

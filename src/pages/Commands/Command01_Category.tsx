@@ -48,15 +48,14 @@ function Command01_Category(props) {
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
-                           subtitleStart={getAdminProcessValues("userLogged")?.firstName || "serveur"}
-                           subtitleStartClassName="text-red-orange"
-                           subtitleEnd={getAdminProcessValues("userLogged")?.lastName || "Hâpy"}
-                           title="Servez-vous"
-                           showBtnBack={true}
-                           handleClickBtnBack={()=>navigate('/table-opened')}
-                           showRightSideBtn={false}
-                           hapyLogoBtnColor={"#536DFE"}
-
+                subtitleStart={getAdminProcessValues("userLogged")?.firstName || "serveur"}
+                subtitleStartClassName="text-red-orange"
+                subtitleEnd={getAdminProcessValues("userLogged")?.lastName || "Hâpy"}
+                title="Servez-vous"
+                showBtnBack={true}
+                handleClickBtnBack={()=>navigate('/table-opened')}
+                showRightSideBtn={false}
+                hapyLogoBtnColor={"#536DFE"}
             />
             <div className="happy-div-bottom">
                 <div className="pt-4">

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import HapyButtonOnlyIcon2 from "../../components/HapyButtonOnlyIcon2";
 import PreparationModalCommand from "./PreparationModalCommand";
 import IconOrderAdd from "../../globals/icons-components/IconOrderAdd";
@@ -13,7 +13,10 @@ import IconSomeoneDelete from "../../globals/icons-components/IconSomeoneDelete"
 import useLocalStorage from "../../components/hooks/useLocalStorage";
 import {AdminProcessModel, PreparationProcessModel} from "../../globals/models/models";
 import {preparationContext} from "./PreparationContainer";
-import {getAdminProcessValues} from "../../globals/GlobalVariables";
+import {getAdminProcessValues, getProcessStored, setProcessStored} from "../../globals/GlobalVariables";
+import { getCoupons, getOrders } from './services';
+
+import {PerteModal, OrderModal} from './components'
 
 type PropsType = {
     classAdditional?: string ;
@@ -29,12 +32,37 @@ export const screenHeightPourcent: any = (pourcent: number) => {return (pourcent
 function Preparation_Top(props:PropsType) {
     const {preparationProcess, setPreparationProcess} = useContext<{preparationProcess:PreparationProcessModel, setPreparationProcess: any}>(preparationContext) ;
     const navigate = useNavigate() ;
+    const [ orderNumber, setOrderNumber ] = useState(0)
+    const [ couponNumber, setCouponNumber ] = useState(0)
     const handleLogout = () => {
         localStorage.removeItem('isLoggedin') ;
         setTimeout(()=>{
             location.reload() ;
         }, 500)
     } ;
+
+    useEffect(() => {
+        /*if (!location.pathname.includes('home')) {
+            location.pathname = 'home' ;
+        }*/
+        getOrders()
+         .then((response:any) => {
+            let preparationProcess = getProcessStored('preparationProcess');
+            preparationProcess = { ...preparationProcess, orders: response.items }
+            setProcessStored('preparationProcess', preparationProcess);
+          })
+         .catch(error => console.log(error))
+         getCoupons()
+         .then((response: any) => {
+            setOrderNumber(response.ticketNumber);
+            setCouponNumber(response.coupons.length);
+            //update orders in localstorage
+          })
+         .catch(error => console.log(error))
+
+    }, []) ;
+
+
     return (
         <div className={"preparation-top-container text-white " + props.classAdditional}
              /*style={{width:screenWidth+5}}*/>
@@ -58,18 +86,18 @@ function Preparation_Top(props:PropsType) {
                     <div className="col-3" style={{marginLeft:0}}>
                         <div className="f-12">Ticket</div>
                         <div style={{marginTop:-10}}>
-                            <span className="f-48 fw-6">{preparationProcess.ticketQuantity}</span>
+                            <span className="f-48 fw-6">{/* preparationProcess.ticketQuantity */ orderNumber }</span>
                             <svg className="-mt-2 ml-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="10" cy="10" r="10" fill="#FF6063"/>
                             </svg>
-                            <span className="fw-6 f-32 ml-1">14</span>
+                            <span className="fw-6 f-32 ml-1">{couponNumber}</span>
                         </div>
                     </div>
                     <div className="col text-end float-end row mt-3">
-                        <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-orange bg-black-btn' handleClick={()=>props.handleOpenModal(<PreparationModalCommand handleCloseModal={props.handleCloseModal}/>)}
+                        <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-orange bg-black-btn' handleClick={()=>props.handleOpenModal(<OrderModal handleCloseModal={props.handleCloseModal}/>)}
                                              btnWidth={80} marginRight={12} iconComponent={<IconOrderAdd stroke={'white'}/>}
                                              isChecked={false}/>
-                        <HapyButtonOnlyIcon2 classAddtionnal="mb-2 bg-black-btn" handleClick={()=>props.handleOpenModal(<PreparationModal1 handleCloseModal={props.handleCloseModal}/>)}
+                        <HapyButtonOnlyIcon2 classAddtionnal="mb-2 bg-black-btn" handleClick={()=>props.handleOpenModal(<PerteModal handleCloseModal={props.handleCloseModal}/>)}
                                              btnWidth={80} marginRight={12} iconComponent={<IconArchive stroke={'white'}/>}
                                              isChecked={false}/>
                         <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={null}

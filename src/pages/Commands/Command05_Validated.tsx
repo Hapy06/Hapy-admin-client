@@ -16,26 +16,26 @@ function Command05_Validated(props) {
         window.scrollTo(0, 0);
         let totalPrice = 0 ;
         commandProcess.allCommands.filter(elt => elt.isValidated).forEach(elt => {
-            totalPrice += elt.price ;
-        }) ;
-        let temp = commandProcess ;
-        temp.totalPrice = totalPrice ;
+            totalPrice += elt.price;
+        });
+        let temp = commandProcess;
+        temp.totalPrice = totalPrice;
         setCommandProcess(temp) ;
-        setProcessStored('commandProcess', temp) ;
-        updateTable(temp) ;
+        setProcessStored('commandProcess', temp);
+        updateTable(temp);
     }, []);
 
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
-                           subtitleStart={getAdminProcessValues("userLogged")?.firstName || "serveur"}
-                           subtitleStartClassName="text-red-orange"
-                           subtitleEnd={getAdminProcessValues("userLogged")?.lastName || "Hâpy"}
-                           title="C’est parfait !"
-                           showBtnBack={true}
-                           handleClickBtnBack={()=>navigate('/home')}
-                           showRightSideBtn={false}
-                           hapyLogoBtnColor={"#536DFE"}
+                subtitleStart={getAdminProcessValues("userLogged")?.firstName || "serveur"}
+                subtitleStartClassName="text-red-orange"
+                subtitleEnd={getAdminProcessValues("userLogged")?.lastName || "Hâpy"}
+                title="C’est parfait !"
+                showBtnBack={true}
+                handleClickBtnBack={()=>navigate('/home')}
+                showRightSideBtn={false}
+                hapyLogoBtnColor={"#536DFE"}
 
             />
             <div className="happy-div-bottom">
@@ -51,8 +51,9 @@ function Command05_Validated(props) {
                 <div className="horizontal-center inner-button-container-validate-btn">
                     <div className="validated-btn-container mt-4">
                         <HapyButtonWithIcon text="Retour à votre table" handleClick={()=>{navigate('/home')}}
-                                            btnWidth={350}
-                                            iconComponent={<IconArrowLeft/>}/>
+                            btnWidth={350}
+                            iconComponent={<IconArrowLeft/>}
+                        />
                     </div>
                 </div>
             </div>
