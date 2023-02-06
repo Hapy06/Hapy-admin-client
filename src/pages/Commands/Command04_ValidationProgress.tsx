@@ -90,8 +90,7 @@ function Command04_ValidationProgress(props) {
                 coupon.tableZoneName = temp.table.zone.name || 'zone name' ;
                 coupon.product = command.product ;
                 coupon.productVariant = command.productVariant ;
-                coupon.cookingStation = new CookingStation() ;
-                coupon.cookingStation.name = command.product.cookingStation ;
+                coupon.cookingStation = command.product.cookingStation ;
                 coupon.isPregnant = command.isPregnant ;
                 coupon.price = command.price ;
                 coupon.ingredientsModifiablesStates = command.ingredientsModifiablesStates ;
