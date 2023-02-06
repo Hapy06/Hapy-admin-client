@@ -13,7 +13,6 @@ import {
 } from "../../globals/GlobalVariables";
 import {Order, PayloadType, PreparationProcessModel, Table} from "../../globals/models/models";
 import addNotification from "react-push-notification";
-import {allOrders} from "../Serveur/dataTest";
 
 export const preparationContext = createContext(null) ;
 
@@ -37,7 +36,7 @@ function PreparationContainer() {
     if (!preparationProcess.listAllOrders) {
       let temp = {...preparationProcess} ;
       temp.orderWaintingMilliseconde = {} ;
-      let arr: Order[] = allOrders ;
+      let arr: Order[] = [] ;
       temp.ticketQuantity = 0 ;
       arr.forEach(order => {
         if (!order.createdAt) {
