@@ -40,11 +40,9 @@ function ChefDeRang02_CommandValidated(props) {
                     {cdrProcess.validationMessage}
                 </div>
                 <div className="horizontal-center inner-button-container-validate-btn">
-                    <div className="validated-btn-container mt-4">
-                        <HapyButtonWithIcon text="Retour à votre gestion" handleClick={()=>{navigate('/')}}
-                                            btnWidth={350}
-                                            iconComponent={<IconArrowLeft width={32} height={32}/>}/>
-                    </div>
+                    <HapyButtonWithIcon text="Retour à votre gestion" handleClick={()=>{navigate('/')}}
+                                        btnWidth={350}
+                                        iconComponent={<IconArrowLeft width={32} height={32}/>}/>
                 </div>
             </div>
         </>

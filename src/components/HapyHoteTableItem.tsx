@@ -10,13 +10,13 @@ type PropsType = {
     marginLeft?: number ;
     marginBottom?: number ;
     marginTop?: number ;
-    state?: 'free' | 'full' | string ;
+    status: string ;
 }
 
 function HapyHoteTableItem(props:PropsType) {
     return (
         <>
-            <button className={props.state != 'full' ? 'hapy-btn-with-icon text-center' : 'hapy-btn-with-icon text-center border-green'} onClick={props.handleClick}
+            <button className={props.status == 'close' ? 'hapy-btn-with-icon text-center' : 'hapy-btn-with-icon text-center border-green'} onClick={props.handleClick}
                     style={{width:props.btnWidth, marginLeft:props.marginLeft, marginRight:props.marginRight,
                             marginBottom:props.marginBottom, marginTop:props.marginTop}}>
                 { props.isChecked && (

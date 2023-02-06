@@ -102,7 +102,7 @@ function Login(props:PropType) {
                            subtitleStart=""
                            subtitleStartClassName="text-red-orange"
                            subtitleEnd="Votre interface est prète"
-                           title="Bienvenue cher Hâpy"
+                           title="Bienvenue "
                            titleEnding="."
                            showBtnBack={false}
                            showRightSideBtn={false}
@@ -111,14 +111,14 @@ function Login(props:PropType) {
             />
             <div className="happy-div-bottom">
             <br/>
-            <HapyInput label="Votre identifiant Hâpy"
-                       inputName='email'
-                       inputType='email'
-                       placeholder='Email'
-                       inputValue={authBody.email}
-                       handleChange={handleloginForm}/>
-            <br/>
-            <br/>
+                <HapyInput label="Votre identifiant Hâpy"
+                           inputName='email'
+                           inputType='email'
+                           placeholder='Email'
+                           inputValue={authBody.email}
+                           handleChange={handleloginForm}/>
+                <br/>
+                <br/>
                 <HapyInput label="Votre mot de passe"
                            inputName='password'
                            inputType='password'
@@ -132,7 +132,7 @@ function Login(props:PropType) {
                 {showError && (<div className={"mb-3 -mt-4 " + errorMessageColor}>{errorMessage}</div>)}
                 <div className="horizontal-center">
                     <HapyButtonWithIcon text="Vous connecter" handleClick={handleLogin}
-                                                                       btnWidth={350}
+                                                                       btnWidth={'80%'}
                                                                        iconComponent={<IconChecked/>}/>
                 </div>
             </div>

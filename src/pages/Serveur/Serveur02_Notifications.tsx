@@ -37,6 +37,8 @@ function Serveur02_Notifications(props) {
                     theme: 'light',
                     native: true // when using native, your OS will handle theming.
                 });
+                temp.listNotificationDemands = temp.listNotificationDemands.filter(elt => elt.id != temp.notifDetail.id) ;
+                setServeurProcess(temp) ;
                 navigate('/home') ;
             },
             ()=> {

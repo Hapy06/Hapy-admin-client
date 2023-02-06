@@ -71,8 +71,8 @@ function Command04_ValidationProgress(props) {
         let temp = {...commandProcess} ;
         let order: Order = new Order() ;
         order.notificationID = "OIJF654654644JLFL" ;
-        order.insitutionID = temp.institution.id;
-        order.tableID = temp.table.id ;
+        order.institutionId = temp.institution.id;
+        order.tableId = temp.table.id ;
         order.tableNumber = temp.table.tableNumber ;
         order.tableZoneName = temp.table.zone.name || 'zone name' ;
         order.isFoodReady = false ;

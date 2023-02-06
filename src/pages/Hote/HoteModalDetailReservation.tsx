@@ -6,14 +6,48 @@ import IconVerify from "../../globals/icons-components/IconVerify";
 import IconClock from "../../globals/icons-components/IconClock";
 import IconPhoneCall from "../../globals/icons-components/IconPhoneCall";
 import IconPeople from "../../globals/icons-components/IconPeople";
+import Booking, {Table} from "../../globals/models/models";
+import {
+    API_REQUEST_BOOKING,
+    getAdminProcessValues, MSG_ERROR_DELETE,
+    MSG_SAVING,
+    putRequest, setAdminProcessValues,
+    setProcessStored
+} from "../../globals/GlobalVariables";
 
 type PropsType = {
     handleCloseModal: any ;
     containerStyle?: any ;
+    bookingDetail: Booking ;
 }
 
 function HoteModalDetailReservation(props:PropsType) {
-    const [tipsValidated, setTipsValidated] = useState(false);
+    const [showError, setShowError] = useState<boolean>(false) ;
+    const [errorMessage, setErrorMessage] = useState<string>('') ;
+    const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
+
+    const validateBooking = () => {
+        showErrorFunction(MSG_SAVING, "text-success") ;
+        putRequest(API_REQUEST_BOOKING, props.bookingDetail.id, {...props.bookingDetail, status:'Effectuée'},
+            (response)=> {
+                let temp = getAdminProcessValues("userLogged") ;
+                temp.institution.bookings.filter(elt => elt.id != props.bookingDetail.id) ;
+                setAdminProcessValues("userLogged", temp) ;
+                props.handleCloseModal() ;
+            },
+            (error)=>{
+                showErrorFunction(MSG_ERROR_DELETE) ;
+            }) ;
+    } ;
+
+    const showErrorFunction = (errorMessage: string, color:'text-success' | 'text-danger' = "text-danger" , timeout: number = 5000) => {
+        setErrorMessageColor(color) ;
+        setErrorMessage(errorMessage) ;
+        setShowError(true) ;
+        setTimeout(()=>{
+            setShowError(false) ;
+        }, timeout) ;
+    } ;
 
     return (
         <>
@@ -23,28 +57,28 @@ function HoteModalDetailReservation(props:PropsType) {
                     <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 5}}/>
                 </button>
                 <br/><br/><br/>
-                <p className="text-black"><span className="text-green">Lisa</span> Chirac</p>
+                <p className="text-black"><span className="text-green">{getAdminProcessValues("userLogged").firstName}</span> {getAdminProcessValues("userLogged").lastName}</p>
                 <h1 className="text-black f-32 fw-6">Detail d'une réservation</h1>
                 <div className="text-center mt-4 mb-4">
                     <IconHapyLogo width={48} height={48} styleIcon={{width: 22}}/>
                 </div>
-                <span><IconClock/> 21 : 30</span> <br/><br/>
+                <span><IconClock/> {props.bookingDetail?.timeOfreservation || '14:55'}</span> <br/><br/>
                 <div className="row f-20">
-                    <span className="col-6">Lefranc</span>
-                    <span className="col-6 text-end">Table <strong>74</strong></span>
+                    <span className="col-6">{props.bookingDetail?.clientName || 'Nom du Client'}</span>
+                    <span className="col-6 text-end">Table <strong>{props.bookingDetail?.tableNumber || props.bookingDetail?.table.tableNumber || 20}</strong></span>
                 </div>
                 <br/>
-                <span><IconPhoneCall/> 07 60 42 39 63</span> <br/>
+                <span><IconPhoneCall/> {props.bookingDetail?.phoneNumber?.value}</span> <br/>
                 <br/>
-                <span><IconPeople/> 3 p.</span> <br/>
-                <br/> <br/><br/> <br/>
-                <HapyButtonWithIcon text="Ils sont arrivés" handleClick={props.handleCloseModal}
-                                    iconComponent={<IconVerify/>}/>
+                <span><IconPeople/> {props.bookingDetail?.numberOfPeople} p.</span>
+                <br/><br/><br/><br/><br/><br/>
+                {showError && (<div className={"mb-3 " + errorMessageColor}>{errorMessage}</div>)}
+                <div className="horizontal-center inner-button-container-validate-btn mt-4">
+                    <HapyButtonWithIcon text="Il sont arrivés" handleClick={validateBooking}
+                                        btnWidth={350}
+                                        iconComponent={<IconVerify/>}/>
+                </div>
             </div>
-            {/*<div style={{marginBottom:(screenHeight-650)/2}}
-                className="text-center fixed-bottom">
-                <IconArrowDown/>
-            </div>*/}
         </>
     )
 }

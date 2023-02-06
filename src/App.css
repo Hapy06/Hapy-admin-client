@@ -45,12 +45,12 @@
 
 .happy-div-top {
   background-color: #323232;
-  margin: 0 3%;
+  padding: 0 20px ;
 }
 
 .happy-div-bottom {
   background-color: white;
-  min-height: 700px;
+  /*min-height: 700px;*/
   width: 100%;
   border-radius: 20px 20px 0px 0px;
   padding: 20px 20px 64px 24px;  /*top right bottom left*/
@@ -405,6 +405,22 @@
    margin-top: -10px;*/
 }
 
+.checked-icon-on-btn-3 {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+   position: absolute;
+   margin-left: 40px;
+   margin-top: -15px;
+}
+
+.checked-icon-on-btn-2-plus {
+  position: absolute;
+  margin-left: 35px;
+  margin-top: -10px;
+}
+
 .back-btn-modal {
   width: 48px;
   height: 48px;
@@ -651,6 +667,7 @@
   border: 2px solid #2D37FF ;
 }
 
+
 .list-command-container {
   box-sizing: border-box;
   /*width: 557px;*/
@@ -677,7 +694,7 @@
 .hapy-modal {
   position: absolute;
   background-color: white;
-  top: 50% ;
+  top: 30% ;
   left: 50%;
   right: auto;
   bottom: auto;
@@ -728,6 +745,10 @@
 
 .border-green {
   border: 2px solid #4ECDC4;
+}
+
+.border-green-top {
+  border-top: 2px solid #4ECDC4;
 }
 
 .reservation-icon-on-item {

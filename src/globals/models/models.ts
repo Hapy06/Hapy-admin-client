@@ -135,8 +135,8 @@ export class CommandProcessModel {
 
 export class Order {
     id?: string;
-    insitutionID: string ;
-    tableID: string;
+    institutionId: string ;
+    tableId: string;
     tableNumber: number;
     tableZoneName: string;
     isFoodReady: boolean;
@@ -144,7 +144,7 @@ export class Order {
     coupons: Coupon[];
     notificationID: string ; // To change notification attribut isDone directement in Backend, avoiding send 2 requests
     /****************** TO ADD *******************/
-    tableNumberOfPerson?: number ;
+    tableNumberOfPerson: number ;
     status?: 'waiting' | 'cooking' | 'pause' | 'finished' ;
     startTime?: string ;
     endTime?: string ;
@@ -173,11 +173,13 @@ export class Coupon {
     tableNumber: number;
     tableZoneName: string;
     product: Product ;
+    productId?: string ;
     productVariant: Variant ;
+    productVariantId?: string ;
     isPregnant: boolean;
     price: number ;
     ingredientsModifiablesStates: string[] ;
-    cookingStation: CookingStation ;
+    cookingStation: string ;
     isCouponCooked?: boolean;
 }
 export class Table {
@@ -209,6 +211,10 @@ export default class Booking {
     dateOfreservationToShow: string ;
     status: 'En cours' | 'Annulée' | 'Effectuée' ;
     tableNumber: any ;
+    createdAt?: string ;
+    updatedAt?: string ;
+    /***********TO ADD*************/
+    timeOfArrival: string ;
 }
 
 export class NotificationHapy {

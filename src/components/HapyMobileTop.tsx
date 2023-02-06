@@ -35,7 +35,7 @@ function HapyMobileTop(props:PropsType) {
     const listLanguage: string[] = ['EN', 'FR', 'CN', 'P', 'ES'] ;
 
     return (
-        <div className="happy-div-top" style={{width:screenWidth >= 366 ? 366 : screenWidth, height:254}}>
+        <div className="happy-div-top" style={{height:254}}>
             <div className="text-center welcome-word mb-3">{props.welcomeWord1 || 'Welcome to Hâpy'}</div>
             <div className="welcome-word2">
                 { props.showWelcome2AndMenu && (

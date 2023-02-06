@@ -28,13 +28,13 @@ function Table_TableOpened(props) {
 
 
         useEffect(() => {
+            console.log(homeProcess) ;
             let temp: CommandProcessModel = {...commandProcess};
             if (homeProcess.tableDetail.commandProcessToShare) {
                 let commandProcessModelToShare: CommandProcessModelToShare = JSON.parse(homeProcess.tableDetail.commandProcessToShare);
                 for (let key in commandProcessModelToShare) {
                     temp[key] = commandProcessModelToShare[key]
                 }
-                ;
             }
                 temp.table = homeProcess.tableDetail;
                 temp.table.institution = getAdminProcessValues("userLogged").institution;
@@ -42,7 +42,7 @@ function Table_TableOpened(props) {
                 console.log(temp);
                 setNumberOfPerson(temp.numberOfPerson);
                 setCommandProcess({...temp});
-            ;
+                setProcessStored("commandProcess", temp) ;
         }, []);
 
         const handleCommandClick = () => {
