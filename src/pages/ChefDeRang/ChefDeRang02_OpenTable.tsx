@@ -33,7 +33,7 @@ function ChefDeRang02_OpenTable(props) {
             socketOpenTable.emit("source", payloadBase);
             setIsSocketConnected(true) ;
         });
-
+        
         socketOpenTable.on('disconnect', () => {
             console.log('disconnect socket !') ;
             setIsSocketConnected(false) ;

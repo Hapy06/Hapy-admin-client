@@ -24,8 +24,8 @@ function Client00_Default(props) {
 
             <div className="text-center inner-button-container-validate-btn mt-4">
                 <HapyButtonWithIcon text="Retour à votre gestion" handleClick={()=>{navigate('/')}}
-                                    btnWidth={350}
-                                    iconComponent={<IconArrowLeft width={32} height={32}/>}/>
+                    btnWidth={350}
+                    iconComponent={<IconArrowLeft width={32} height={32}/>}/>
             </div>
             </div>
         </>

@@ -1,0 +1,1 @@
+export const _ORDER_URL: string = "api/v1/managements/order"

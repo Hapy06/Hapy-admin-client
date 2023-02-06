@@ -67,14 +67,14 @@ export const removeAdminProcessValues = (attribute: 'authToken' | 'userLogged' |
 /*************************************/
 
 export const handleSendNotification = (nature: 'openTable' | 'commandToValidate' | 'callServer' | 'payment' | 'demand',
-                                       institutionID: string,
-                                       tableID: string,
-                                       tableNumber: number,
-                                       tableZoneName: string,
-                                       content:string,
-                                       authToken,
-                                       callBackSuccess:any,
-                                       callBackError:any,
+    institutionID: string,
+    tableID: string,
+    tableNumber: number,
+    tableZoneName: string,
+    content:string,
+    authToken,
+    callBackSuccess:any,
+    callBackError:any,
 ) => {
     let newNotif: NotificationHapy = new NotificationHapy() ;
     newNotif.institutionID = institutionID /*"63c55a736bc6def4ca70ba89"*/ ;
@@ -140,9 +140,9 @@ export const postRequest = (request, requestBody,
 } ;
 
 export const putRequest = (request, entityId, requestBody,
-                           callBackSuccess:any,
-                           callBackError:any,
-                           callBackFinally?:any,
+        callBackSuccess:any,
+        callBackError:any,
+        callBackFinally?:any,
     ) => {
     console.log('update of ' + typeof requestBody) ;
     console.log(requestBody) ;
