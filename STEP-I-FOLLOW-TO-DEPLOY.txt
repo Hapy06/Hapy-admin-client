@@ -1,5 +1,5 @@
 Step to deploy : 
-    0. Youtue VIDEO LINK i follow : https://www.youtube.com/watch?v=2kvA6Ba3fWo&ab_channel=codedamn
+    0. Youtube VIDEO LINK i follow : https://www.youtube.com/watch?v=2kvA6Ba3fWo&ab_channel=codedamn
 
     1. ssh root@82.165.28.142        / mdp : 11BB0*b@hy
     2. ls yourFolder 
@@ -19,7 +19,7 @@ Step to deploy :
     16. cd /etc/nginx/sites-available
     17. nano default
     18 comment ligne : "root /var/www/html"     => Like :   # root /var/www/html
-    19. In loaction / {}  : 
+    19. In location / {}  : 
         * comment line : try_files $uri $uri/ =404 ;
         * add your app url just after like : 
             # try_files $uri $uri/ =404 ;
@@ -27,8 +27,8 @@ Step to deploy :
     20. service nginx restart 
     21. cd your [repos]
     22. npm run build / yarn build 
-    23. pm2 serve /dist --port 5174 --name hapy-dashboard-5174
-    24. pm2 list to show all process runing / pm2 kill to kill / pm2 --help to help 
+    23. pm2 serve dist --port 5174 --name hapy-dashboard-5174
+    24. $pm2 list : to show all process runing / pm2 delete [id || name] to kill one / pm2 kill to kill all / pm2 --help to help 
     25. NGINX Serve multiple apps with multiple domains (in sites-available/default, deplucate server object like =>) : 
 
     server {
@@ -59,3 +59,5 @@ Step to deploy :
 
     27. add new domains and app to default file and relaucnh => : (with your new domains name)
     28. sudo certbot --nginx -d super-admin.dear-hapy.com
+
+

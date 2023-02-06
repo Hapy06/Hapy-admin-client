@@ -253,3 +253,7 @@ export class OpenTableDemand {
     done: boolean ;
     date: string ;
 }
+
+export class command {
+
+}
