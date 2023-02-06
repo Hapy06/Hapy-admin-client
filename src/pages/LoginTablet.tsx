@@ -56,7 +56,6 @@ function LoginTablet(props:PropType) {
                         user.institution.ingredientCategories = null ;
                         user.institution.ingredients = null ;
                         user.institution.categoryOnMenus = null ;
-                        user.institution.cookings = null ;
                         user.institution.objectifs = null ;
                         // console.log(user) ;
                         if (user.position == "Chef de Rang") {

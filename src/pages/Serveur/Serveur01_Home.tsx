@@ -37,8 +37,8 @@ function Serveur01_Home(props) {
     }, []) ;
 
     useEffect(() => {
-        let temp: any = {} ;
-        serveurProcess.listNotificationDemands.forEach(notif => {
+        /*let temp: any = {} ;
+        serveurProcess.listNotificationDemands?.forEach(notif => {
             if (!temp[notif.source]) {
                 temp[notif.source] = notif ;
             } else {
@@ -46,8 +46,8 @@ function Serveur01_Home(props) {
                 serveurProcess.listNotificationDemands = serveurProcess.listNotificationDemands.filter(item => item.id != notif.id) ;
                 deleteRequest(API_REQUEST_NOTIFICATION + '/delete', notif.id, ()=>{}, ()=>{})
             }
-        }) ;
-            setListNotifsDemands(serveurProcess.listNotificationDemands) ;
+        }) ;*/
+        setListNotifsDemands(serveurProcess.listNotificationDemands) ;
     }, [serveurProcess.listNotificationDemands]) ;
 
     /*useEffect(() => {

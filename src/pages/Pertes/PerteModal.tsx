@@ -48,7 +48,7 @@ function PerteModal(props:PropsType) {
         showErrorFunction(MSG_SAVING, "text-success") ;
         let arr:{variantId: string, quantity:number} [] = [] ;
         for (let key in props.listVariantSelectedWithQty) {
-            arr.push({variantId:key, quantity:props.listVariantSelectedWithQty[key]}) ;
+            arr.push({variantId:key || '63daad6c40fa587d99c2fb0a', quantity:props.listVariantSelectedWithQty[key] || 0}) ;
         }
         console.log(arr) ;
        postRequest(API_REQUEST_PRODUCT_LOST, {productLost:arr},

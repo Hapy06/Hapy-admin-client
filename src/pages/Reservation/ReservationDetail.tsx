@@ -33,22 +33,24 @@ function ReservationDetail(props) {
                 navigate('/home') ;
             },
             (error)=>{
-                showErrorFunction(MSG_ERROR_DELETE) ;
+                showErrorFunction(MSG_ERROR_UPDATE) ;
                 homeProcess.bookingDetail.status = 'En cours' ;
             }) ;
     } ;
 
     const validateBooking = () => {
         showErrorFunction(MSG_SAVING, "text-success") ;
-        homeProcess.bookingDetail.status = 'Effectuée' ;
-        putRequest(API_REQUEST_BOOKING, homeProcess.bookingDetail.id, homeProcess.bookingDetail,
+        let booking = {...homeProcess.bookingDetail} ;
+        booking.status = 'Effectuée' ;
+        booking.timeOfArrival = new Date().getHours() + ':' + new Date().getMinutes() ;
+        putRequest(API_REQUEST_BOOKING, homeProcess.bookingDetail.id, booking,
             (response)=> {
+                homeProcess.bookingDetail = response.data.data.booking ;
                 setProcessStored('homeProcess', homeProcess) ;
                 navigate('/reservation/validated') ;
             },
             (error)=>{
-                showErrorFunction(MSG_ERROR_DELETE) ;
-                homeProcess.bookingDetail.status = 'En cours' ;
+                showErrorFunction(MSG_ERROR_UPDATE) ;
             }) ;
     } ;
 
@@ -87,12 +89,14 @@ function ReservationDetail(props) {
                 <span><IconPhoneCall/> {homeProcess.bookingDetail?.phoneNumber?.value}</span> <br/>
                 <br/>
                 <span><IconPeople/> {homeProcess.bookingDetail?.numberOfPeople} p.</span>
-                <br/><br/><br/>
+                <br/>
+                <div className="text-center inner-button-container-validate-btn mb-4">
                 {showError && (<div className={"mb-3 " + errorMessageColor}>{errorMessage}</div>)}
-                <div className="horizontal-center inner-button-container-validate-btn mt-4">
-                <HapyButtonWithIcon text="Il sont arrivés" handleClick={validateBooking}
-                                    btnWidth={350}
-                                    iconComponent={<IconVerify/>}/>
+                    <div className="horizontal-center">
+                        <HapyButtonWithIcon text="Il sont arrivés" handleClick={validateBooking}
+                                                                           btnWidth={350}
+                                                                           iconComponent={<IconVerify/>}/>
+                    </div>
             </div>
             </div>
         </>

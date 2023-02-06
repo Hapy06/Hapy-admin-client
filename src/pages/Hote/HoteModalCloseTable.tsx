@@ -15,25 +15,25 @@ type PropsType = {
     tableDetail:Table;
 }
 
-function HoteModalOpenTable(props:PropsType) {
+function HoteModalCloseTable(props:PropsType) {
     const [numberOfPerson, setNumberOfPerson] = useState<number>(1);
     const [tipsValidated, setTipsValidated] = useState(false);
 
     const [showError, setShowError] = useState<boolean>(false) ;
     const [errorMessage, setErrorMessage] = useState<string>('') ;
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
-    const [showOpenTableValidated, setShowOpenTableValidated] = useState(false);
+    const [showCloseTableValidated, setShowCloseTableValidated] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         console.log(props.tableDetail)
     }) ;
 
-    const handleOpenTable = () => {
-        showErrorFunction("Ouverture de la table...", "text-success", 10000) ;
-        putRequest(API_REQUEST_TABLE + '/update', props.tableDetail.id, {status: 'waiting-to-join'},
-            ()=> {setShowOpenTableValidated(true)},
-            ()=>{showErrorFunction("Echec de l'ouverture, Veuillez ressayer !")}) ;
+    const handleCloseTable = () => {
+        showErrorFunction("Fermeture de la table...", "text-success", 10000) ;
+        putRequest(API_REQUEST_TABLE + '/update', props.tableDetail.id, {status: 'close'},
+            ()=> {setShowCloseTableValidated(true)},
+            ()=>{showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")}) ;
     } ;
 
     const showErrorFunction = (errorMessage: string, color:'text-success' | 'text-danger' = "text-danger" , timeout: number = 2000) => {
@@ -47,10 +47,10 @@ function HoteModalOpenTable(props:PropsType) {
 
     return (
         <>
-            {showOpenTableValidated ? (
+            {showCloseTableValidated ? (
                 <div className="hapy-modal" style={props.containerStyle}>
                     <button className="back-btn-modal" style={{float: "left", marginTop: -5}}
-                            onClick={()=>setShowOpenTableValidated(false)}>
+                            onClick={()=>setShowCloseTableValidated(false)}>
                         <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 5}}/>
                     </button>
                     <br/><br/><br/>
@@ -59,7 +59,7 @@ function HoteModalOpenTable(props:PropsType) {
                     <div className="text-center mt-4 mb-4">
                         <IconHapyLogo width={48} height={48} styleIcon={{width: 22}}/>
                     </div>
-                    <div className="f-16 text-center">La table est ouverte !</div>
+                    <div className="f-16 text-center">La table est fermée !</div>
                     <br/> <br/><br/> <br/>
                     <HapyButtonWithIcon text="Retour à l'inteface" handleClick={props.handleCloseModal}
                                         iconComponent={<IconArrowLeft/>}/>
@@ -72,19 +72,19 @@ function HoteModalOpenTable(props:PropsType) {
                     </button>
                     <br/><br/><br/>
                     <p className="text-black"><span className="text-green">{getAdminProcessValues("userLogged").firstName}</span> {getAdminProcessValues("userLogged").lastName}</p>
-                    <h1 className="text-black f-32 fw-6">Ouvrir la table {props.tableDetail?.tableNumber}</h1>
+                    <h1 className="text-black f-32 fw-6">Fermer la table {props.tableDetail?.tableNumber}</h1>
                     <div className="text-center mt-4 mb-4">
                         <IconHapyLogo width={48} height={48} styleIcon={{width: 22}}/>
                     </div>
-                    <p>Combien de couverts </p>
+                    {/*<p>Combien de couverts </p>
                     <div className="text-center f-32 mt-3">
                         <span onClick={()=>setNumberOfPerson(numberOfPerson+1)}>+</span>
                         <span className="text-green ml-4 mr-4 fw-6">{numberOfPerson}</span>
                         <span onClick={()=>{numberOfPerson > 1 ? setNumberOfPerson(numberOfPerson-1) : null}}>-</span>
-                    </div>
+                    </div>*/}
                     <br/> <br/><br/> <br/>
                     {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
-                    <HapyButtonWithIcon text="Ouvrir la table" handleClick={handleOpenTable}
+                    <HapyButtonWithIcon text="Fermer la table" handleClick={handleCloseTable}
                                         iconComponent={<IconKey/>}/>
                 </div>
             )}
@@ -95,4 +95,4 @@ function HoteModalOpenTable(props:PropsType) {
         </>
     )
 }
-export default HoteModalOpenTable
+export default HoteModalCloseTable

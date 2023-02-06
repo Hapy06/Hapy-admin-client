@@ -71,8 +71,8 @@ function Command04_ValidationProgress(props) {
         let temp = {...commandProcess} ;
         let order: Order = new Order() ;
         order.notificationID = "OIJF654654644JLFL" ;
-        order.insitutionID = temp.institution.id;
-        order.tableID = temp.table.id ;
+        order.institutionId = temp.institution.id;
+        order.tableId = temp.table.id ;
         order.tableNumber = temp.table.tableNumber ;
         order.tableZoneName = temp.table.zone.name || 'zone name' ;
         order.isFoodReady = false ;
@@ -90,8 +90,7 @@ function Command04_ValidationProgress(props) {
                 coupon.tableZoneName = temp.table.zone.name || 'zone name' ;
                 coupon.product = command.product ;
                 coupon.productVariant = command.productVariant ;
-                coupon.cookingStation = new CookingStation() ;
-                coupon.cookingStation.name = command.product.cookingStation ;
+                coupon.cookingStation = command.product.cookingStation ;
                 coupon.isPregnant = command.isPregnant ;
                 coupon.price = command.price ;
                 coupon.ingredientsModifiablesStates = command.ingredientsModifiablesStates ;

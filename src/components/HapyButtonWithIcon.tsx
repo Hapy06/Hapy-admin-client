@@ -4,7 +4,7 @@ type PropsType = {
     text:string ;
     handleClick: any ;
     iconComponent:any ;
-    btnWidth?:number;
+    btnWidth?:number | string;
     btnClass?: string ;
     numberAtEnd?: number | string ;
     numberAtEndColor?: '#FF6063' | '#536DFE' | '#F7B927';

@@ -66,7 +66,7 @@ function ReservationList(props) {
                                     <div key={index}>
                                         <div className="reservation-item text-center fw-5"
                                              onClick={() => handleShowBooking(booking)}>
-                                            <span className="float-start">{booking?.table?.tableNumber || 20}</span>
+                                            <span className="float-start">{booking?.tableNumber || 20}</span>
                                             <span className="float-none">{booking?.clientName || 'Nom du Client'}</span>
                                             <span className="float-end f-12 text-end"
                                                   style={{marginTop: -7}}>{booking?.dateOfreservation}

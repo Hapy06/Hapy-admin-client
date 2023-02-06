@@ -15,6 +15,7 @@ import {
 } from "../../globals/GlobalVariables";
 import addNotification from "react-push-notification";
 import {format} from "date-fns";
+import {CookingStation} from "../../globals/models/Inscription.models";
 
 function ChefDeRang02_TableListCommand(props) {
     const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess: any}>(cdrProcessContext) ;
@@ -29,6 +30,7 @@ function ChefDeRang02_TableListCommand(props) {
     const handleValidateCommand = () => {
         let temp = {...cdrProcess} ;
         let order: Order = new Order() ;
+        order.tableNumberOfPerson = 5 ;
         order.notificationID = temp.notifDetail.id ;
         order.institutionId = temp.notifDetail.institutionID ;
         order.tableId = temp.notifDetail.tableID ;
@@ -47,8 +49,8 @@ function ChefDeRang02_TableListCommand(props) {
             coupon.tableID = temp.notifDetail.tableID ;
             coupon.tableNumber = temp.notifDetail.tableNumber ;
             coupon.tableZoneName = temp.notifDetail.tableZoneName ;
-            coupon.product = command.product.id ;
-            coupon.productVariant = command.productVariant.id ;
+            coupon.productId = command.product.id ;
+            coupon.productVariantId = command.productVariant.id ;
             coupon.cookingStation = command.product.cookingStation ;
             coupon.isPregnant = command.isPregnant ;
             coupon.price = command.price ;
@@ -58,9 +60,10 @@ function ChefDeRang02_TableListCommand(props) {
         }) ;
         console.log("New Order => ") ;
         console.log(order) ;
+        exportData(order) ;
         postRequest('api/v1/managements/order', order,
             ()=> {
-                temp.listNotifs =
+                /*temp.listNotifs =
                 temp.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
                 setProcessStored("cdrProcess", temp) ;
                 setCDRProcess(temp) ;
@@ -71,7 +74,7 @@ function ChefDeRang02_TableListCommand(props) {
                     theme: 'light',
                     native: true // when using native, your OS will handle theming.
                 });
-                navigate('/command-validated') ;
+                navigate('/command-validated') ;*/
             },
             ()=> {
                 addNotification({
@@ -88,9 +91,11 @@ function ChefDeRang02_TableListCommand(props) {
     } ;
 
     const handleDeleteNotif = () => {
-        deleteRequest(API_REQUEST_NOTIFICATION, cdrProcess.notifDetail.id,
+        deleteRequest(API_REQUEST_NOTIFICATION + '/delete', cdrProcess.notifDetail.id,
             ()=>{
                 cdrProcess.validationMessage = "Commande supprimée avec Succèss !" ;
+                cdrProcess.listNotifs = cdrProcess.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
+                setProcessStored("cdrProcess", cdrProcess) ;
                 navigate('/command-canceled') ;
             },
             ()=>{
@@ -102,6 +107,17 @@ function ChefDeRang02_TableListCommand(props) {
                 });
             }) ;
     } ;
+
+    const exportData = (data) => {
+        const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+            JSON.stringify(data)
+        )}`;
+        const link = document.createElement("a");
+        link.href = jsonString;
+        link.download = "data.json";
+
+        link.click();
+    };
 
     return (
         <>

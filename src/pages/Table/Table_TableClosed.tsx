@@ -1,15 +1,33 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {useNavigate} from "react-router";
 import HapyMobileTop from "../../components/HapyMobileTop";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import IconArrowLeft from "../../globals/icons-components/IconArrowLeft";
 import {HomeProcessModel} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
+import {API_REQUEST_TABLE, putRequest} from "../../globals/GlobalVariables";
 
 function Table_TableClosed(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
     const navigate = useNavigate();
+    const [showError, setShowError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
 
+    const handleCloseTable = () => {
+        putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'close'},
+            ()=> {navigate('/home')},
+            ()=>{showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")}) ;
+    } ;
+
+    const showErrorFunction = (errorMessage: string, color: 'text-success' | 'text-danger' = "text-danger", timeout: number = 2000) => {
+        setErrorMessageColor(color);
+        setErrorMessage(errorMessage);
+        setShowError(true);
+        setTimeout(() => {
+            setShowError(false);
+        }, timeout);
+    };
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
@@ -33,8 +51,8 @@ function Table_TableClosed(props) {
                         La table a été notée comme <br/> payée et a été fermée.
                     </span>
                 </div>
-            <div className="text-center inner-button-container-validate-btn mt-4">
-                <HapyButtonWithIcon text="Retour à votre gestion" handleClick={()=>{navigate('/')}}
+            <div className="horizontal-center inner-button-container-validate-btn mt-4">
+                <HapyButtonWithIcon text="Retour à votre gestion" handleClick={handleCloseTable}
                                     btnWidth={350}
                                     iconComponent={<IconArrowLeft width={32} height={32}/>}/>
             </div>

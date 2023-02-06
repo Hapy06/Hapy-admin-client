@@ -2,7 +2,7 @@ import React, {createContext, useEffect, useState} from 'react';
 import ChefDeRangContainer, {cdrProcessContext} from "./ChefDeRang/ChefDeRangContainer";
 import ServeurContainer from "./Serveur/ServeurContainer";
 import Login from "./Login";
-import {BASE_URL, getAdminProcessValues, setAdminProcessValues} from "../globals/GlobalVariables";
+import {BASE_URL, getAdminProcessValues, getProcessStored, setAdminProcessValues} from "../globals/GlobalVariables";
 import axios from "axios";
 import HoteContainer from "./Hote/HoteContainer";
 import PreparationContainer from "./Preparation/PreparationContainer";
@@ -26,6 +26,12 @@ function HomeContainer(props: PropsType) {
   } ;
 
   useEffect(() => {
+    if (!homeProcess.tableDetail && getProcessStored("homeProcess")) {
+      setHomeProcess(getProcessStored("homeProcess")) ;
+    }
+    if (!commandProcess.institution && getProcessStored("commandProcess")) {
+      setCommandProcess(getProcessStored("commandProcess")) ;
+    }
   }, []) ;
 
   const handlePageToShow = () => {
@@ -38,7 +44,7 @@ function HomeContainer(props: PropsType) {
         return props.isMobile ? <ServeurContainer/> : <ErrorPage errorTitle={"Vous êtes au mauvais endroit"} showBtn={true} btnText={"Aller à la page de connexion"}
                                                                  handleBtnClick={redirectLogin}
                                                                  errorMessage={"Utilisez votre smartphone pour acceder à cette page !"}/>
-      } else if (isAuth.user == "Hote") {
+      } else if (isAuth.user == "Hote" || isAuth.user == "Administrateur") {
         return !props.isMobile ? <HoteContainer/> : <ErrorPage errorTitle={"Vous êtes au mauvais endroit"} showBtn={true} btnText={"Aller à la page de connexion"}
                                                                handleBtnClick={redirectLogin}
                                                                  errorMessage={"Utilisez votre Tablette or PC pour acceder à cette page !"}/>

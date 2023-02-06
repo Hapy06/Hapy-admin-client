@@ -368,4 +368,18 @@ export const ICONS = {
         <path d="M8 5.33325V8.66659" stroke="#323232" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M6 1.33325H10" stroke="#323232" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>,
+
+    reducMontant:<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.5625 19.1064C11.5625 20.8264 12.8825 22.213 14.5225 22.213H17.8692C19.2958 22.213 20.4558 20.9997 20.4558 19.5064C20.4558 17.8797 19.7492 17.3064 18.6958 16.933L13.3225 15.0664C12.2692 14.693 11.5625 14.1197 11.5625 12.493C11.5625 10.9997 12.7225 9.78638 14.1492 9.78638H17.4958C19.1358 9.78638 20.4558 11.173 20.4558 12.893" stroke="#323232" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M16 8V24" stroke="#323232" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M16.0003 29.3334C23.3641 29.3334 29.3337 23.3639 29.3337 16.0001C29.3337 8.63628 23.3641 2.66675 16.0003 2.66675C8.63653 2.66675 2.66699 8.63628 2.66699 16.0001C2.66699 23.3639 8.63653 29.3334 16.0003 29.3334Z" stroke="#323232" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>,
+
+    reducPourcent:<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.5003 29.3334C23.8641 29.3334 29.8337 23.3639 29.8337 16.0001C29.8337 8.63628 23.8641 2.66675 16.5003 2.66675C9.13653 2.66675 3.16699 8.63628 3.16699 16.0001C3.16699 23.3639 9.13653 29.3334 16.5003 29.3334Z" stroke="#323232" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12.5 20L20.5 12" stroke="#323232" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M19.8263 19.3334H19.8383" stroke="#323232" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M13.1593 12.6667H13.1713" stroke="#323232" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+
 } ;

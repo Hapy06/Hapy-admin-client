@@ -64,7 +64,9 @@ function ChefDeRang02_OpenTable(props) {
                         message: 'Veuillez Ressayez...',
                         native: true // when using native, your OS will handle theming.
                     });
-                })
+                }) ;
+                cdrProcess.listNotifs = cdrProcess.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
+                setProcessStored("cdrProcess", cdrProcess) ;
         } else {
             addNotification({
                 title: 'Erreur lors de la validation',
@@ -110,7 +112,7 @@ function ChefDeRang02_OpenTable(props) {
                 <br/>
                 <h1 className="fw-6">Table {cdrProcess.notifDetail.tableNumber}</h1>
                 <h5>{cdrProcess.notifDetail.tableZoneName}</h5>
-                <div className="text-center">{format(new Date(cdrProcess.notifDetail.askTime), 'HH : mm') }</div>
+                <div className="text-center">{format(new Date(cdrProcess.notifDetail?.askTime), 'HH : mm') }</div>
                 <br/>
                 <div className="text-center" style={{paddingTop:50, paddingBottom:50}}>
                     <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
