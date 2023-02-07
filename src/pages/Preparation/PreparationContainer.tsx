@@ -17,7 +17,7 @@ import addNotification from "react-push-notification";
 export const preparationContext = createContext(null) ;
 
 function PreparationContainer() {
-  const socket = io(BASE_URL_SOCKET);
+  const socket = /*io(BASE_URL_SOCKET);*/ null ;
   const [preparationProcess, setPreparationProcess] = useState<PreparationProcessModel>(new PreparationProcessModel());
   let payloadForSocket:PayloadType = {
     source: "cuisine", institutionID: /*adminProcess.userLogged?.institution?.id ||*/ '63c55a736bc6def4ca70ba89',
@@ -58,7 +58,7 @@ function PreparationContainer() {
     console.log(preparationProcess) ;
 
     /************************ SOCKET FOR OPEN TABLE DEMANDS ****************************/
-    socket.on('connect', () => {
+    /*socket.on('connect', () => {
       console.log('connected Preparation socket !') ;
       socket.emit("source", payloadForSocket);
       setAdminProcessValues("payloadBase", payloadForSocket) ;
@@ -72,7 +72,7 @@ function PreparationContainer() {
 
     socket.on('disconnect', () => {
       console.log('disconnect socket !') ;
-    });
+    });*/
 
   }, []);
 

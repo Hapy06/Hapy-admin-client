@@ -4,8 +4,11 @@ import axios from "axios";
 const imagePathModeDev = '/src/assets/' ;
 const imagePathModeProd = '/' ;             /*le / indique le folder du index.html dans dist */
 export const IMG_PATH = imagePathModeDev ;
-export const BASE_URL = 'http://localhost:4000/';
-export const BASE_URL_SOCKET = 'http://localhost:3000/';
+//export const BASE_URL = 'http://localhost:4000/';
+//export const BASE_URL_CLIENT = 'http://localhost:5175/inscription/id=';
+export const BASE_URL = 'https://api.dear-hapy.com/';
+export const BASE_URL_CLIENT = 'https://api.dear-hapy.com/inscription/id=';
+export const BASE_URL_SOCKET = 'https://api.dear-hapy.com/';
 // export const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2E0MDAzYzNhZjgzOGZjMzJhNGVmY2QiLCJ1c2VyVHlwZSI6IlJFU1RBVVJBTlQiLCJpYXQiOjE2NzMyNjgxMzksImV4cCI6MTY3MzM1NDUzOX0.C3QjV1TNtSbQ1_QrdZ1eK1lY9oZaBtgCUuUssn9cBmrAhqrmiLYUvBMaRbSJAw1SkGNE99RaJHjwnPVBaKTuP7QAMbn_7p2h9CuiF141XIwHeLnv_67e_WjtvqtZw2ckuiTW3f6rmPUJSsMpL4XQ75_WU8--luVCzk7YKm2T1wMzjOxj1nR7FO0GM6WG4SE8qB3eO6lMIyQDvQxegtjmACltIRvxMsWBYYBUvinw93pKDxlH4kIIUoeO7bRbt1tkYsjuOJ0x0MpCdGGVaxwynsxSIHpiTpDlWCT6RcPIMsjn5jd6n_ov-47qWZ-MQJDJV92tz1rN_KBI3Uimy28R_RLr0Vry65SUOkaM1fvaXKSy2M0MwMjq5RMmY6WcTjOgOIDwdYzRkoJ0KcBnZFvOha3phuBdQr513qLZE9xth2MJfbobtzB6V2sbzBHixLpH9WNKuXI6mmANVg0HPL6RKvEUV3QoUs9sk6IK_85ZSZV25pagTRRtFe6RUYCzB6XfoRJqRo9rTUIoEZi2rlI4-Qe8_N08YBON5IVHqyXebNShtSAFze_f6WvhMkwl7stgS_PUr8EN0b_uV5Y1i5bFIysJCUfB1u5E1BNy8Y5WKv448rSEMKMXDSo0eRIFdSY7KZ5Oh5Qwl_ErOLFvfiHc_jrtAWAwuJ3VAooiqlUgM9k"
 export const dayListFR = [null,'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] ;
 export const monthListFR = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'] ;

@@ -103,7 +103,7 @@ function Preparation_Top(props:PropsType) {
                         <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={null}
                                              btnWidth={80} marginRight={12} iconComponent={<IconTrash stroke={'white'}/>}
                                              isChecked={false}/>
-                        <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={()=>navigate('/preparation/2')}
+                        <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={()=>navigate('/preparation/poste')}
                                              btnWidth={80} iconComponent={<IconLose stroke={'white'}/>}
                                              isChecked={false}/>
 

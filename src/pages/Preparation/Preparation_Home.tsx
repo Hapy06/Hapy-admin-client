@@ -23,7 +23,7 @@ function Preparation_Home(props:PropsType) {
     const [ orders, setOrders ] = useState([])
     const [isModalOpened, setIsModalOpened] = useState<{state:boolean,modalToOpen:any}>({state:false,modalToOpen:null});
     const navigate = useNavigate();
-    const socketOpenOrder = io(BASE_URL);
+    // const socketOpenOrder = io(BASE_URL);
 
     useEffect(() => {
         /*if (!location.pathname.includes('home')) {
@@ -57,13 +57,13 @@ function Preparation_Home(props:PropsType) {
 
     }, []) ;
 
-    useEffect(() => {
+    /*useEffect(() => {
         socketOpenOrder.on('orderAdded', (data) => {
             // GET ADDED ORDER
             // UPDATE ORDER LIST
             // UPDATE ORDER LIST IN LOCALSTORAGE
         });
-    }, [socketOpenOrder])
+    }, [socketOpenOrder])*/
 
     const handleLoadData = () => {
             console.log(preparationProcess) ;
