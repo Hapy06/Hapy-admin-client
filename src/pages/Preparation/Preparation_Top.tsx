@@ -48,7 +48,7 @@ function Preparation_Top(props:PropsType) {
         getOrders()
          .then((response:any) => {
             let preparationProcess = getProcessStored('preparationProcess');
-            preparationProcess = { ...preparationProcess, orders: response.items }
+            preparationProcess = { ...preparationProcess, orders: response?.items }
             setProcessStored('preparationProcess', preparationProcess);
           })
          .catch(error => console.log(error))

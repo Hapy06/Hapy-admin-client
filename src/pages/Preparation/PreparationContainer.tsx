@@ -3,7 +3,7 @@ import {createBrowserRouter, Outlet, RouterProvider, useLocation} from "react-ro
 import {motion} from "framer-motion";
 import Preparation_Home from "./Preparation_Home";
 import Preparation_Attente from "./Preparation_Attente";
-import Preparation_Poste from "./Preparation_Poste";
+import Preparation_Perte from "./Preparation_Perte";
 import io from "socket.io-client";
 import {
   BASE_URL_SOCKET,
@@ -140,7 +140,7 @@ function PreparationContainer() {
         {path: "/home", element: <Preparation_Home/>},
         {path: "/preparation", element: <Preparation_Home/>},
         {path: "/preparation/order", element: <Preparation_Attente/>},
-        {path: "/preparation/poste", element: <Preparation_Poste/>},
+        {path: "/preparation/poste", element: <Preparation_Perte/>},
         {path: "/!*", element: <Preparation_Home/> }
       ]
     }
@@ -151,7 +151,7 @@ function PreparationContainer() {
     {path: "/home", element: <Preparation_Home/>},
     {path: "/preparation", element: <Preparation_Home/>},
     {path: "/preparation/order", element: <Preparation_Attente/>},
-    {path: "/preparation/poste", element: <Preparation_Poste/>},
+    {path: "/preparation/poste", element: <Preparation_Perte/>},
     {path: "/*", element: <Preparation_Home/> }
   ]);
 

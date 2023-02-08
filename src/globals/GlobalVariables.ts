@@ -4,11 +4,12 @@ import axios from "axios";
 const imagePathModeDev = '/src/assets/' ;
 const imagePathModeProd = '/' ;             /*le / indique le folder du index.html dans dist */
 export const IMG_PATH = imagePathModeDev ;
-//export const BASE_URL = 'http://localhost:4000/';
+export const BASE_URL = 'http://localhost:4000/';
 //export const BASE_URL_CLIENT = 'http://localhost:5175/inscription/id=';
-export const BASE_URL = 'https://api.dear-hapy.com/';
+//export const BASE_URL = 'https://api.dear-hapy.com/';
 export const BASE_URL_CLIENT = 'https://api.dear-hapy.com/inscription/id=';
-export const BASE_URL_SOCKET = 'https://api.dear-hapy.com/';
+export const BASE_URL_SOCKET = 'http://localhost:3000/';
+//export const BASE_URL_SOCKET = 'https://api.dear-hapy.com/';
 // export const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2E0MDAzYzNhZjgzOGZjMzJhNGVmY2QiLCJ1c2VyVHlwZSI6IlJFU1RBVVJBTlQiLCJpYXQiOjE2NzMyNjgxMzksImV4cCI6MTY3MzM1NDUzOX0.C3QjV1TNtSbQ1_QrdZ1eK1lY9oZaBtgCUuUssn9cBmrAhqrmiLYUvBMaRbSJAw1SkGNE99RaJHjwnPVBaKTuP7QAMbn_7p2h9CuiF141XIwHeLnv_67e_WjtvqtZw2ckuiTW3f6rmPUJSsMpL4XQ75_WU8--luVCzk7YKm2T1wMzjOxj1nR7FO0GM6WG4SE8qB3eO6lMIyQDvQxegtjmACltIRvxMsWBYYBUvinw93pKDxlH4kIIUoeO7bRbt1tkYsjuOJ0x0MpCdGGVaxwynsxSIHpiTpDlWCT6RcPIMsjn5jd6n_ov-47qWZ-MQJDJV92tz1rN_KBI3Uimy28R_RLr0Vry65SUOkaM1fvaXKSy2M0MwMjq5RMmY6WcTjOgOIDwdYzRkoJ0KcBnZFvOha3phuBdQr513qLZE9xth2MJfbobtzB6V2sbzBHixLpH9WNKuXI6mmANVg0HPL6RKvEUV3QoUs9sk6IK_85ZSZV25pagTRRtFe6RUYCzB6XfoRJqRo9rTUIoEZi2rlI4-Qe8_N08YBON5IVHqyXebNShtSAFze_f6WvhMkwl7stgS_PUr8EN0b_uV5Y1i5bFIysJCUfB1u5E1BNy8Y5WKv448rSEMKMXDSo0eRIFdSY7KZ5Oh5Qwl_ErOLFvfiHc_jrtAWAwuJ3VAooiqlUgM9k"
 export const dayListFR = [null,'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] ;
 export const monthListFR = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'] ;
@@ -28,6 +29,7 @@ export const API_REQUEST_BAR_STATION = API_REQUEST_BASE + 'bar-station' ;
 export const API_REQUEST_CUISINE_STATION = API_REQUEST_BASE + 'cuisine-station' ;
 export const API_REQUEST_ROOM_STATION = API_REQUEST_BASE + 'room-station' ;
 export const API_REQUEST_TEAM_MEMBER = API_REQUEST_BASE + 'team-member' ;
+export const API_REQUEST_TEAM_MEMBERS = API_REQUEST_BASE + 'team-members' ;
 export const API_REQUEST_INGREDIENT_CATEGORY = API_REQUEST_BASE + 'ingredient-category' ;
 export const API_REQUEST_INGREDIENT = API_REQUEST_BASE + 'ingredient' ;
 export const API_REQUEST_COOKING = API_REQUEST_BASE + 'cooking' ;
@@ -39,6 +41,8 @@ export const API_REQUEST_VARIANT = API_REQUEST_BASE + 'variant' ;
 export const API_REQUEST_NOTIFICATION = API_REQUEST_BASE + 'notification' ;
 export const API_REQUEST_BOOKING = API_REQUEST_BASE + 'booking' ;
 export const API_REQUEST_PRODUCT_LOST = API_REQUEST_BASE + 'product-lost' ;
+export const API_REQUEST_INGREDIENT_LOST = API_REQUEST_BASE + 'ingredient-lost' ;
+export const API_REQUEST_TICKET_PAYED = API_REQUEST_BASE + 'ticket-payed' ;
 
 /************* FUNCTIONS ***********************/
 /*************************************/
@@ -54,6 +58,11 @@ export const getProcessStored = (process: 'adminProcess' | 'commandProcess' | 'c
     | 'serveurProcess' | 'preparationProcess' | 'homeProcess') => {
     return JSON.parse(localStorage.getItem(process)) ;
 } ;
+
+export const removeProcessStored = (process: 'adminProcess' | 'commandProcess' | 'cdrProcess'
+    | 'serveurProcess' | 'preparationProcess' | 'homeProcess') => {
+    localStorage.removeItem(process) ;
+}
 
 export const setAdminProcessValues = (attribute: 'authToken' | 'userLogged' | 'isLoggedin' | 'payloadBase' | 'userRole', value: any) => {
     localStorage.setItem(attribute, JSON.stringify(value)) ;

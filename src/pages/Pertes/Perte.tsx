@@ -15,7 +15,7 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 
 function Perte(props) {
     // const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
-    const [loadMessage, setLoadMessage] = useState<string>("(Pas de reservations en cours)");
+    const [loadMessage, setLoadMessage] = useState<string>("(Pas de produits trouvé)");
     const [listVariants, setListVariants] = useState<Variant[]>(getAdminProcessValues("userLogged").institution.variants || []);
     const [listVariantChoosed, setListVariantChoosed] = useState<Variant[]>([]);
     const [listVariantSelectedWithQty, setListVariantSelectedWithQty] = useState({});

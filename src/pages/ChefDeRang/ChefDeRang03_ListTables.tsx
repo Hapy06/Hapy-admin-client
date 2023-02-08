@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react' ;
+import React, {useContext, useEffect, useState} from 'react' ;
 import {useNavigate} from "react-router";
 import IconArrowLeft from "../../globals/icons-components/IconArrowLeft";
 import HapyTableItemCDR from "../../components/HapyTableItemCDR";
@@ -6,33 +6,88 @@ import IconArrowRight from "../../globals/icons-components/IconArrowRight";
 import {ICONS} from "../../globals/Icons-svg";
 import IconCloseSquare from "../../globals/icons-components/IconCloseSquare";
 import HapyMobileTop from "../../components/HapyMobileTop";
-import {getAdminProcessValues} from "../../globals/GlobalVariables";
+import {API_REQUEST_TEAM_MEMBERS, BASE_URL, getAdminProcessValues} from "../../globals/GlobalVariables";
+import {HomeProcessModel, Table} from "../../globals/models/models";
+import {homeProcessContext} from "../HomeContainer";
+import axios from "axios";
+import {TeamMember} from "../../globals/models/Inscription.models";
+import addNotification from "react-push-notification";
+import HapyTableItemServeur from "../../components/HapyTableItemServeur";
+import PullToRefresh from "react-simple-pull-to-refresh";
 
 function ChefDeRang03_ListTables(props) {
+    const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
+    const [listZones, setListZones] = useState(/*getAdminProcessValues("userLogged").institution.zones || */[]) ;
+    const [zoneToShow, setZoneToShow] = useState(null);
+    const [zoneToShowIndex, setZoneToShowIndex] = useState(0);
     const navigate = useNavigate();
+    const [error, setError] = useState<string>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const listTables = [
-        {number:1, state: 'taken'},
-        {number:2, state: 'ask-to-open'},
-        {number:3, state: 'taken'},
-        {number:4, state: 'taken'},
-        {number:5, state: 'taken'},
-        {number:6, state: 'taken'},
-        {number:7, state: 'taken'},
-        {number:8, state: 'taken'},
-        {number:9, state: 'ask-to-open'},
-        {number:10, state: 'waiting-validation'},
-        {number:11, state: 'taken'},
-        {number:12, state: 'taken'},
-        {number:13, state: 'free'},
-        {number:14, state: 'taken'},
-        {number:15, state: 'taken'},
-        {number:16, state: 'waiting-validation'},
-    ]
-
-    useEffect(() => {
+    useEffect(()=>{
         window.scrollTo(0, 0);
-    }, []);
+        handleLoadData() ;
+    }, []) ;
+
+    const handleLoadData = () => {
+        setIsLoading(true) ;
+        return axios.get(API_REQUEST_TEAM_MEMBERS + '/current',
+            { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
+            console.log(response) ;
+            let user:TeamMember = response.data.data.teamMembers ;
+            if (user.institution.zones.length > 0) {
+                let arr = user.institution.zones.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
+                setListZones(arr) ;
+                setZoneToShow(arr[0]) ;
+            } else {
+                setError("Pas de données sur les zones") ;
+            }
+            // console.log(zoneToShow) ;
+            return true ;
+        })
+            .catch(error => {
+                console.log(error);
+                setError("Erreur de chargement, Veuillez Réssayer !");
+                addNotification({
+                    title: 'Erreur lors du Chargement',
+                    subtitle: '',
+                    message: 'Veuillez Ressayez....',
+                    theme: 'red',
+                    native: true // when using native, your OS will handle theming.
+                });
+                throw error; })
+            .finally(() => {setIsLoading(false) ;});
+
+    }
+
+    const nextZone = () => {
+        // console.log(zoneToShow) ;
+        if (zoneToShowIndex == (listZones.length - 1 )) {
+            // setZoneToShow(listZones[0]) ; // Do Nothing if last element
+        } else {
+            setZoneToShow(listZones[zoneToShowIndex + 1]) ;
+            setZoneToShowIndex(zoneToShowIndex + 1) ;
+        }
+    } ;
+
+    const previousZone = () => {
+        if (zoneToShowIndex == 0) {
+            // setZoneToShow(listZones[listZones.length-1]) ; // Do Nothing if first element
+        } else {
+            setZoneToShow(listZones[zoneToShowIndex - 1]) ;
+            setZoneToShowIndex(zoneToShowIndex - 1) ;
+        }
+    } ;
+
+    const handleClickTable = (tableChoosed: Table) => {
+        console.log(tableChoosed) ;
+        homeProcess.tableDetail = tableChoosed ;
+        if (tableChoosed.status == "close" || tableChoosed.status == "closed") {
+            navigate('/table') ;
+        } else if (tableChoosed.status == "opened" || tableChoosed.status == "opened-and-served") {
+            navigate('/table-opened') ;
+        }
+    } ;
 
     return (
         <>
@@ -48,9 +103,35 @@ function ChefDeRang03_ListTables(props) {
 
             />
             <div className="happy-div-bottom">
-                <div className="row table-item-container mt-3">
-                    { listTables.map((table, index) => (<div key={index} className="col-3 mb-4"><HapyTableItemCDR tableNumber={table.number} tableState={table.state}/></div>)) }
-                </div>
+                <PullToRefresh onRefresh={handleLoadData}>
+                    <>
+                        {isLoading ? (
+                            <div className="text-center mt-3">Chargement des zones...</div>
+                        ) : (
+                            error ? (
+                                <div className="text-center mt-3">{error}</div>
+                            ) : (
+                                <>
+                                    <div className="row table-item-container mt-3 scroll-and-hidden" style={{height:250}}>
+                                        { zoneToShow?.tableIds?.map((table: Table, index: React.Key) => (
+                                            <div key={index} onClick={()=>handleClickTable(table)} className="col-3 mb-4">
+                                                <HapyTableItemCDR tableNumber={table.tableNumber} tableStatus={table.status}/>
+                                            </div>))
+                                        }
+                                    </div>
+                                    <br/>
+                                    <div className="text-center">
+                                        {zoneToShowIndex != 0 && (
+                                            <span onClick={previousZone} className="float-start" style={{cursor:"pointer"}}><IconArrowLeft/></span>
+                                        )}
+                                        <span className="float-none">{zoneToShow?.name}</span>
+                                        {zoneToShowIndex != (listZones.length - 1) && (
+                                            <span onClick={nextZone} className="float-end" style={{cursor:"pointer"}}><IconArrowRight/></span>
+                                        )}
+                                    </div>
+                                </>
+                            )
+                        )}
                 <br/>
                 <div className="text-center">
                     <span className="float-start"><IconArrowLeft width={32} height={32}/></span>
@@ -77,7 +158,13 @@ function ChefDeRang03_ListTables(props) {
                         <span>{ICONS.tableTakenIcon}</span>
                         <span style={{marginLeft:10}}>Table occupée</span>
                     </li>
+                    <li>
+                        <span>{ICONS.tableUnavailableIcon}</span>
+                        <span style={{marginLeft:10}}>Table indisponible</span>
+                    </li>
                 </ul>
+                    </>
+                </PullToRefresh>
             </div>
         </>
     )

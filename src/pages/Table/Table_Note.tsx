@@ -13,13 +13,27 @@ import IconReduction from "../../globals/icons-components/IconReduction";
 import IconArrowLeft from "../../globals/icons-components/IconArrowLeft";
 import HapyInput from "../../components/HapyInput";
 import IconAdd from "../../globals/icons-components/IconAdd";
-import {CommandProcessModel, HomeProcessModel, SimpleCommand} from "../../globals/models/models";
+import {
+    CommandProcessModel,
+    HomeProcessModel,
+    Order,
+    SimpleCommand,
+    Table,
+    TicketPayed
+} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
-import {API_REQUEST_TABLE, putRequest, setProcessStored} from "../../globals/GlobalVariables";
+import {
+    API_REQUEST_TABLE, API_REQUEST_TICKET_PAYED,
+    getAdminProcessValues,
+    postRequest,
+    putRequest,
+    setProcessStored
+} from "../../globals/GlobalVariables";
 import {ICONS} from "../../globals/Icons-svg";
 import IconChecked from "../../globals/icons-components/IconChecked";
 import HapyButtonOnlyIcon3 from "../../components/HapyButtonOnlyIcon3";
 import {string} from "prop-types";
+import {TeamMember} from "../../globals/models/Inscription.models";
 
 function Table_Note(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
@@ -53,13 +67,6 @@ function Table_Note(props) {
         console.log(temp) ;
         setProcessStored('commandProcess', temp) ;
     }, []) ;
-
-    const handleCloseTable = () => {
-        showErrorFunction("Fermeture de la table...", "text-success", 10000) ;
-        putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'payed'},
-            ()=> {navigate('/table-close')},
-            ()=>{showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")}) ;
-    } ;
 
     const addReduc = () => {
         setApplyReduction(true) ;
@@ -125,7 +132,56 @@ function Table_Note(props) {
         setMoneyLeft(commandProcess.totalPrice) ;
         setReducValue('') ;
         setApplyReduction(false) ;
-    }
+    } ;
+
+    const handleValidateTable = () => {
+        showErrorFunction("Validation de la table...", "text-success", 10000) ;
+        createTicketPayed() ;
+        /*putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'payed'},
+            ()=> {navigate('/table-close')},
+            ()=>{showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")}) ;*/
+    } ;
+
+    const createTicketPayed = () => {
+        let ticketPayed: TicketPayed = new TicketPayed() ;
+        ticketPayed.tableId = commandProcess.table.id ;
+        ticketPayed.totalPayed = commandProcess.totalPrice ;
+        ticketPayed.orderId = '' ;
+        ticketPayed.teamMemberId = getAdminProcessValues("userLogged").id ;
+        ticketPayed.day = '' ;
+        ticketPayed.dayNumber = new Date().getDay() ;
+        ticketPayed.time = new Date().getHours() + ':' + new Date().getMinutes() ;
+        ticketPayed.morningOrEvening = ticketPayed.time <= '12:00' ? 'morning' : 'evening' ;
+        ticketPayed.tableOpenTime = commandProcess.openingTime ;
+        ticketPayed.tableCloseTime = ticketPayed.time ;
+        ticketPayed.totalTips = commandProcess.tips ;
+        ticketPayed.tableZoneName = commandProcess.table.zoneName ;
+        ticketPayed.numberOfPerson = commandProcess.numberOfPerson ;
+        ticketPayed.reductionType = reducValue == '' ? "none" : reducType ;
+        ticketPayed.reductionValue = reducValue == '' ? 0 : parseFloat(reducValue) ;
+        ticketPayed.isMultipleReglements = listReglement.length > 1 ;
+        ticketPayed.uniqueReglement = reglement ;
+        ticketPayed.listReglement = listReglement ;
+        exportData(ticketPayed) ;
+        saveTicketPayedToDB(ticketPayed) ;
+    } ;
+
+    const saveTicketPayedToDB = (ticketPayed: TicketPayed) => {
+        postRequest(API_REQUEST_TICKET_PAYED, ticketPayed,
+            (res) => {navigate('/table-close')},
+            (err) => {showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")})
+    } ;
+
+    const exportData = (data) => {
+        const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+            JSON.stringify(data)
+        )}`;
+        const link = document.createElement("a");
+        link.href = jsonString;
+        link.download = "data.json";
+
+        link.click();
+    };
 
 
     return (
@@ -259,7 +315,7 @@ function Table_Note(props) {
                         {showError && (<div className={"mt-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
                         <br/>
                         <div style={{opacity:showValidateBtn ? 1 : 0.32}}>
-                            <HapyButtonWithIcon text="Marquer comme payée" handleClick={showValidateBtn ? handleCloseTable : null} iconComponent={<IconVerify/>}/>
+                            <HapyButtonWithIcon text="Marquer comme payée" handleClick={showValidateBtn ? handleValidateTable : null} iconComponent={<IconVerify/>}/>
                         </div>
                     </>
                 ) : (
@@ -277,7 +333,7 @@ function Table_Note(props) {
                         </div>
                         {showError && (<div className={"mt-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
                         <br/>
-                        <HapyButtonWithIcon text="Marquer comme payée" handleClick={handleCloseTable} iconComponent={<IconVerify/>} />
+                        <HapyButtonWithIcon text="Marquer comme payée" handleClick={handleValidateTable} iconComponent={<IconVerify/>} />
                         <br/>
                     </>
                 )}

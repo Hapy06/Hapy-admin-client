@@ -320,6 +320,26 @@ export const ICONS = {
         </defs>
     </svg>,
 
+    tableUnavailableIcon:<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_d_1239_22988)">
+            <rect x="11" y="11" width="20" height="20" rx="10" fill="#EFEFEF"/>
+            <rect x="11.5" y="11.5" width="19" height="19" rx="9.5" stroke="red"/>
+        </g>
+        <defs>
+            <filter id="filter0_d_1239_22988" x="0" y="0" width="42" height="42" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feMorphology radius="3" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_1239_22988"/>
+                <feOffset/>
+                <feGaussianBlur stdDeviation="4"/>
+                <feComposite in2="hardAlpha" operator="out"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1239_22988"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1239_22988" result="shape"/>
+            </filter>
+        </defs>
+    </svg>,
+
     couvertGradient:<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M19.3337 14.1992H12.667" stroke="url(#paint0_linear_1427_13501)" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M16 10.9473V17.6139" stroke="url(#paint1_linear_1427_13501)" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>

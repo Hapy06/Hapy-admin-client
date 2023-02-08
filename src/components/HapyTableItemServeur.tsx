@@ -2,7 +2,7 @@ import React from 'react' ;
 
 type PropsType = {
     tableNumber: number ;
-    tableState: 'close' | 'closed' | 'command-waiting-validation'
+    tableState: 'close' | 'closed'  | 'unavailable' | 'command-waiting-validation'
         | 'command-preparation' | 'command-ready' | 'opened-and-served' | 'opened' | "waiting-to-join" | string ;
 }
 
@@ -26,6 +26,8 @@ function HapyTableItemServeur(props:PropsType) {
                 return (<div style={{backgroundColor:'white',border: '2px solid #F7B927'}} className="table-item">{props.tableNumber}</div>) ;
             case "command-ready":
                 return (<div style={{backgroundColor:'white',border: '2px solid #00B0FF'}} className="table-item">{props.tableNumber}</div>) ;
+            case "unavailable":
+                return (<div style={{backgroundColor:'red'}} className="table-item">{props.tableNumber}</div>) ;
             default :
                 return (<div style={{backgroundColor:'#EFEFEF'}} className="table-item">{props.tableNumber}</div>) ;
         }

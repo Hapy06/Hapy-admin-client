@@ -254,6 +254,29 @@ export class OpenTableDemand {
     date: string ;
 }
 
-export class command {
-
+export class TicketPayed {
+    id?: string ;
+    tableId: string ;
+    table?: Table ;
+    totalPayed: number ;
+    orderId: string ;
+    order?: Order ;
+    teamMemberId: string ;
+    teamMember?: TeamMember ;
+    day: string ;
+    dayNumber: number ;
+    morningOrEvening: 'morning' | 'evening' ;
+    time: string ;
+    createdAt?: string ;
+    updatedAt?: string ;
+    tableOpenTime: string ;
+    tableCloseTime: string ;
+    totalTips?: number ;
+    tableZoneName?: string ;
+    numberOfPerson: number ;
+    reductionType?: 'none' | 'montant' | 'pourcent' ;
+    reductionValue?: number ;
+    isMultipleReglements: boolean ;
+    uniqueReglement?: {number:number, value: string, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'} ;
+    listReglement?: {number:number, value: number, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'}[] ;
 }

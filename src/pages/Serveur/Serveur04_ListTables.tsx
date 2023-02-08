@@ -7,6 +7,7 @@ import HapyMobileTop from "../../components/HapyMobileTop";
 import HapyTableItemServeur from "../../components/HapyTableItemServeur";
 import {serveurProcessContext} from "./ServeurContainer";
 import {
+    API_REQUEST_TEAM_MEMBERS,
     API_REQUEST_ZONE,
     BASE_URL,
     getAdminProcessValues,
@@ -37,17 +38,12 @@ function Serveur04_ListTables(props) {
 
     const handleLoadData = () => {
         setIsLoading(true) ;
-        return axios.get(BASE_URL + 'api/v1/team-members/current',
+        return axios.get(API_REQUEST_TEAM_MEMBERS + '/current',
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
                 console.log(response) ;
             let user:TeamMember = response.data.data.teamMembers ;
             if (user.institution.zones.length > 0) {
                 let arr = user.institution.zones.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
-                arr.forEach(zone => {
-                    zone.tableIds.forEach(table => {
-                        table.status ? null : table.status = getState(table) ;
-                    })
-                }) ;
                 setListZones(arr) ;
                 setZoneToShow(arr[0]) ;
             } else {
@@ -70,24 +66,6 @@ function Serveur04_ListTables(props) {
             .finally(() => {setIsLoading(false) ;});
 
     }
-
-    const getState = (table) => {
-        if (table.isOpen) {
-            return 'opened-and-served' ;
-        } else if (table.isFree) {
-            return 'closed' ;
-        } else if (table.isOrderValidationWaiting) {
-            return 'command-waiting-validation' ;
-        } else if (table.isOrderInCooking) {
-            return 'command-preparation' ;
-        } else if (table.isOrderReady) {
-            return 'command-ready' ;
-        } else {
-            return 'closed' ;
-        }/* else if (table.isTableValidated) {
-            return 'closed' ;
-        }*/
-    } ;
 
     const nextZone = () => {
         // console.log(zoneToShow) ;
@@ -185,6 +163,10 @@ function Serveur04_ListTables(props) {
                     <li>
                         <span>{ICONS.tableTakenIcon}</span>
                         <span style={{marginLeft:10}}>Table ouverte - servie</span>
+                    </li>
+                    <li>
+                        <span>{ICONS.tableUnavailableIcon}</span>
+                        <span style={{marginLeft:10}}>Table indisponible</span>
                     </li>
                 </ul>
                     </>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Preparation_Top, {screenWidth} from "./Preparation_Top";
 import HapySearch from "../../components/HapySearch";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
@@ -7,14 +7,41 @@ import IconArrowDown from "../../globals/icons-components/IconArrowDown";
 import IconVerify from "../../globals/icons-components/IconVerify";
 import {useNavigate} from "react-router";
 import PreparationModalPerte from "./PreparationModalPerte";
+import {Ingredient, Variant} from "../../globals/models/Inscription.models";
+import {getAdminProcessValues} from "../../globals/GlobalVariables";
+import PerteModal from "../Pertes/PerteModal";
+import PreparationModalPerteIngredient from "./PreparationModalPerteIngredient";
 
 type PropsType = {
 }
 
-function Preparation_Poste(props:PropsType) {
-    const [blurBG, setBlurBG] = useState<string>('');
+function Preparation_Perte(props:PropsType) {
+    const [blurBG, setBlurBG] = useState<string>('') ;
     const [isModalOpened, setIsModalOpened] = useState<{state:boolean,modalToOpen:any}>({state:false,modalToOpen:null});
     const navigate = useNavigate() ;
+    const [loadMessage, setLoadMessage] = useState<string>("(Pas de produits trouvé)");
+    const [listVariants, setListVariants] = useState<Variant[]>(getAdminProcessValues("userLogged").institution.variants || []);
+    const [listVariantChoosed, setListVariantChoosed] = useState<Variant[]>([]);
+    const [listVariantSelectedWithQty, setListVariantSelectedWithQty] = useState({});
+    const [loadMessageIngredient, setLoadMessageIngredient] = useState<string>("(Pas d'Ingredients trouvé)");
+    const [listIngredients, setListIngredients] = useState<Ingredient[]>(getAdminProcessValues("userLogged").institution.ingredients || []);
+    const [listIngredientChoosed, setListIngredientChoosed] = useState<Ingredient[]>([]);
+    const [listIngredientSelectedWithQty, setListIngredientSelectedWithQty] = useState({});
+    const [totalQtyVariant, setTotalQtyVariant] = useState<number>(0);
+    const [totalQtyIngredient, setTotalQtyIngredient] = useState<number>(0);
+
+    const handleChangeListVariantChoosed = () => {
+        let arr:Variant[] = [] ;
+        listVariants.forEach(variant => {
+            if (listVariantSelectedWithQty[variant.id] && listVariantSelectedWithQty[variant.id] > 0) {
+                arr.push(variant) ;
+            }
+        }) ;
+        setListVariantChoosed(arr) ;
+        // console.log(arr) ;
+    } ;
+
+    useEffect(()=>handleChangeListVariantChoosed, [listVariantSelectedWithQty])
 
     const handleOpenModal = (modalToOpen) => {
         setBlurBG('blur-bg') ;
@@ -24,6 +51,64 @@ function Preparation_Poste(props:PropsType) {
     const handleCloseModal = () => {
         setBlurBG('') ;
         setIsModalOpened({state:false,modalToOpen:null}) ;
+    } ;
+
+    const handleSelectedVariant = (variantId:string) => {
+        // console.log(variantId) ;
+        let temp = {...listVariantSelectedWithQty} ;
+        temp[variantId] = 0 ;
+        console.log(temp) ;
+        setListVariantSelectedWithQty({...temp}) ;
+    } ;
+
+    const handleUnselectedVariant = (variantId:string) => {
+        // console.log(variantId) ;
+        let temp = {...listVariantSelectedWithQty} ;
+        temp[variantId] = null ;
+        console.log(temp) ;
+        setListVariantSelectedWithQty({...temp}) ;
+    } ;
+    const handleSelectedIngredient = (ingredientId:string) => {
+        // console.log(ingredientId) ;
+        let temp = {...listIngredientSelectedWithQty} ;
+        temp[ingredientId] = 0 ;
+        console.log(temp) ;
+        setListIngredientSelectedWithQty({...temp}) ;
+    } ;
+
+    const handleUnselectedIngredient = (ingredientId:string) => {
+        // console.log(ingredientId) ;
+        let temp = {...listIngredientSelectedWithQty} ;
+        temp[ingredientId] = null ;
+        console.log(temp) ;
+        setListIngredientSelectedWithQty({...temp}) ;
+    } ;
+
+    const handleQtyChangeVariant = (variantId: string, increaseOrDescrease: 'increase' | 'decrease') => {
+        let temp = {...listVariantSelectedWithQty} ;
+        if (increaseOrDescrease == "increase") {
+            temp[variantId] += 1 ;
+            setTotalQtyVariant(totalQtyVariant + 1) ;
+        } else {
+            if (temp[variantId] > 0) {
+                temp[variantId] -= 1 ;
+                setTotalQtyVariant(totalQtyVariant - 1) ;
+            }
+        }
+        setListVariantSelectedWithQty({...temp}) ;
+    } ;
+    const handleQtyChangeIngredient = (ingredientId: string, increaseOrDescrease: 'increase' | 'decrease') => {
+        let temp = {...listIngredientSelectedWithQty} ;
+        if (increaseOrDescrease == "increase") {
+            temp[ingredientId] += 1 ;
+            setTotalQtyIngredient(totalQtyIngredient + 1) ;
+        } else {
+            if (temp[ingredientId] > 0) {
+                temp[ingredientId] -= 1 ;
+                setTotalQtyIngredient(totalQtyIngredient - 1) ;
+            }
+        }
+        setListIngredientSelectedWithQty({...temp}) ;
     } ;
 
     return (
@@ -91,70 +176,56 @@ function Preparation_Poste(props:PropsType) {
                         {/*FIRST COL */}
                         <div className="col-6">
                             <br/><br/>
-                            <h3>Mon Poste</h3>
+                            <h3>Vos produits</h3>
                             <br/><br/>
                             <div className="scroll-and-hidden" style={{height:385}}>
-                                <span className="f-20">Salade César</span>
-                                <br/><br/>
-                                <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                    <span className="col-6" style={{color:'#F7B927'}}>Produit fini</span>
-                                </div>
-                                <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                    <span className="col-6">Batavia</span>
-                                </div>
-                                <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                    <span className="col-6">Poulet</span>
-                                </div>
-                                <div className="row mb-5 fw-5">
-                                    <span className="col-1"><IconChecked fill={'#F7B927'} stroke={'white'}/></span>
-                                    <span className="col-5">Oeuf</span>
-                                    <span className="col-4">
-                                        <span>+</span>
-                                        <span className="text-orange ml-2 mr-2 fw-6">2</span>
-                                        <span>-</span>
-                                        </span>
-                                </div>
-                                {/******************/}
-                                <span className="f-20">Salade César</span>
-                                <br/><br/>
-                                <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                    <span className="col-6" style={{color:'#F7B927'}}>Produit fini</span>
-                                </div>
-                                <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                    <span className="col-6">Batavia</span>
-                                </div>
+                                {/*<span className="f-20">Salade César</span>*/}
+                                {/*<br/><br/>*/}
+                                    { listVariants.length > 0 ? (
+                                            listVariants.map((variant:Variant, index:number) => (
+                                                    listVariantSelectedWithQty[variant.id] != null ? (
+                                                        <div key={variant.id} className="row mb-5 fw-5">
+                                                            <span className="col-1" onClick={()=>handleUnselectedVariant(variant.id)} style={{cursor:"pointer"}}>
+                                                                <IconChecked fill={'#F7B927'} stroke={'white'}/>
+                                                            </span>
+                                                            <span className="col-5">{variant.name}</span>
+                                                            <span className="col-4 mt-1">
+                                                                <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeVariant(variant.id, "increase")}>+</span>
+                                                                <span style={{color:'#F7B927'}} className="ml-2 mr-2 fw-6">{listVariantSelectedWithQty[variant.id]}</span>
+                                                                <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeVariant(variant.id, "decrease")}>-</span>
+                                                        </span>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="row mb-5 fw-5">
+                                                            <span className="col-1" onClick={()=>handleSelectedVariant(variant.id)} style={{cursor:"pointer"}}>
+                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
+                                                                </svg>
+                                                            </span>
+                                                            <span className="col-6">{variant.name}</span>
+                                                        </div>
+                                                    )
+                                                )
+                                            )
+                                        ) : (
+                                            <div className="text-center">{loadMessage} <br/><br/><br/><br/><br/></div>
+                                        )}
                             </div>
                             <div className="text-center">
                                 <IconArrowDown/>
                             </div>
+                            {totalQtyVariant > 0 && (
+                                <div className="horizontal-center mt-4">
+                                    <HapyButtonWithIcon text="Valider" handleClick={()=>handleOpenModal(<PreparationModalPerte
+                                        listVariantChoosed={listVariantChoosed} listVariantSelectedWithQty={listVariantSelectedWithQty}
+                                        totalQty={totalQtyVariant} handleCloseModal={handleCloseModal}/>)}
+                                                        btnWidth={350} numberAtEnd={totalQtyVariant + ''} numberAtEndColor={"#F7B927"}
+                                                        iconComponent={<IconVerify/>}/>
+                                </div>
+                            )}
                         </div>
                         {/*2ND COL */}
-                        <div className="col-1" style={{borderLeft:'1px solid #C8C8C8', height:588, marginTop:80}}></div>
+                        <div className="col-1" style={{borderLeft:'1px solid #C8C8C8', marginTop:80}}></div>
                         <div className="col-5">
                             {/*<div className="text-end -mt-15">
                                 <HapyButtonWithIcon handleClick={()=>handleOpenModal(<PreparationModal1 handleCloseModal={handleCloseModal}/>)} btnWidth={210} iconComponent={<IconArchive/>}
@@ -163,75 +234,55 @@ function Preparation_Poste(props:PropsType) {
                             <br/>
                             <div style={{marginLeft:-50}}>
                                 <br/>
-                                <h3>Grill</h3>
+                                <h3>Vos ingrédients</h3>
                                 <br/><br/>
                                 <div className="scroll-and-hidden" style={{height:385}}>
-                                    <span className="f-20">Burger Gourmand</span>
-                                    <br/><br/>
-                                    <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                        <span className="col-6" style={{color:'#F7B927'}}>Produit fini</span>
-                                    </div>
-                                    <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                        <span className="col-6">Steak</span>
-                                    </div>
-                                    <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                        <span className="col-6">Cheddar</span>
-                                    </div>
-                                    <div className="row mb-5 fw-5">
-                                        <span className="col-1"><IconChecked fill={'#F7B927'} stroke={'white'}/></span>
-                                        <span className="col-5">Tomate</span>
-                                        <span className="col-4">
-                                        <span>+</span>
-                                        <span className="text-orange ml-2 mr-2 fw-6">2</span>
-                                        <span>-</span>
-                                        </span>
-                                    </div>
-                                    {/******************/}
-                                    <span className="f-20">Salade César</span>
-                                    <br/><br/>
-                                    <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                        <span className="col-6" style={{color:'#F7B927'}}>Produit fini</span>
-                                    </div>
-                                    <div className="row mb-5 fw-5">
-                                    <span className="col-1">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                        </svg>
-                                    </span>
-                                        <span className="col-6">Batavia</span>
-                                    </div>
+                                    {/*<span className="f-20">Burger Gourmand</span>*/}
+                                    {/*<br/><br/>*/}
+                                    { listIngredients.length > 0 ? (
+                                        listIngredients.map((ingredient:Ingredient, index:number) => (
+                                                listIngredientSelectedWithQty[ingredient.id] != null ? (
+                                                    <div key={ingredient.id} className="row mb-5 fw-5">
+                                                            <span className="col-1" onClick={()=>handleUnselectedIngredient(ingredient.id)} style={{cursor:"pointer"}}>
+                                                                <IconChecked fill={'#F7B927'} stroke={'white'}/>
+                                                            </span>
+                                                        <span className="col-5">{ingredient.entitled}</span>
+                                                        <span className="col-4 mt-1">
+                                                                <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeIngredient(ingredient.id, "increase")}>+</span>
+                                                                <span style={{color:'#F7B927'}} className="ml-2 mr-2 fw-6">{listIngredientSelectedWithQty[ingredient.id]}</span>
+                                                                <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeIngredient(ingredient.id, "decrease")}>-</span>
+                                                        </span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="row mb-5 fw-5">
+                                                            <span className="col-1" onClick={()=>handleSelectedIngredient(ingredient.id)} style={{cursor:"pointer"}}>
+                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
+                                                                </svg>
+                                                            </span>
+                                                        <span className="col-6">{ingredient.entitled}</span>
+                                                    </div>
+                                                )
+                                            )
+                                        )
+                                    ) : (
+                                        <div className="text-center">{loadMessageIngredient} <br/><br/><br/><br/><br/></div>
+                                    )}
                                 </div>
                                 <div className="text-center">
                                     <IconArrowDown/>
                                 </div>
+                                {totalQtyIngredient > 0 && (
+                                    <div className="horizontal-center mt-4">
+                                        <HapyButtonWithIcon text="Valider" handleClick={()=>handleOpenModal(<PreparationModalPerteIngredient listIngredientChoosed={listVariantChoosed} listIngredientSelectedWithQty={listVariantSelectedWithQty}
+                                                                                                                                             totalQty={totalQtyIngredient} handleCloseModal={handleCloseModal}/>)}
+                                                            btnWidth={350} numberAtEnd={totalQtyIngredient + ''} numberAtEndColor={"#F7B927"}
+                                                            iconComponent={<IconVerify/>}/>
+                                    </div>
+                                )}
                             </div>
                         </div> {/**COL-5**/}
                     </div> {/**ROW**/}
-                    <div className="horizontal-center mt-4">
-                        <HapyButtonWithIcon text="Valider" handleClick={()=>handleOpenModal(<PreparationModalPerte handleCloseModal={handleCloseModal}/>)}
-                                            btnWidth={350} numberAtEnd={4} numberAtEndColor={"#F7B927"}
-                                            iconComponent={<IconVerify/>}/>
-                    </div>
                 </div>
                 { isModalOpened.state && (
                     isModalOpened.modalToOpen
@@ -241,4 +292,4 @@ function Preparation_Poste(props:PropsType) {
         </>
     )
 }
-export default Preparation_Poste
+export default Preparation_Perte
