@@ -88,12 +88,15 @@ function Serveur04_ListTables(props) {
 
     const handleClickTable = (tableChoosed: Table) => {
         console.log(tableChoosed) ;
-        if (tableChoosed.status == "close" || tableChoosed.status == "closed") {
+        if (tableChoosed.statusForNewClient == "close" || tableChoosed.statusForNewClient == "closed") {
             homeProcess.tableDetail = tableChoosed ;
             navigate('/table') ;
-        } else if (tableChoosed.status == "opened" || tableChoosed.status == "opened-and-served") {
+        } else if (tableChoosed.statusForNewClient == "opened" || tableChoosed.statusForNewClient == "opened-and-served") {
             homeProcess.tableDetail = tableChoosed ;
             navigate('/table-opened') ;
+        } else if (tableChoosed.statusForNewClient == "unavailable" || tableChoosed.statusForNewClient == "waiting-to-join") {
+            homeProcess.tableDetail = tableChoosed ;
+            navigate('/table-unavailable') ;
         }
     } ;
 

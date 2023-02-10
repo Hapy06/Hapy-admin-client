@@ -187,8 +187,9 @@ export class Table {
     tableNumber: number;
     quantity: number;
     codeQrUrl: string;
-    status: 'opened' | 'close' | 'closed' | 'command-waiting-validation' | 'command-preparation'
-        | 'command-ready' | 'opened-and-served' | 'waiting-to-join' ;
+    status: 'close' | 'closed'  | 'unavailable' | 'command-waiting-validation' | 'ask-to-open'
+        | 'command-preparation' | 'command-ready' | 'opened-and-served' | 'opened' | "waiting-to-join" ;
+    statusForNewClient: 'close' | 'closed'  | 'unavailable' | 'waiting-to-join' | 'opened' | 'opened-and-served' ;
     institution: Institution;
     bookings: Booking;
     orders: Order;

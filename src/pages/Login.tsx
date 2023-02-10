@@ -39,6 +39,7 @@ function Login(props:PropType) {
 
     const handleLogin = () => {
         showErrorFunction("Connexion en cours...", 'text-success') ;
+        console.log(authBody) ;
         axios.post(BASE_URL + 'api/v1/auth/login',authBody).then((response:any) => {
                 console.log(response) ;
                 if (response.status == 200 || response.status == 201 || response.status == 202) {
@@ -79,6 +80,7 @@ function Login(props:PropType) {
                             }
                         },
                         (err)=>{
+                            console.log(err) ;
                             setErrorMessageColor("text-danger") ;
                             showErrorFunction("Erreur de Chargement, Veuillez Ressayer... !") ;
                         }) ;

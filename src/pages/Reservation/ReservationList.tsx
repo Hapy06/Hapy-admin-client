@@ -17,7 +17,7 @@ function ReservationList(props) {
     const navigate = useNavigate();
 
     useEffect(()=>{
-        // handleLoadData() ;
+        handleLoadData() ;
     }, []) ;
 
     const handleLoadData = () => {
@@ -76,7 +76,10 @@ function ReservationList(props) {
                                     </div>
                                 ))
                         ) : (
-                            <div className="text-center mb-5">{loadMessage}</div>
+                            <div> <br/>
+                                <div className="text-center mb-5">{loadMessage}</div>
+                                <br/> <br/> <br/> <br/> <br/> <br/>
+                            </div>
                         )}
             <div className="horizontal-center inner-button-container-validate-btn mt-4">
             <HapyButtonWithIcon text="Réserver la table" handleClick={()=>{navigate('/reservation/new')}}
