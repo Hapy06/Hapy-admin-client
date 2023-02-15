@@ -274,10 +274,10 @@ function Preparation_Perte(props:PropsType) {
                                 </div>
                                 {totalQtyIngredient > 0 && (
                                     <div className="horizontal-center mt-4">
-                                        <HapyButtonWithIcon text="Valider" handleClick={()=>handleOpenModal(<PreparationModalPerteIngredient listIngredientChoosed={listVariantChoosed} listIngredientSelectedWithQty={listVariantSelectedWithQty}
+                                        {/*<HapyButtonWithIcon text="Valider" handleClick={()=>handleOpenModal(<PreparationModalPerteIngredient listIngredientChoosed={listVariantChoosed} listIngredientSelectedWithQty={listVariantSelectedWithQty}
                                                                                                                                              totalQty={totalQtyIngredient} handleCloseModal={handleCloseModal}/>)}
                                                             btnWidth={350} numberAtEnd={totalQtyIngredient + ''} numberAtEndColor={"#F7B927"}
-                                                            iconComponent={<IconVerify/>}/>
+                                                            iconComponent={<IconVerify/>}/>*/}
                                     </div>
                                 )}
                             </div>

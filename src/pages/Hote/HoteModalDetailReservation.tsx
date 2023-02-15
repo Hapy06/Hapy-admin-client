@@ -68,7 +68,7 @@ function HoteModalDetailReservation(props:PropsType) {
                     <span className="col-6 text-end">Table <strong>{props.bookingDetail?.tableNumber || props.bookingDetail?.table.tableNumber || 20}</strong></span>
                 </div>
                 <br/>
-                <span><IconPhoneCall/> {props.bookingDetail?.phoneNumber?.value}</span> <br/>
+                <span><IconPhoneCall/> {props.bookingDetail?.phoneNumber}</span> <br/>
                 <br/>
                 <span><IconPeople/> {props.bookingDetail?.numberOfPeople} p.</span>
                 <br/><br/><br/><br/><br/><br/>
