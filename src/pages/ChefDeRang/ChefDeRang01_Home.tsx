@@ -71,11 +71,13 @@ function ChefDeRang01_Home(props) {
         temp.notifDetail = notif ;
         setProcessStored("cdrProcess", temp) ;
         setCDRProcess(temp) ;
-        if (notif.nature == "openTable") {
-            navigate('/open-table') ;
-        } else if (notif.nature == "commandToValidate") {
-            navigate('/table-list-commands') ;
-        }
+        setTimeout(()=>{
+            if (notif.nature == "openTable") {
+                navigate('/open-table') ;
+            } else if (notif.nature == "commandToValidate") {
+                navigate('/table-list-commands') ;
+            }
+        }, 500) ;
     } ;
     return (
         <>

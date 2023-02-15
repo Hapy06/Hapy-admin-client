@@ -9,7 +9,13 @@ import IconChecked from "../../globals/icons-components/IconChecked";
 import HapyMobileTop, {screenWidth} from "../../components/HapyMobileTop";
 import HapySelect from "../../components/HapySelect";
 import HapyMultiSelect from "../../components/HapyMultiSelect";
-import {getAdminProcessValues, IMG_PATH, setProcessStored, updateTable} from "../../globals/GlobalVariables";
+import {
+    getAdminProcessValues,
+    IMG_PATH,
+    IMG_PATH_ONLINE,
+    setProcessStored,
+    updateTable
+} from "../../globals/GlobalVariables";
 import {CommandProcessModel, SimpleCommand} from "../../globals/models/models";
 import {Cooking, ProductIngredient, Variant} from "../../globals/models/Inscription.models";
 import {homeProcessContext} from "../HomeContainer";
@@ -20,7 +26,6 @@ function Command03_Product(props) {
     const [cookingSelected, setCookingSelected] = useState(commandProcess.productChoosed.variants[0]?.cooking || null);
     const [listIngredient, setListIngredient] = useState<ProductIngredient[]>(commandProcess.productChoosed.variants[0]?.productIngredients?.filter(elt => elt.isIngredientModifiable));
     const [isPregnant, setIsPregnant] = useState<boolean>(false);
-    // const [takeLater, setTakeLater] = useState<boolean>(false);
     const [optionListVariants, setOptionListVariants] = useState([]);
     const [optionListCuissons, setOptionListCuissons] = useState([]);
     const [optionListIngredient, setOptionListIngredient] = useState([]);
@@ -36,15 +41,25 @@ function Command03_Product(props) {
             arr.push({text:variant.name, value: variant}) ;
         }) ;
         setOptionListVariants([...arr]) ;
-        arr = [] ;
+        /*arr = [] ;
         commandProcess.institution?.cookings?.forEach(cooking => {
             arr.push({text:cooking.name, value: cooking}) ;
         }) ;
-        setOptionListCuissons([...arr]) ;
+        setOptionListCuissons([...arr]) ;*/
     }, []);
 
     const handleChangeVariant = (variant:Variant) => {
+        console.log("variant choosed: ", variant)
         setProductVariantChoosed(variant) ;
+        let arr = [] ;
+        variant.productIngredients?.filter(elt => elt.isIngredientModifiable).forEach((ingredient:ProductIngredient) => {
+            arr.push({text:ingredient.ingredient.entitled, value: ingredient}) ;
+        }) ;
+        setOptionListIngredient([...arr]) ;
+        console.log(variant?.productIngredients?.filter(elt => elt.isIngredientModifiable)) ;
+        if (variant.cooking) {
+            setOptionListCuissons([{text: productVariantChoosed.cooking.name, value: productVariantChoosed.cooking}]);
+        }
     } ;
 
     const handleChangeCooking = (cooking:Cooking) => {
@@ -90,11 +105,12 @@ function Command03_Product(props) {
                            showBtnBack={true}
                            handleClickBtnBack={()=>navigate('/command/sub-category')}
                            showRightSideBtn={false}
-                           hapyLogoBtnColor={"#536DFE"}
+                           hapyLogoBtnColor={"#FF6063"}
 
             />
             <div className="happy-div-bottom">
-                <img src={ IMG_PATH + ( commandProcess?.productVariantChoosed?.picture || 'burger.jpg') } alt="product" /*le / indique le folder du index.html dans dist */
+                <img src={ (productVariantChoosed.picture && productVariantChoosed.picture.length > 0) ?
+                    IMG_PATH_ONLINE + productVariantChoosed.picture : IMG_PATH + 'bg-gray.png'  } alt="product" /*le / indique le folder du index.html dans dist */
                      className="product-image" style={{width:screenWidth, marginTop:-20, marginLeft:-24}}/>
                  <br/> <br/>
                  <div>
@@ -104,9 +120,13 @@ function Command03_Product(props) {
                      )}
                  </div>
                 <br/>
-                <HapySelect defaultOption={{text:'Recette', value:productVariantChoosed}} selectValue={productVariantChoosed} setSelectValue={(value)=>handleChangeVariant(value)} optionList={optionListVariants} />
-                <br/>
-                <HapySelect defaultOption={{text:'Cuisson', value:cookingSelected}} selectValue={cookingSelected} setSelectValue={(value)=>handleChangeCooking(value)} optionList={optionListCuissons} />
+                <HapySelect defaultBtnText={"Recette"} selectValue={productVariantChoosed} setSelectValue={(value)=>handleChangeVariant(value)} optionList={optionListVariants} />
+                {productVariantChoosed.cooking && (
+                    <>
+                        <br/>
+                        <HapySelect defaultBtnText={"Cuisson"} selectValue={cookingSelected} setSelectValue={(value)=>handleChangeCooking(value)} optionList={optionListCuissons} />
+                    </>
+                )}
                 <br/> <br/>
                 <div>
                     <span><IconAlarm width={24} height={24} stroke={'#323232'}/></span>
@@ -123,9 +143,13 @@ function Command03_Product(props) {
                     </p>
                 </div>
                 <br/>
-                <HapyMultiSelect selectValues={listIngredient} setSelectValues={(value) => handleChangelistIngredient(value)}
-                                 labelText={'Modifier les Ingredients'} labelTextEdited={'Ingredients Modifiés'}
-                                 optionList={optionListIngredient} />
+                {productVariantChoosed?.productIngredients?.filter(elt => elt.isIngredientModifiable).length > 0 && (
+                <>
+                    <HapyMultiSelect selectValues={listIngredient} setSelectValues={(value) => handleChangelistIngredient(value)}
+                                     labelText={'Modifier les Ingredients'} labelTextEdited={'Ingredients Modifiés'}
+                                     optionList={optionListIngredient} />
+                </>
+                )}
                 <br/>
                 {/*<div style={{marginLeft:32}}>
                     <div className="form-check">
@@ -144,7 +168,7 @@ function Command03_Product(props) {
                 <div style={{marginLeft:32}}>
                     <div className="form-check">
                         <input className="form-check-input" style={{borderRadius:50, width:20, height:20, marginRight:15,
-                            backgroundColor:isPregnant ? '#536DFE' : ''}} type="checkbox"
+                            backgroundColor:isPregnant ? '#FF6063' : ''}} type="checkbox"
                                checked={isPregnant} onChange={()=>{setIsPregnant(!isPregnant)}}/>
                         <label className={isPregnant ? "form-check-label" : "form-check-label text-disabled"}>
                             <div>
@@ -155,7 +179,7 @@ function Command03_Product(props) {
                     </div>
                 </div>
                 <br/> <br/>
-                <HapyButtonWithIcon btnClass={"text-blue"} text="Commander" handleClick={()=>handleValidateCommand(false)} iconComponent={ <IconChecked width={32} height={32} stroke={'#323232'} /> } />
+                <HapyButtonWithIcon btnClass={"text-red-orange"} text="Commander" handleClick={()=>handleValidateCommand(false)} iconComponent={ <IconChecked width={32} height={32} stroke={'#323232'} /> } />
                 <br/>
                 <HapyButtonWithIcon text="Pour plus tard" handleClick={()=>handleValidateCommand(true)} iconComponent={ <IconTimer opacity={1}/> } />
                 <br/>

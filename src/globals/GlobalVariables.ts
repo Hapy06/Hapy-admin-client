@@ -4,13 +4,14 @@ import axios from "axios";
 const imagePathModeDev = '/src/assets/' ;
 const imagePathModeProd = '/' ;             /*le / indique le folder du index.html dans dist */
 export const IMG_PATH = imagePathModeDev ;
-export const BASE_URL = 'http://localhost:4000/';
-//export const BASE_URL_CLIENT = 'http://localhost:5175/inscription/id=';
-//export const BASE_URL = 'https://api.dear-hapy.com/';
+// export const IMG_PATH_ONLINE = 'http://localhost:4000/upload/images/' ;
+// export const BASE_URL = 'http://localhost:4000/';
+// export const BASE_URL_SOCKET = 'http://localhost:3000/';
+// export const BASE_URL_CLIENT = 'http://localhost:5175/inscription/id=';
+export const BASE_URL = 'https://api.dear-hapy.com/';
+export const IMG_PATH_ONLINE = 'http://api.dear-hapy.com/upload/images/' ;
 export const BASE_URL_CLIENT = 'https://api.dear-hapy.com/inscription/id=';
-export const BASE_URL_SOCKET = 'http://localhost:3000/';
-//export const BASE_URL_SOCKET = 'https://api.dear-hapy.com/';
-// export const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2E0MDAzYzNhZjgzOGZjMzJhNGVmY2QiLCJ1c2VyVHlwZSI6IlJFU1RBVVJBTlQiLCJpYXQiOjE2NzMyNjgxMzksImV4cCI6MTY3MzM1NDUzOX0.C3QjV1TNtSbQ1_QrdZ1eK1lY9oZaBtgCUuUssn9cBmrAhqrmiLYUvBMaRbSJAw1SkGNE99RaJHjwnPVBaKTuP7QAMbn_7p2h9CuiF141XIwHeLnv_67e_WjtvqtZw2ckuiTW3f6rmPUJSsMpL4XQ75_WU8--luVCzk7YKm2T1wMzjOxj1nR7FO0GM6WG4SE8qB3eO6lMIyQDvQxegtjmACltIRvxMsWBYYBUvinw93pKDxlH4kIIUoeO7bRbt1tkYsjuOJ0x0MpCdGGVaxwynsxSIHpiTpDlWCT6RcPIMsjn5jd6n_ov-47qWZ-MQJDJV92tz1rN_KBI3Uimy28R_RLr0Vry65SUOkaM1fvaXKSy2M0MwMjq5RMmY6WcTjOgOIDwdYzRkoJ0KcBnZFvOha3phuBdQr513qLZE9xth2MJfbobtzB6V2sbzBHixLpH9WNKuXI6mmANVg0HPL6RKvEUV3QoUs9sk6IK_85ZSZV25pagTRRtFe6RUYCzB6XfoRJqRo9rTUIoEZi2rlI4-Qe8_N08YBON5IVHqyXebNShtSAFze_f6WvhMkwl7stgS_PUr8EN0b_uV5Y1i5bFIysJCUfB1u5E1BNy8Y5WKv448rSEMKMXDSo0eRIFdSY7KZ5Oh5Qwl_ErOLFvfiHc_jrtAWAwuJ3VAooiqlUgM9k"
+export const BASE_URL_SOCKET = 'https://api.dear-hapy.com/';
 export const dayListFR = [null,'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] ;
 export const monthListFR = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'] ;
 
@@ -25,6 +26,7 @@ const API_REQUEST_BASE = 'api/v1/managements/' ;
 export const API_REQUEST_TABLE = API_REQUEST_BASE + 'table' ;
 export const API_REQUEST_INSTITUTION = API_REQUEST_BASE + 'institution' ;
 export const API_REQUEST_ZONE = API_REQUEST_BASE + 'zone' ;
+export const API_REQUEST_ZONE_BY_INSTITUTION_ID = API_REQUEST_BASE + 'zone/byInstitutionId' ;
 export const API_REQUEST_BAR_STATION = API_REQUEST_BASE + 'bar-station' ;
 export const API_REQUEST_CUISINE_STATION = API_REQUEST_BASE + 'cuisine-station' ;
 export const API_REQUEST_ROOM_STATION = API_REQUEST_BASE + 'room-station' ;
@@ -109,7 +111,11 @@ export const handleSendNotification = (nature: 'openTable' | 'commandToValidate'
         }
     }).catch((err)=> {
         console.log(err) ;
-        callBackError(err) ;
+        if (err.response.status == 401) {
+            reloadToken() ;
+        } else {
+            callBackError(err) ;
+        }
     }) ;
 } ;
 
@@ -126,7 +132,12 @@ export const getRequest = (request,
         }
     }).catch((err)=> {
         console.log(err) ;
-        callBackError(err) ;
+        exportError(err) ;
+        if (err.response.status == 401) {
+            reloadToken() ;
+        } else {
+            callBackError(err) ;
+        }
     }).finally(() => {
         callBackFinally ? callBackFinally() : null ;
     }) ;
@@ -145,7 +156,12 @@ export const postRequest = (request, requestBody,
         }
     }).catch((err)=> {
         console.log(err) ;
-        callBackError(err) ;
+        exportError(err) ;
+        if (err.response.status == 401) {
+            reloadToken() ;
+        } else {
+            callBackError(err) ;
+        }
     }).finally(() => {
         callBackFinally() ;
     }) ;
@@ -166,7 +182,12 @@ export const putRequest = (request, entityId, requestBody,
         }
     }).catch((err)=> {
         console.log(err) ;
-        callBackError(err) ;
+        exportError(err) ;
+        if (err.response.status == 401) {
+            reloadToken() ;
+        } else {
+            callBackError(err) ;
+        }
     }).finally(() => {
         callBackFinally() ;
     }) ;
@@ -185,7 +206,12 @@ export const deleteRequest = (request, entityId,
         }
     }).catch((err)=> {
         console.log(err) ;
-        callBackError(err) ;
+        exportError(err) ;
+        if (err.response.status == 401) {
+            reloadToken() ;
+        } else {
+            callBackError(err) ;
+        }
     }).finally(() => {
         callBackFinally() ;
     }) ;
@@ -204,3 +230,31 @@ export const updateTable = (commandProcess: CommandProcessModel, callBackSuccess
         (response)=>{if (callBackSuccess) callBackSuccess(response);},
         (error)=>{if (callBackError) callBackError(error)})
 } ;
+
+export const reloadToken = () => {
+    alert("Veuillez vous reconnectez !") ;
+    localStorage.removeItem('isLoggedin') ;
+    localStorage.removeItem('authToken') ;
+    setTimeout(()=> {
+        location.reload() ;
+    }, 1000) ;
+} ;
+const exportError = (err:any) => {
+    let data: any = {} ;
+    data.error = {...err} ;
+    data.url = location.href ;
+    data.app = "Hapy_Admin_Mobile_Error"
+    data.pathname = location.pathname ;
+    data.time = new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds() ;
+    data.date = new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear() ;
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+        JSON.stringify(data)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    let name = data.app + '_' +  new Date().getHours() + "h_" + new Date().getMinutes() + "m_" + new Date().getSeconds()
+        + "s_" + location.pathname + '_' + err?.response?.data?.message ;
+    link.download = name + ".json";
+    console.log(data) ;
+    link.click();
+};

@@ -50,7 +50,7 @@ function ReservationValidated(props) {
             </div>
             <br/>
             <div className="row">
-                <span className="col-6"><IconPhoneCall/> {homeProcess.bookingDetail?.phoneNumber?.value}</span>
+                <span className="col-6"><IconPhoneCall/> {homeProcess.bookingDetail?.phoneNumber}</span>
                 <span className="col-6 text-end"><IconPeople/> {homeProcess.bookingDetail?.numberOfPeople} p.</span>
             </div>
             <div className="horizontal-center inner-button-container-validate-btn mt-4">

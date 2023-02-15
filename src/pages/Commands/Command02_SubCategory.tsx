@@ -10,26 +10,12 @@ import {homeProcessContext} from "../HomeContainer";
 
 function Command02_SubCategory(props) {
     const {commandProcess, setCommandProcess} = useContext<{commandProcess:CommandProcessModel,setCommandProcess:any}>(homeProcessContext) ;
-    // const [listProducts, setListProducts] = useState<any[]>([]);
     const [listProductsSearched, setListProductsSearched] = useState<Product[]>([]);
     const [searchKey, setSearchKey] = useState<string>(null);
     const navigate = useNavigate();
-    const [response, setResponse] = useState(null);
-    const [error, setError] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        /*getRequest('listCategoryOnMenu', (res) => {
-
-        }) ;*/
-        /*setListProducts([
-            {name:'Product 1', cookingStation:null, productCategory: null, variants:[
-                    {name:'Classique', price:50.45, cookingMethod: 'Saignant', description: 'desc', allergens: 'allergens',
-                    image:'1.png', listIngredientForCooking: []
-                    }
-                ]}
-        ])*/
     }, []);
 
     const handleSearchForm = (e) => {
@@ -62,7 +48,7 @@ function Command02_SubCategory(props) {
                            showBtnBack={true}
                            handleClickBtnBack={()=>navigate('/command')}
                            showRightSideBtn={false}
-                           hapyLogoBtnColor={"#536DFE"}
+                           hapyLogoBtnColor={"#FF6063"}
 
             />
             <div className="happy-div-bottom">

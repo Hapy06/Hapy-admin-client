@@ -202,7 +202,7 @@ export class Table {
 export default class Booking {
     id: string;
     bookingId: string;
-    phoneNumber: any;
+    phoneNumber: string;
     numberOfPeople: number;
     tableId: string;
     table?: Table ;

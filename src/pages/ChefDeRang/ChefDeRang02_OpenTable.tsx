@@ -110,9 +110,11 @@ function ChefDeRang02_OpenTable(props) {
             />
             <div className="happy-div-bottom">
                 <br/>
-                <h1 className="fw-6">Table {cdrProcess.notifDetail.tableNumber}</h1>
-                <h5>{cdrProcess.notifDetail.tableZoneName}</h5>
-                <div className="text-center">{format(new Date(cdrProcess.notifDetail?.askTime), 'HH : mm') }</div>
+                <h1 className="fw-6">Table {cdrProcess.notifDetail?.tableNumber}</h1>
+                <h5>{cdrProcess.notifDetail?.tableZoneName}</h5>
+                { cdrProcess.notifDetail?.askTime && (
+                    <div className="text-center">{format(new Date(cdrProcess.notifDetail?.askTime), 'HH : mm') }</div>
+                )}
                 <br/>
                 <div className="text-center" style={{paddingTop:50, paddingBottom:50}}>
                     <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">

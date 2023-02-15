@@ -6,13 +6,17 @@ import IconArrowRight from "../../globals/icons-components/IconArrowRight";
 import {ICONS} from "../../globals/Icons-svg";
 import IconCloseSquare from "../../globals/icons-components/IconCloseSquare";
 import HapyMobileTop from "../../components/HapyMobileTop";
-import {API_REQUEST_TEAM_MEMBERS, BASE_URL, getAdminProcessValues} from "../../globals/GlobalVariables";
+import {
+    API_REQUEST_TEAM_MEMBERS,
+    API_REQUEST_ZONE, API_REQUEST_ZONE_BY_INSTITUTION_ID,
+    BASE_URL,
+    getAdminProcessValues, reloadToken
+} from "../../globals/GlobalVariables";
 import {HomeProcessModel, Table} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
 import axios from "axios";
 import {TeamMember} from "../../globals/models/Inscription.models";
 import addNotification from "react-push-notification";
-import HapyTableItemServeur from "../../components/HapyTableItemServeur";
 import PullToRefresh from "react-simple-pull-to-refresh";
 
 function ChefDeRang03_ListTables(props) {
@@ -31,12 +35,14 @@ function ChefDeRang03_ListTables(props) {
 
     const handleLoadData = () => {
         setIsLoading(true) ;
-        return axios.get(API_REQUEST_TEAM_MEMBERS + '/current',
+        return axios.get(BASE_URL + API_REQUEST_ZONE_BY_INSTITUTION_ID + '/' + getAdminProcessValues("userLogged").institution.id,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
             console.log(response) ;
-            let user:TeamMember = response.data.data.teamMembers ;
-            if (user.institution.zones.length > 0) {
-                let arr = user.institution.zones.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
+            if (response.data.data.items.length > 0) {
+                let arr = response.data.data.items.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
+                arr.forEach((zone, index) => {
+                    zone.tableIds = zone.tableIds.sort((a,b) => a.tableNumber < b.tableNumber ? -1 : 1 ) ;
+                }) ;
                 setListZones(arr) ;
                 setZoneToShow(arr[0]) ;
             } else {
@@ -47,14 +53,11 @@ function ChefDeRang03_ListTables(props) {
         })
             .catch(error => {
                 console.log(error);
-                setError("Erreur de chargement, Veuillez Réssayer !");
-                addNotification({
-                    title: 'Erreur lors du Chargement',
-                    subtitle: '',
-                    message: 'Veuillez Ressayez....',
-                    theme: 'red',
-                    native: true // when using native, your OS will handle theming.
-                });
+                if (error.response.status == 401) {
+                    reloadToken() ;
+                } else {
+                    setError("Erreur de chargement, Veuillez Réssayer !");
+                }
                 throw error; })
             .finally(() => {setIsLoading(false) ;});
 
@@ -84,7 +87,7 @@ function ChefDeRang03_ListTables(props) {
         homeProcess.tableDetail = tableChoosed ;
         if (tableChoosed.status == "close" || tableChoosed.status == "closed") {
             navigate('/table') ;
-        } else if (tableChoosed.status == "opened" || tableChoosed.status == "opened-and-served") {
+        } else if (tableChoosed.status != "unavailable") {
             navigate('/table-opened') ;
         }
     } ;
@@ -124,7 +127,7 @@ function ChefDeRang03_ListTables(props) {
                                         {zoneToShowIndex != 0 && (
                                             <span onClick={previousZone} className="float-start" style={{cursor:"pointer"}}><IconArrowLeft/></span>
                                         )}
-                                        <span className="float-none">{zoneToShow?.name}</span>
+                                        <span className="float-none fw-6">{zoneToShow?.name}</span>
                                         {zoneToShowIndex != (listZones.length - 1) && (
                                             <span onClick={nextZone} className="float-end" style={{cursor:"pointer"}}><IconArrowRight/></span>
                                         )}
@@ -133,15 +136,9 @@ function ChefDeRang03_ListTables(props) {
                             )
                         )}
                 <br/>
-                <div className="text-center">
-                    <span className="float-start"><IconArrowLeft width={32} height={32}/></span>
-                    <span className="float-none fw-6">Terrasse Droite</span>
-                    <span className="float-end"><IconArrowRight width={32} height={32}/></span>
-                </div>
-                <br/>
                 <br/>
                 <h6 className="fw-6">Légende</h6>
-                <ul className="table-legende">
+                <ul className="table-legende pl-4">
                     <li>
                         <span>{ICONS.tableFreeIcon}</span>
                         <span style={{marginLeft:10}}>Table Libre</span>
@@ -161,6 +158,10 @@ function ChefDeRang03_ListTables(props) {
                     <li>
                         <span>{ICONS.tableUnavailableIcon}</span>
                         <span style={{marginLeft:10}}>Table indisponible</span>
+                    </li>
+                    <li>
+                        <span>{ICONS.tableCommandPreparationIcon}</span>
+                        <span style={{marginLeft:10}}>Commande en préparation</span>
                     </li>
                 </ul>
                     </>

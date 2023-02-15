@@ -21,12 +21,11 @@ function ReservationList(props) {
     }, []) ;
 
     const handleLoadData = () => {
-        return axios.get(BASE_URL + 'api/v1/team-members/current',
+        return axios.get(BASE_URL + API_REQUEST_BOOKING + '/byInstitutionId/' + getAdminProcessValues("userLogged").institution.id,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
             console.log(response) ;
-            let user:TeamMember = response.data.data.teamMembers ;
-            if (user.institution.bookings.length > 0) {
-                let arr = user.institution.bookings ;
+            if (response.data.data.items.length > 0) {
+                let arr = response.data.data.items ;
                 setListBooking(arr) ;
             } else {
                 setLoadMessage("(Pas de réservations en cours)") ;

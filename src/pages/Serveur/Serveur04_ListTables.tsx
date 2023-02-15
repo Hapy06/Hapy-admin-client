@@ -7,22 +7,17 @@ import HapyMobileTop from "../../components/HapyMobileTop";
 import HapyTableItemServeur from "../../components/HapyTableItemServeur";
 import {serveurProcessContext} from "./ServeurContainer";
 import {
-    API_REQUEST_TEAM_MEMBERS,
-    API_REQUEST_ZONE,
+    API_REQUEST_ZONE_BY_INSTITUTION_ID,
     BASE_URL,
     getAdminProcessValues,
-    getRequest,
-    setProcessStored
+    reloadToken
 } from "../../globals/GlobalVariables";
-import addNotification from "react-push-notification";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import axios from "axios";
-import {HomeProcessModel, NotificationHapy, ServeurProcessModel, Table} from "../../globals/models/models";
+import {HomeProcessModel, ServeurProcessModel, Table} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
-import {TeamMember} from "../../globals/models/Inscription.models";
 
 function Serveur04_ListTables(props) {
-    const {serveurProcess, setServeurProcess} = useContext<{serveurProcess:ServeurProcessModel, setServeurProcess: any}>(serveurProcessContext) ;
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
     const [listZones, setListZones] = useState(/*getAdminProcessValues("userLogged").institution.zones || */[]) ;
     const [zoneToShow, setZoneToShow] = useState(null);
@@ -38,12 +33,14 @@ function Serveur04_ListTables(props) {
 
     const handleLoadData = () => {
         setIsLoading(true) ;
-        return axios.get(API_REQUEST_TEAM_MEMBERS + '/current',
+        return axios.get(BASE_URL + API_REQUEST_ZONE_BY_INSTITUTION_ID + '/' + getAdminProcessValues("userLogged").institution.id,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
-                console.log(response) ;
-            let user:TeamMember = response.data.data.teamMembers ;
-            if (user.institution.zones.length > 0) {
-                let arr = user.institution.zones.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
+            console.log(response) ;
+            if (response.data.data.items.length > 0) {
+                let arr = response.data.data.items.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
+                arr.forEach((zone, index) => {
+                    zone.tableIds = zone.tableIds.sort((a,b) => a.tableNumber < b.tableNumber ? -1 : 1 ) ;
+                }) ;
                 setListZones(arr) ;
                 setZoneToShow(arr[0]) ;
             } else {
@@ -54,14 +51,11 @@ function Serveur04_ListTables(props) {
         })
             .catch(error => {
                 console.log(error);
-                setError("Erreur de chargement, Veuillez Réssayer !");
-                addNotification({
-                    title: 'Erreur lors du Chargement',
-                    subtitle: '',
-                    message: 'Veuillez Ressayez....',
-                    theme: 'red',
-                    native: true // when using native, your OS will handle theming.
-                });
+                if (error.response.status == 401) {
+                    reloadToken() ;
+                } else {
+                    setError("Erreur de chargement, Veuillez Réssayer !");
+                }
                 throw error; })
             .finally(() => {setIsLoading(false) ;});
 
@@ -135,7 +129,7 @@ function Serveur04_ListTables(props) {
                                 {zoneToShowIndex != 0 && (
                                     <span onClick={previousZone} className="float-start" style={{cursor:"pointer"}}><IconArrowLeft/></span>
                                 )}
-                                <span className="float-none">{zoneToShow?.name}</span>
+                                <span className="float-none fw-6">{zoneToShow?.name}</span>
                                 {zoneToShowIndex != (listZones.length - 1) && (
                                     <span onClick={nextZone} className="float-end" style={{cursor:"pointer"}}><IconArrowRight/></span>
                                 )}

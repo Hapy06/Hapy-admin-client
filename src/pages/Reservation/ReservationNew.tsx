@@ -21,26 +21,12 @@ function ReservationNew(props) {
     const [showError, setShowError] = useState<boolean>(false) ;
     const [errorMessage, setErrorMessage] = useState<string>('') ;
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
-    const [listTables, setListTables] = useState<Table[]>([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        let arr = [] ;
-        getAdminProcessValues("userLogged").institution.zones.forEach(zone => {
-            arr = arr.concat(zone.tableIds) ;
-        }) ;
-        // console.log(arr) ;
-        setListTables(arr)
-    }, []) ;
 
     const handleForm = (e) => {
         const { name, value } = e.target;
         setNewBooking({...newBooking, [name]: value}) ;
-        /*if (name == 'phoneNumber') {
-            setNewBooking({...newBooking, phoneNumber: {phone: value, isoCode:'33', countryCode:'FR', value: '+33'+value}}) ;
-        } else {
-            setNewBooking({...newBooking, [name]: value}) ;
-        }*/
     } ;
 
     const handleSubmitBooking = () => {
@@ -51,13 +37,11 @@ function ReservationNew(props) {
             showErrorFunction("Veuillez saisir le numero de telephone !") ;
         } else if (!newBooking.numberOfPeople || newBooking.numberOfPeople == 0) {
             showErrorFunction("Veuillez saisir le nombre de personne !") ;
-        } else if (!newBooking.tableNumber || newBooking.tableNumber == 0 || (!listTables.some(elt => elt.tableNumber == newBooking.tableNumber) )) {
+        } else if (!newBooking.tableNumber || newBooking.tableNumber == 0 ) {
             showErrorFunction("Veuillez saisir un numéro de table valide !") ;
         } else if (!newBooking.dateOfreservation || newBooking.dateOfreservation == '' || !newBooking.dateOfreservation.includes('/')) {
             showErrorFunction("Veuillez saisir une date valide (JJ/mm/AAAA) !") ;
         } else {
-            newBooking.phoneNumber.includes('+33') ? null : newBooking.phoneNumber = '+33' + newBooking.phoneNumber ;
-            newBooking.tableId = listTables.find(elt => elt.tableNumber == newBooking.tableNumber ).id ;
             saveAndContinue() ;
         }
     } ;

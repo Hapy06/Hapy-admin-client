@@ -15,7 +15,6 @@ import {
 } from "../../globals/GlobalVariables";
 import addNotification from "react-push-notification";
 import {format} from "date-fns";
-import {CookingStation} from "../../globals/models/Inscription.models";
 
 function ChefDeRang02_TableListCommand(props) {
     const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess: any}>(cdrProcessContext) ;
@@ -63,8 +62,9 @@ function ChefDeRang02_TableListCommand(props) {
         exportData(order) ;
         postRequest('api/v1/managements/order', order,
             ()=> {
-                /*temp.listNotifs =
+                temp.listNotifs =
                 temp.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
+                temp.validationMessage = "Commande Validée avec Succèss !" ;
                 setProcessStored("cdrProcess", temp) ;
                 setCDRProcess(temp) ;
                 addNotification({
@@ -74,7 +74,7 @@ function ChefDeRang02_TableListCommand(props) {
                     theme: 'light',
                     native: true // when using native, your OS will handle theming.
                 });
-                navigate('/command-validated') ;*/
+                navigate('/command-validated') ;
             },
             ()=> {
                 addNotification({

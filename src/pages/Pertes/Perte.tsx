@@ -14,9 +14,8 @@ import {API_REQUEST_PRODUCT, BASE_URL, getAdminProcessValues} from "../../global
 import PullToRefresh from "react-simple-pull-to-refresh";
 
 function Perte(props) {
-    // const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
     const [loadMessage, setLoadMessage] = useState<string>("(Pas de produits trouvé)");
-    const [listVariants, setListVariants] = useState<Variant[]>(getAdminProcessValues("userLogged").institution.variants || []);
+    const [listProducts, setListProducts] = useState<Product[]>(getAdminProcessValues("userLogged").institution.variants || []);
     const [listVariantChoosed, setListVariantChoosed] = useState<Variant[]>([]);
     const [listVariantSelectedWithQty, setListVariantSelectedWithQty] = useState({});
     const [totalQty, setTotalQty] = useState<number>(0);
@@ -26,10 +25,12 @@ function Perte(props) {
 
     function openModal() {
         let arr:Variant[] = [] ;
-        listVariants.forEach(variant => {
-            if (listVariantSelectedWithQty[variant.id] && listVariantSelectedWithQty[variant.id] > 0) {
-                arr.push(variant) ;
-            }
+        listProducts.forEach(product => {
+            product.variants.forEach(variant => {
+                if (listVariantSelectedWithQty[variant.id] && listVariantSelectedWithQty[variant.id] > 0) {
+                    arr.push(variant) ;
+                }
+            })
         }) ;
         setListVariantChoosed(arr) ;
         setIsOpen(true);
@@ -41,17 +42,15 @@ function Perte(props) {
 
     useEffect(()=>{
         window.scrollTo(0, 0);
-        // handleLoadData() ;
+        handleLoadData() ;
     }, []) ;
 
     const handleLoadData = () => {
-        return axios.get(BASE_URL + 'api/v1/team-members/current',
+        return axios.get(BASE_URL + API_REQUEST_PRODUCT + '/byInstitutionId/' + getAdminProcessValues("userLogged").institution.id,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
-            console.log(response) ;
-            let user:TeamMember = response.data.data.teamMembers ;
-            if (user.institution.variants.length > 0) {
-                let arr = user.institution.variants ;
-                setListVariants(arr) ;
+            if (response.data.data.items.length > 0) {
+                let arr = response.data.data.items ;
+                setListProducts(arr) ;
             } else {
                 setLoadMessage("(Pas de produits trouvé)") ;
             }
@@ -96,9 +95,9 @@ function Perte(props) {
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
-                           subtitleStart="Hugo"
+                           subtitleStart={getAdminProcessValues("userLogged").firstName}
                            subtitleStartClassName="text-red-orange"
-                           subtitleEnd="LEVOIR"
+                           subtitleEnd={getAdminProcessValues("userLogged").lastName}
                            title="Noter une perte"
                            showBtnBack={true}
                            handleClickBtnBack={()=>navigate('/home')}
@@ -111,41 +110,15 @@ function Perte(props) {
             <br/><br/>
             <PullToRefresh onRefresh={handleLoadData}>
                 <>
-                    { listVariants.length > 0 ? (
-                        listVariants.map((variant:Variant, index:number) => (
-                                    listVariantSelectedWithQty[variant.id] != null ? (
-                                        <div key={variant.id} className="row mb-5 fw-5">
-                                            <span className="col-2" onClick={()=>handleUnselectedVariant(variant.id)}><IconChecked fill={'#FF6063'} stroke={'white'}/></span>
-                                            <span className="col-6 mt-1">{variant.name}</span>
-                                            <span className="col-4 mt-1">
-                                                        <span style={{cursor:"pointer"}} onClick={()=>handleQtyChange(variant.id, "increase")}>+</span>
-                                                        <span className="text-red-orange ml-2 mr-2 fw-6">{listVariantSelectedWithQty[variant.id]}</span>
-                                                        <span style={{cursor:"pointer"}} onClick={()=>handleQtyChange(variant.id, "decrease")}>-</span>
-                                            </span>
-                                        </div>
-                                    ) : (
-                                        <div key={variant.id} className="row mb-5 fw-5">
-                                            <span className="col-2" onClick={()=>handleSelectedVariant(variant.id)}>
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                                </svg>
-                                            </span>
-                                            <span className="col-6 mt-1">{variant.name}</span>
-                                        </div>
-                                    )
-                                )
-                        )
-                    ) : (
-                        <div className="text-center">{loadMessage} <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
-                    )}
-                    {/*{ listVariants.length > 0 ? (
-                        listVariants.map((product:Product, index) => (
+
+                    { listProducts.length > 0 ? (
+                        listProducts.map((product:Product, index) => (
                             <div key={product.id}>
                                 <span className="f-20">{product.name}</span>
                                 <br/><br/>
                                 {product.variants.map((variant:Variant, index:number) => (
                                     listVariantSelectedWithQty[variant.id] != null ? (
-                                        <div key={variant.id} className="row mb-5 fw-5">
+                                        <div key={variant.id} className="row mb-3 fw-5">
                                             <span className="col-2" onClick={()=>handleUnselectedVariant(variant.id)}><IconChecked fill={'#FF6063'} stroke={'white'}/></span>
                                             <span className="col-6 mt-1">{variant.name}</span>
                                             <span className="col-4 mt-1">
@@ -155,7 +128,7 @@ function Perte(props) {
                                             </span>
                                         </div>
                                     ) : (
-                                        <div key={variant.id} className="row mb-5 fw-5">
+                                        <div key={variant.id} className="row mb-3 fw-5">
                                             <span className="col-2" onClick={()=>handleSelectedVariant(variant.id)}>
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
@@ -170,7 +143,7 @@ function Perte(props) {
                         ))
                     ) : (
                         <div className="text-center">{loadMessage} <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
-                    )}*/}
+                    )}
             </>
             </PullToRefresh>
             <div className="horizontal-center inner-button-container-validate-btn mt-4">

@@ -18,6 +18,8 @@ function HapyTableItemCDR(props:PropsType) {
                 return (<div style={{backgroundColor:'#EFEFEF',border: '2px solid #00B0FF'}} className="table-item">{props.tableNumber}</div>) ;
             case "command-waiting-validation":
                 return (<div style={{backgroundColor:'white',border: '2px solid #FF6063'}} className="table-item">{props.tableNumber}</div>) ;
+            case "command-preparation":
+                return (<div style={{backgroundColor:'#EFEFEF',border: '2px solid green'}} className="table-item">{props.tableNumber}</div>) ;
             case "opened":
                 return (<div style={{backgroundColor:'white'}} className="table-item">{props.tableNumber}</div>) ;
             case "opened-and-served":

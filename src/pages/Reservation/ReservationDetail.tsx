@@ -86,7 +86,7 @@ function ReservationDetail(props) {
                     <span className="col-6 text-end">Table <strong>{homeProcess.bookingDetail?.tableNumber || homeProcess.bookingDetail?.table.tableNumber || 20}</strong></span>
                 </div>
                 <br/>
-                <span><IconPhoneCall/> {homeProcess.bookingDetail?.phoneNumber?.value}</span> <br/>
+                <span><IconPhoneCall/> {homeProcess.bookingDetail?.phoneNumber}</span> <br/>
                 <br/>
                 <span><IconPeople/> {homeProcess.bookingDetail?.numberOfPeople} p.</span>
                 <br/>

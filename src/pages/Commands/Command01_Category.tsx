@@ -13,17 +13,10 @@ import {homeProcessContext} from "../HomeContainer";
 
 function Command01_Category(props) {
     const {commandProcess, setCommandProcess} = useContext<{commandProcess:CommandProcessModel,setCommandProcess:any}>(homeProcessContext) ;
-    // const [listCategoryOnMenu, setListCategoryOnMenu] = useState<any[]>([]);
     const [listCategoryProductsSearched, setListCategoryProductsSearched] = useState<CategoryOfProduct[]>([]);
     const [searchKey, setSearchKey] = useState<string>('');
     const [showValidateBtn, setShowValidateBtn] = useState<boolean>((commandProcess.allCommands && commandProcess.allCommands.length > 0 ));
     const navigate = useNavigate();
-    const [response, setResponse] = useState(null);
-    const [error, setError] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(()=> {
-    }, []) ;
 
     const handleSearchForm = (e) => {
         const { name, value } = e.target;
@@ -55,7 +48,7 @@ function Command01_Category(props) {
                 showBtnBack={true}
                 handleClickBtnBack={()=>navigate('/table-opened')}
                 showRightSideBtn={false}
-                hapyLogoBtnColor={"#536DFE"}
+                hapyLogoBtnColor={"#FF6063"}
             />
             <div className="happy-div-bottom">
                 <div className="pt-4">

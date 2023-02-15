@@ -8,7 +8,12 @@ import IconChecked from "../../globals/icons-components/IconChecked";
 import IconOrder from "../../globals/icons-components/IconOrder";
 import IconNote from "../../globals/icons-components/IconNote";
 import IconReservationAdd from "../../globals/icons-components/IconReservationAdd";
-import {CommandProcessModel, CommandProcessModelToShare, HomeProcessModel} from "../../globals/models/models";
+import {
+    CommandProcessModel,
+    CommandProcessModelToShare,
+    customStyles,
+    HomeProcessModel
+} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
 import {
     API_REQUEST_CATEGORY_ON_MENU,
@@ -16,6 +21,9 @@ import {
     getRequest, MSG_ERROR_LOADING,
     setProcessStored
 } from "../../globals/GlobalVariables";
+import Table_OpenTableModal from "./Table_OpenTableModal";
+import Modal from 'react-modal';
+import Table_CloseTableModal from "./Table_CloseTableModal";
 
 function Table_TableOpened(props) {
     const {homeProcess, setHomeProcess} = useContext<{ homeProcess: HomeProcessModel, setHomeProcess: any }>(homeProcessContext);
@@ -25,6 +33,7 @@ function Table_TableOpened(props) {
     const [showError, setShowError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
+    const [modalIsOpen, setIsOpen] = React.useState(false);
 
 
         useEffect(() => {
@@ -65,7 +74,7 @@ function Table_TableOpened(props) {
                                 } else {
                                     productCategory.products.forEach(product => {
                                         if (product.variants.length == 0) { // no variant present, so remove
-                                            listCM = listCM.filter(elt => elt.id != categoryOnMenu.id);
+                                            // listCM = listCM.filter(elt => elt.id != categoryOnMenu.id);
                                         } else { // minimum 1 variant present, so keep
                                             temp.products.push(product);
                                             temp.variants = temp.variants.concat(product.variants);
@@ -80,7 +89,7 @@ function Table_TableOpened(props) {
                         temp.categoriesOnMenu = [...listCM];
                         setCommandProcess({...temp});
                         setProcessStored("commandProcess", temp);
-                        console.log(temp);
+                        // console.log(temp);
                         navigate('/command');
                     },
                     (err) => {
@@ -99,6 +108,14 @@ function Table_TableOpened(props) {
                 setShowError(false);
             }, timeout);
         };
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
 
         return (
             <>
@@ -132,15 +149,26 @@ function Table_TableOpened(props) {
                     </div>
                     <br/> <HapyButtonWithIcon text="Commander" handleClick={handleCommandClick}
                                               iconComponent={<IconOrder/>}/>
-                    <br/> <br/>
+                    <br/>
                     <HapyButtonWithIcon text="Voir le ticket" handleClick={() => {
                         navigate('/table-note')
                     }} iconComponent={<IconNote/>}/>
-                    <br/> <br/>
+                    <br/>
                     <HapyButtonWithIcon text="Reserver la table" handleClick={() => navigate('/reservation/new')}
                                         iconComponent={<IconReservationAdd/>}/>
                     <br/>
+                    <HapyButtonWithIcon text="Fermer la table" handleClick={()=>openModal()} iconComponent={<IconChecked/>} />
+                    <br/>
                     {showError && (<div className={"mt-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
+                </div>
+                <div>
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onRequestClose={closeModal}
+                        style={customStyles}
+                    >
+                        <Table_CloseTableModal handleCloseModal={closeModal}/>
+                    </Modal>
                 </div>
             </>
         )

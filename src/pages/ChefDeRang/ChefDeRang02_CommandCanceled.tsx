@@ -36,7 +36,7 @@ function ChefDeRang02_CommandCanceled(props) {
                     </svg>
                     <br/>
                     <br/>
-                    {cdrProcess.validationMessage}
+                    {cdrProcess.validationMessage || "Annullé avec succès"}
                 </div>
                 <div className="text-center inner-button-container-validate-btn mt-4">
                         <HapyButtonWithIcon text="Retour à votre gestion" handleClick={()=>{navigate('/')}}

@@ -4,10 +4,9 @@ import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import IconVerify from "../../globals/icons-components/IconVerify";
 import IconArrowDown from "../../globals/icons-components/IconArrowDown";
 import HapyMobileTop from "../../components/HapyMobileTop";
-import {CommandProcessModel, Coupon, Order, SimpleCommand} from "../../globals/models/models";
+import {CommandProcessModel, SimpleCommand} from "../../globals/models/models";
 import {getAdminProcessValues, handleSendNotification, setProcessStored} from "../../globals/GlobalVariables";
 import addNotification from "react-push-notification";
-import {CookingStation} from "../../globals/models/Inscription.models";
 import {homeProcessContext} from "../HomeContainer";
 
 function Command04_ValidationProgress(props) {
@@ -37,14 +36,14 @@ function Command04_ValidationProgress(props) {
                 temp.institution?.id || '63c8822d7d3a52696de7ac30',
                 temp.table.id,
                 temp.table.tableNumber,
-                temp.table?.zone?.name || 'Zone Non Mise dans le type de la BD',
+                temp.table?.zoneName || 'Zone Inconnue',
                 JSON.stringify(temp.allCommands.filter(command => command.isValidated && command.status == "choosed")),
                 getAdminProcessValues("authToken"),
                 (response)=>{
                     temp.totalPrice = 0 ;
                     temp.allCommands.forEach(command => {
                         if (command.isValidated) {
-                            // command.status = "sendToCDR" ;
+                            command.status = "sendToCDR" ;
                             temp.totalPrice += command.price ;
                         }
                     }) ;
@@ -65,41 +64,6 @@ function Command04_ValidationProgress(props) {
 
             ) ;
         // createOrder() ;
-    } ;
-
-    const createOrder = () => {
-        let temp = {...commandProcess} ;
-        let order: Order = new Order() ;
-        order.notificationID = "OIJF654654644JLFL" ;
-        order.institutionId = temp.institution.id;
-        order.tableId = temp.table.id ;
-        order.tableNumber = temp.table.tableNumber ;
-        order.tableZoneName = temp.table.zone.name || 'zone name' ;
-        order.isFoodReady = false ;
-        order.createdAt = new Date() ;
-        order.startTime = new Date().getHours() + ':' + new Date().getMinutes() ;
-        order.status = "waiting" ;
-        order.totalCost = 0 ;
-        order.coupons = [] ;
-        temp.allCommands.filter(command => command.isValidated && command.status == "choosed")
-            .forEach((command:SimpleCommand) => {
-                let coupon:Coupon = new Coupon() ;
-                coupon.insitutionID = temp.institution.id ;
-                coupon.tableID = temp.table.id ;
-                coupon.tableNumber = temp.table.tableNumber ;
-                coupon.tableZoneName = temp.table.zone.name || 'zone name' ;
-                coupon.product = command.product ;
-                coupon.productVariant = command.productVariant ;
-                coupon.cookingStation = command.product.cookingStation ;
-                coupon.isPregnant = command.isPregnant ;
-                coupon.price = command.price ;
-                coupon.ingredientsModifiablesStates = command.ingredientsModifiablesStates ;
-                order.totalCost += coupon.price ;
-                order.coupons.push(coupon) ;
-            }) ;
-        console.log("New Order => ") ;
-        console.log(order) ;
-        exportData(order) ;
     } ;
 
     const exportData = (data) => {
@@ -123,7 +87,7 @@ function Command04_ValidationProgress(props) {
                            showBtnBack={true}
                            handleClickBtnBack={()=>navigate('/')}
                            showRightSideBtn={false}
-                           hapyLogoBtnColor={"#536DFE"}
+                           hapyLogoBtnColor={"#FF6063"}
 
             />
             <div className="happy-div-bottom">
@@ -132,16 +96,35 @@ function Command04_ValidationProgress(props) {
                     <>
                         {/*<p className="f-20">{command.productVariant}</p>*/}
                         <div className="row pl-1" key={index}>
-                            <div className="form-check">
-                                <input className="form-check-input col" style={{borderRadius:50, width:20, height:20, marginRight:15, marginTop:command.isPregnant ? 25 : 3}} type="checkbox"
+                            <div className="form-check col-1">
+                                <input className="form-check-input" style={{borderRadius:50, width:20, height:20, marginTop:command.isPregnant ? 25 : 3}} type="checkbox"
                                        checked={command.isValidated} onChange={()=>handleSelectCommand(commandList.findIndex((elt)=>elt == command))}/>
+                            </div>
+                            <label className="form-check-label col ml-2" style={{width:290}}>
+                                {command.isPregnant && (<> <span style={{fontSize:12}} className="text-red-orange">Enceinte</span> <br/> </>)}
+                                {command?.product?.name || "Product 1"} - {command?.productVariant?.name} <br/>
+                                <span style={{fontSize:12}}>
+                                    {command.ingredientsModifiablesStates.map(ingredient => (
+                                        <>{ingredient} <br/></>
+                                    ))}
+                                </span>
+                            </label>
+                        </div>
+                        <br/>
+                    </>
+                    )
+                )}
+                <hr className="mt-4 mb-4"/>
+                {commandList?.filter(command => !command.isValidated).map((command:SimpleCommand, index) => (
+                        <>
+                            {/*<p className="f-20">{command.productVariant}</p>*/}
+                            <div className="row pl-1" key={index}  style={{opacity:0.32}}>
+                                <div className="form-check col-1">
+                                    <input className="form-check-input" style={{borderRadius:50, width:20, height:20, marginRight:15, marginTop:command.isPregnant ? 25 : 3}} type="checkbox"
+                                           checked={command.isValidated} onChange={()=>{handleSelectCommand(commandList.findIndex((elt)=>elt == command))}}/>
+                                </div>
                                 <label className="form-check-label col ml-2" style={{width:290}}>
-                                    {command.isPregnant && (<> <span style={{fontSize:12}} className="text-blue">Enceinte</span> <br/> </>)}
-                                {/*<span className="row">
-                                    <span className="col-1">2 x </span>
-                                    <span className="col-10"> Salade de fruits - Fruits rouges des bois</span>
-                                    <br/>
-                                </span>*/}
+                                    {command.isPregnant && (<> <span style={{fontSize:12}} className="text-red-orange">Enceinte</span> <br/> </>)}
                                     {command?.product?.name || "Product 1"} - {command?.productVariant?.name} <br/>
                                     <span style={{fontSize:12}}>
                                         {command.ingredientsModifiablesStates.map(ingredient => (
@@ -150,62 +133,11 @@ function Command04_ValidationProgress(props) {
                                     </span>
                                 </label>
                             </div>
-                        </div>
-                        <br/>
-                    </>
-                    )
-                )}
-
-                {/*<div className="row pl-1">
-                    <div className="form-check">
-                        <input className="form-check-input col" style={{borderRadius:50, width:20, height:20, marginRight:15}} type="checkbox"
-                               checked={true} onChange={()=>{}}/>
-                        <label className="form-check-label col ml-2" style={{width:310}}>
-                            <h6>1 x Bière blonde - 50 cl
-                            </h6>
-                        </label>
-                    </div>
-                </div>*/}
-                <hr className="mt-4 mb-4"/>
-                {commandList?.filter(command => !command.isValidated).map((command:SimpleCommand, index) => (
-                        <>
-                            {/*<p className="f-20">{command.productVariant}</p>*/}
-                            <div className="row pl-1" key={index}  style={{opacity:0.32}}>
-                                <div className="form-check">
-                                    <input className="form-check-input col" style={{borderRadius:50, width:20, height:20, marginRight:15, marginTop:command.isPregnant ? 25 : 3}} type="checkbox"
-                                           checked={command.isValidated} onChange={()=>{handleSelectCommand(commandList.findIndex((elt)=>elt == command))}}/>
-                                    <label className="form-check-label col ml-2" style={{width:290}}>
-                                        {command.isPregnant && (<> <span style={{fontSize:12}} className="text-blue">Enceinte</span> <br/> </>)}
-                                        {/*<span className="row">
-                                    <span className="col-1">2 x </span>
-                                    <span className="col-10"> Salade de fruits - Fruits rouges des bois</span>
-                                    <br/>
-                                </span>*/}
-                                        {command?.product?.name || "Product 1"} - {command?.productVariant?.name} <br/>
-                                        <span style={{fontSize:12}}>
-                                            {command.ingredientsModifiablesStates.map(ingredient => (
-                                                <>{ingredient} <br/></>
-                                            ))}
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
                             <br/>
                         </>
                     )
                 )}
-                {/*<div className="row pl-1 row">
-                    <div className="form-check" style={{opacity:0.32}}>
-                        <input className="form-check-input col" style={{borderRadius:50, width:20, height:20, marginRight:15}} type="checkbox"
-                               checked={false} onChange={()=>{}}/>
-                        <label className="form-check-label col ml-2">
-                            <span style={{fontSize:12}} className="text-blue">Enceinte</span>
-                            <h6>2 x Burger Chèvre bacon <br/>
-                                <span style={{fontSize:12}}>Saignant</span>
-                            </h6>
-                        </label>
-                    </div>
-                </div>*/}
+
                 {commandList.some(elt => elt.isValidated) && (
                     <div className="text-center inner-button-container-validate-btn">
                         <IconArrowDown width={32} height={32} stroke={'black'} styleIcon={{marginTop:-30}} />

@@ -162,14 +162,15 @@ function Table_Note(props) {
         ticketPayed.isMultipleReglements = listReglement.length > 1 ;
         ticketPayed.uniqueReglement = reglement ;
         ticketPayed.listReglement = listReglement ;
-        exportData(ticketPayed) ;
+        // exportData(ticketPayed) ;
         saveTicketPayedToDB(ticketPayed) ;
     } ;
 
     const saveTicketPayedToDB = (ticketPayed: TicketPayed) => {
-        postRequest(API_REQUEST_TICKET_PAYED, ticketPayed,
+        navigate('/table-close') ;
+        /*postRequest(API_REQUEST_TICKET_PAYED, ticketPayed,
             (res) => {navigate('/table-close')},
-            (err) => {showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")})
+            (err) => {showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")})*/
     } ;
 
     const exportData = (data) => {

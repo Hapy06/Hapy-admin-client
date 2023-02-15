@@ -6,7 +6,6 @@ type Option = {
     text:string ;
     value:any ;
 }
-
 type PropsType = {
     defaultOption?: Option ;
     optionList: Option[] ;
@@ -16,6 +15,7 @@ type PropsType = {
     selectWidth?: number ;
     selectValue: any ;
     setSelectValue: any ;
+    defaultBtnText?: string ;
 }
 
 export default HapySelect
@@ -23,18 +23,18 @@ function HapySelect(props:PropsType) {
 
     const [isDropdowned, setIsDropdowned] = useState<boolean>(false);
     const [optionSelected, setOptionSelected] = useState<Option>( props.optionList.find(elt => elt.value == props.selectValue)
-        || props.defaultOption || {text:'Choisir', value:null});
+        || props.defaultOption || {text:props.defaultBtnText || 'Choisir', value:null});
 
-    useEffect(() => {
-        if (props.selectValue) {
-            setOptionSelected(props.optionList.find(elt => elt.value == props.selectValue))
-        } else if (props.defaultOption) {
-            setOptionSelected(props.defaultOption)
-        } else {
-            setOptionSelected({text:'Choisir', value:null}) ;
-        }
-        // console.log(optionSelected)
-    }, [props.selectValue])
+    /* useEffect(() => {
+         if (props.selectValue) {
+             setOptionSelected(props.optionList.find(elt => elt.value == props.selectValue))
+         } else if (props.defaultOption) {
+             setOptionSelected(props.defaultOption)
+         } else {
+             setOptionSelected({text:'Choisir', value:null}) ;
+         }
+         // console.log(optionSelected)
+     }, [props.selectValue]) */
 
     const handleChangeOption = (option: Option) => {
         props.setSelectValue(option.value) ;
@@ -72,8 +72,8 @@ function HapySelect(props:PropsType) {
             ) : (
                 <div style={{cursor:"pointer",width: props.selectWidth || '100%'}} className="hapy-btn-with-icon vertical-center pl-3" onClick={()=>setIsDropdowned(!isDropdowned)}>
                     <span className="mr-32"><IconArrowRight/></span>
-                    <span className={(props.defaultOption == optionSelected || optionSelected?.text == 'Choisir') ? '' : 'text-blue'}>
-                        {optionSelected?.text || props.defaultOption?.text || 'Choisir'}</span>
+                    <span className={(props.defaultOption == optionSelected || optionSelected?.text == props.defaultBtnText ||  'Choisir') ? '' : 'text-blue'}>
+                        {optionSelected?.text || props.defaultOption?.text || props.defaultBtnText ||  'Choisir'}</span>
                 </div>
             )}
         </>

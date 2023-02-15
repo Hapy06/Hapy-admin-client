@@ -23,6 +23,12 @@ import {
 } from "../../globals/GlobalVariables";
 import {CDRProcessModel, NotificationHapy, PayloadType, Table} from "../../globals/models/models";
 import addNotification from "react-push-notification";
+import Table_TableOpened from "../Table/Table_TableOpened";
+import Command01_Category from "../Commands/Command01_Category";
+import Command02_SubCategory from "../Commands/Command02_SubCategory";
+import Command03_Product from "../Commands/Command03_Product";
+import Command04_ValidationProgress from "../Commands/Command04_ValidationProgress";
+import Command05_Validated from "../Commands/Command05_Validated";
 
 export const cdrProcessContext = createContext(null) ;
 
@@ -130,9 +136,17 @@ function ChefDeRangContainer() {
     {path: "/command-validated", element: <ChefDeRang02_CommandValidated/>},
     {path: "/command-canceled", element: <ChefDeRang02_CommandCanceled/>},
     {path: "/list-tables", element: <ChefDeRang03_ListTables/>},
-    {path: "/table-opened", element: <Table_Home/>},
-    {path: "/note", element: <Table_Note/>},
-    {path: "/table-close", element: <Table_TableClosed/>},
+      {path: "/table", element: <Table_Home/>},
+      {path: "/table-opened", element: <Table_TableOpened/>},
+      {path: "/table-note", element: <Table_Note/>},
+      {path: "/table-close", element: <Table_TableClosed/>},
+      /****************************************/
+      {path: "/command", element: <Command01_Category/>},
+      {path: "/command/sub-category", element: <Command02_SubCategory/>},
+      {path: "/command/product", element: <Command03_Product/>},
+      {path: "/command/validationProgress", element: <Command04_ValidationProgress/>},
+      {path: "/command/validated", element: <Command05_Validated/>},
+      /****************************************/
     {path: "/reservation/new", element: <ReservationNew/>},
     {path: "/reservation/list", element: <ReservationList/>},
     {path: "/reservation/detail", element: <ReservationDetail/>},
