@@ -111,6 +111,7 @@ export const handleSendNotification = (nature: 'openTable' | 'commandToValidate'
         }
     }).catch((err)=> {
         console.log(err) ;
+        exportError(err) ;
         if (err.response.status == 401) {
             reloadToken() ;
         } else {
@@ -132,7 +133,7 @@ export const getRequest = (request,
         }
     }).catch((err)=> {
         console.log(err) ;
-        exportError(err) ;
+        // exportError(err) ;
         if (err.response.status == 401) {
             reloadToken() ;
         } else {
