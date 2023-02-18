@@ -1,24 +1,29 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {ICONS} from "../../globals/Icons-svg";
+import React, {useContext, useState} from 'react';
 import {Coupon, Order, PreparationProcessModel} from "../../globals/models/models";
-import {useTimer} from "react-timer-and-stopwatch";
 import {preparationContext} from "./PreparationContainer";
-import {timerReducer} from "react-timer-and-stopwatch/dist/reducers/timer-reducer";
-
-import { CouponCard } from './components';
+import IconChecked from "../../globals/icons-components/IconChecked";
 
 type PropsType = {
     handleClick?:any ;
     borderOrange?: boolean ;
     removePauseIcon?: boolean ;
     order: Order ;
-
+    handleSelectedCoupon: (couponsReadyIds) => void ;
 }
 
-function PreparationCommandBox(props:PropsType) {
+function PreparationCommandBoxForOrderDetail(props:PropsType) {
     const {preparationProcess, setPreparationProcess} = useContext<{preparationProcess:PreparationProcessModel, setPreparationProcess: any}>(preparationContext) ;
     // let order:Order = {...props.order} ;
-    const [couponNumber, setCouponNumber] = useState(0)
+    const [couponsReadyIds, setCouponsReadyIds] = useState<string[]>(props.order?.couponsReadyIds || []) ;
+    const handleSelectedCoupon = (couponId: string) => {
+        if (couponsReadyIds.includes(couponId)) {
+            setCouponsReadyIds(couponsReadyIds.filter((id) => id !== couponId)) ;
+        } else {
+            setCouponsReadyIds([...couponsReadyIds, couponId]) ;
+        }
+        props.handleSelectedCoupon([...couponsReadyIds, couponId]) ;
+    } ;
+
     /*const timer = useTimer({
         create: {
             stopwatch: {startAtMilliseconds:props.order.millisecondePastSinceStart || 0}
@@ -31,18 +36,12 @@ function PreparationCommandBox(props:PropsType) {
                 // preparationProcess.orderWaintingMilliseconde[props.order.id] = timer.timeElapsed ;
             }
         }
-    });
+    });*/
 
-    useEffect(() => {
-    }, [timer]) ;
-
-    const handlePauseAndResume = () => {
-
-    } ;*/
 
     return (
         <>
-            <div className="current-command-container" style={{cursor:"pointer", border: props.borderOrange ? "2px solid #F7B927" : ""}} onClick={props.handleClick}>
+            <div className="current-command-container" style={{border: props.borderOrange ? "2px solid #F7B927" : ""}}>
                 <div className="text-disabled row">
                     <div className="f-12 col-3 mt-2">{props.order.startTime}</div>
                     <div className="col-9 text-end">
@@ -81,7 +80,47 @@ function PreparationCommandBox(props:PropsType) {
                 </div>
                 <br/><br/>
                 {props.order.coupons.map((coupon:Coupon, index:number) => (
-                    <CouponCard coupon={coupon} index={index}/>
+                    /*coupon.cookingStation.toLowerCase().includes('cuisine')*/ coupon.cookingStation != 'Bar' && (
+                        <div key={coupon.id} className={coupon.isPregnant ? "row fw-5 mb-3 mt-4" : "row fw-5 mb-3"}>
+                            {/*<span className="col-1">1</span>*/}
+                            {couponsReadyIds.includes(coupon.id) && (
+                                <span style={{cursor:"pointer"}} className="col-2" onClick={()=>handleSelectedCoupon(coupon.id)}><IconChecked fill={'#FF6063'} stroke={'white'}/></span>
+                            )}
+                            {!couponsReadyIds.includes(coupon.id) && (
+                                <span style={{cursor:"pointer"}} className="col-2" onClick={()=>handleSelectedCoupon(coupon.id)}>
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
+                                                </svg>
+                                </span>
+                            )}
+                            <span className="col-10" style={{marginTop:-20}}>
+                                {coupon.isPregnant && (<span className="text-orange" style={{fontSize:12, marginLeft:15}}>Enceinte</span>)}
+                                <br/>
+                                {coupon.isPregnant ? (
+                                    <span className="text-orange">
+                                    <span style={{marginLeft:-10}}>
+                                        <svg style={{marginTop:-5}} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 6V9.33333" stroke="#F9A826" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M8.00028 14.2733H3.96028C1.64695 14.2733 0.680281 12.6199 1.80028 10.5999L3.88028 6.85327L5.84028 3.33327C7.02695 1.19327 8.97361 1.19327 10.1603 3.33327L12.1203 6.85994L14.2003 10.6066C15.3203 12.6266 14.3469 14.2799 12.0403 14.2799H8.00028V14.2733Z" stroke="#F9A826" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M7.99609 11.3333H8.00208" stroke="#F9A826" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                    </span>
+                                    <span className="fw-5" style={{marginLeft:10}}>{coupon.productVariant.name}</span>
+                                </span>
+                                ) : (
+                                    <span className="fw-5" style={{marginLeft:15}}>{coupon.productVariant.name}</span>
+                                )}
+                                {coupon.ingredientsModifiablesStates.length > 0 && (
+                                    <div style={{fontSize:12, marginLeft:15}}>
+                                        {coupon.ingredientsModifiablesStates.map((elt:string, index) => (
+                                            <span key={index}>{elt}<br/></span>
+                                        ))}
+                                    </div>
+                                )}
+                                </span>
+                            <br/>
+                        </div>
+                        )
                 ))}
 
                 {/*<br/>
@@ -95,4 +134,4 @@ function PreparationCommandBox(props:PropsType) {
         </>
     )
 }
-export default PreparationCommandBox
+export default PreparationCommandBoxForOrderDetail

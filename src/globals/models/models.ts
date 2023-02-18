@@ -72,7 +72,7 @@ export class PreparationProcessModel {
     orderDetail: Order ;
     orderCooking: Order ;
     ticketQuantity: number ;
-    listFinishedOrder: Order[] ;
+    listFinishedOrders: Order[] ;
     orderWaintingMilliseconde: any ; //orderWaintingMilliseconde[orderId] = millisecondePast
     orderCookingMilliseconde: {orderId:string, millisecondePast:number} ;
     orderPausedMilliseconde: {orderId:string, millisecondePast:number}[] ;
@@ -142,6 +142,7 @@ export class Order {
     isFoodReady: boolean;
     totalCost: number;
     coupons: Coupon[];
+    couponsReadyIds?: string[];
     notificationID: string ; // To change notification attribut isDone directement in Backend, avoiding send 2 requests
     /****************** TO ADD *******************/
     tableNumberOfPerson: number ;

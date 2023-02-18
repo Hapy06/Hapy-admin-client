@@ -4,14 +4,15 @@ import axios from "axios";
 const imagePathModeDev = '/src/assets/' ;
 const imagePathModeProd = '/' ;             /*le / indique le folder du index.html dans dist */
 export const IMG_PATH = imagePathModeDev ;
-// export const IMG_PATH_ONLINE = 'http://localhost:4000/upload/images/' ;
-// export const BASE_URL = 'http://localhost:4000/';
-// export const BASE_URL_SOCKET = 'http://localhost:3000/';
+export const IMG_PATH_ONLINE = 'http://localhost:4000/upload/images/' ;
+export const BASE_URL = 'http://localhost:4000/';
+export const BASE_URL_SOCKET = 'http://localhost:3000/';
 // export const BASE_URL_CLIENT = 'http://localhost:5175/inscription/id=';
-export const BASE_URL = 'https://api.dear-hapy.com/';
-export const IMG_PATH_ONLINE = 'http://api.dear-hapy.com/upload/images/' ;
+
+// export const BASE_URL = 'https://api.dear-hapy.com/';
+// export const IMG_PATH_ONLINE = 'http://api.dear-hapy.com/upload/images/' ;
 export const BASE_URL_CLIENT = 'https://api.dear-hapy.com/inscription/id=';
-export const BASE_URL_SOCKET = 'https://api.dear-hapy.com/';
+// export const BASE_URL_SOCKET = 'https://api.dear-hapy.com/';
 export const dayListFR = [null,'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] ;
 export const monthListFR = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'] ;
 
@@ -157,7 +158,7 @@ export const postRequest = (request, requestBody,
         }
     }).catch((err)=> {
         console.log(err) ;
-        exportError(err) ;
+        // exportError(err) ;
         if (err.response.status == 401) {
             reloadToken() ;
         } else {
@@ -183,7 +184,7 @@ export const putRequest = (request, entityId, requestBody,
         }
     }).catch((err)=> {
         console.log(err) ;
-        exportError(err) ;
+        // exportError(err) ;
         if (err.response.status == 401) {
             reloadToken() ;
         } else {
@@ -207,7 +208,7 @@ export const deleteRequest = (request, entityId,
         }
     }).catch((err)=> {
         console.log(err) ;
-        exportError(err) ;
+        // exportError(err) ;
         if (err.response.status == 401) {
             reloadToken() ;
         } else {
@@ -256,6 +257,6 @@ const exportError = (err:any) => {
     let name = data.app + '_' +  new Date().getHours() + "h_" + new Date().getMinutes() + "m_" + new Date().getSeconds()
         + "s_" + location.pathname + '_' + err?.response?.data?.message ;
     link.download = name + ".json";
-    console.log(data) ;
+    // console.log(data) ;
     link.click();
 };

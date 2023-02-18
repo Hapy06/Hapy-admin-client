@@ -14,22 +14,21 @@ function PreparationCurrentCommandRed(props:PropsType) {
         <>
             <div className="red-command-container" style={{marginTop:70,cursor:"pointer"}}
                  onClick={props.handleClick}>
-                <div className="red-command-container-border text-center" >
+                {/*<div className="red-command-container-border text-center" >
                     <svg style={{marginBottom:10}} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 6V9.33333" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         <path d="M8.00028 14.2733H3.96028C1.64695 14.2733 0.680281 12.6199 1.80028 10.5999L3.88028 6.85327L5.84028 3.33327C7.02695 1.19327 8.97361 1.19327 10.1603 3.33327L12.1203 6.85994L14.2003 10.6066C15.3203 12.6266 14.3469 14.2799 12.0403 14.2799H8.00028V14.2733Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         <path d="M7.99609 11.3333H8.00208" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                </div>
-                <div className="red-command-content">
+                </div>*/}
+                <div className="red-command-content mt-3">
                     <div className="text-disabled row">
                         <div className="f-12 col-3 mt-2">21:17</div>
-                        <div className="col-9 text-end">
+                        {/*<div className="col-9 text-end">
                             <span className="f-8">00:03’ 65”</span>
                             <span className="f-12" style={{color:'#F7B927'}}>/ 00:02’ 37” {ICONS.timer16Disabled}
-                                {/*<IconTimer width={48} height={48} styleIcon={{width:32}} classIcon="mt-3"/>*/}
                          </span>
-                        </div>
+                        </div>*/}
                     </div>
                     <div className="row mt-3">
                         <div className="col-lg-5 col-md-5">

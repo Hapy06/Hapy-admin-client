@@ -8,7 +8,7 @@ const getOrders = () =>
   {
     return new Promise( async ( resolve, reject ) =>
     {
-      await get(`${_ORDER_URL}?page=0&size=100&sort=asc`)
+      await get(`${_ORDER_URL}?institutionID=`)
         .then( async ( response ) =>resolve( response.data ))
         .catch( err => reject( err ) );
     } );

@@ -41,10 +41,10 @@ function Preparation_Top(props:PropsType) {
         }, 500)
     } ;
 
-    useEffect(() => {
-        /*if (!location.pathname.includes('home')) {
+    /*useEffect(() => {
+        /!*if (!location.pathname.includes('home')) {
             location.pathname = 'home' ;
-        }*/
+        }*!/
         getOrders()
          .then((response:any) => {
             let preparationProcess = getProcessStored('preparationProcess');
@@ -60,7 +60,7 @@ function Preparation_Top(props:PropsType) {
           })
          .catch(error => console.log(error))
 
-    }, []) ;
+    }, []) ;*/
 
 
     return (
@@ -71,7 +71,7 @@ function Preparation_Top(props:PropsType) {
                 <div className="row">
                     <div className="col-6 row" style={{cursor:"pointer"}} onClick={()=>navigate('/preparation')}>
                     <div className="col-6">
-                        <h1>{getAdminProcessValues("userLogged")?.role || "Poste en Ciusine"}</h1>
+                        <h1>{getAdminProcessValues("userLogged")?.position || "Poste en Cuisine"}</h1>
                         <span className="text-orange">{getAdminProcessValues("userLogged")?.firstName || "hâpy"}</span> <span>{getAdminProcessValues("userLogged")?.lastName || "HAPY"}</span>
                     </div>
                     <div className="col-5 mt-3">

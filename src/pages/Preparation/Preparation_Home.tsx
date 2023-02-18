@@ -11,7 +11,7 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 import {preparationContext} from "./PreparationContainer";
 import io from "socket.io-client";
 
-import { getOrders, getCoupons, getOrdersLocal } from './services';
+import {Simulate} from "react-dom/test-utils";
 
 type PropsType = {
 }
@@ -26,61 +26,37 @@ function Preparation_Home(props:PropsType) {
     // const socketOpenOrder = io(BASE_URL);
 
     useEffect(() => {
-        /*if (!location.pathname.includes('home')) {
-            location.pathname = 'home' ;
-        }*/
-        let preparationProcess = getProcessStored('preparationProcess');
-        if(!preparationProcess?.orders){
-            getOrders()
-            .then((response:any) => {
-               let preparationProcess = getProcessStored('preparationProcess');
-               preparationProcess = { ...preparationProcess, orders: response.items }
-               setProcessStored('preparationProcess', preparationProcess);
-               console.log(preparationProcess);
-             })
-            .catch(error => console.log(error));
-        }
-        
-         getCoupons()
-         .then((response: any) => {
-            //setOrderNumber(response.ticketNumber);
-            //setCouponNumber(response.coupons.length);
-          })
-         .catch(error => console.log(error))
-
-         getOrdersLocal()
-         .then((response: any) => {
-            setOrders(response.orders);
-            //setCouponNumber(response.coupons.length);
-          })
-         .catch(error => console.log(error))
-
+        if (!preparationProcess.listAllOrders || preparationProcess.listAllOrders?.length == 0) handleLoadData() ;
     }, []) ;
 
-    /*useEffect(() => {
-        socketOpenOrder.on('orderAdded', (data) => {
-            // GET ADDED ORDER
-            // UPDATE ORDER LIST
-            // UPDATE ORDER LIST IN LOCALSTORAGE
-        });
-    }, [socketOpenOrder])*/
 
     const handleLoadData = () => {
-            console.log(preparationProcess) ;
-        return axios.get(BASE_URL + 'api/v1/managements/order?page=0&size=100&sort=asc',
+        return axios.get(BASE_URL + 'api/v1/managements/order?status=waiting&institutionID=' + getAdminProcessValues('userLogged').institution.id,
     { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
         console.log(response) ;
-        let temp = preparationProcess ;
-        temp.listAllOrders = response.data.data.items.filter((elt:Order) => !elt.isFoodReady ) ;
-        console.log(temp.listAllOrders) ;
-        // setProcessStored("preparationProcess", temp) ;
-        setPreparationProcess(temp) ;
-        if (temp.listAllOrders?.length == 0) {
-        setLoadMessageNotif("(Pas de commandes en cours)") ;
-    }
-        return true ;
-    })
-        .catch(error => {
+        if (response.status === 200 || response.status === 201 || response.status === 202 || response.status === 203 || response.status === 204) {
+            let listOrdersFromDB = response.data.data.response.items.sort((a,b) => a.createdAt < b.createdAt ? 1 : -1 ) ;
+            if (listOrdersFromDB?.length == 0) {
+                setLoadMessageNotif("(Pas de commandes en cours)") ;
+            } else {
+                let temp = {...preparationProcess}
+                if (!temp.listAllOrders) temp.listAllOrders = [] ;
+                if (!temp.listWaitingOrders) temp.listWaitingOrders = [] ;
+                listOrdersFromDB.forEach((order:Order) => {
+                    if ( temp?.listAllOrders?.some((elt:Order) => elt.id == order.id) == false)
+                    { temp.listAllOrders.push(order) ;
+                    temp.listWaitingOrders.push(order) ; }
+                }) ;
+                if (!temp.orderCooking) {
+                    temp.orderCooking = temp.listWaitingOrders.pop() ;
+                    temp.orderCooking.status = 'cooking' ;
+                }
+                setProcessStored("preparationProcess", temp) ;
+                setPreparationProcess({...temp}) ;
+            }
+            return true ;
+        }
+    }).catch(error => {
         console.error(error);
         setLoadMessageNotif('(Erreur de Chargement, Veuillez ressayez...)');
         throw error; });
@@ -91,8 +67,7 @@ function Preparation_Home(props:PropsType) {
         temp.orderDetail = order ;
         setProcessStored("preparationProcess", temp) ;
         setPreparationProcess({...temp}) ;
-        const state = {temp};
-        navigate('/preparation/order', {state}) ;
+        navigate('/preparation/order') ;
     } ;
 
     const handleOpenModal = (modalToOpen) => {
@@ -173,7 +148,7 @@ function Preparation_Home(props:PropsType) {
                             </div>
                             <div className="col-4">
                                     <div className="fw-3 mb-1" style={{fontSize:8, marginLeft:15}}>Envoyé</div>
-                                    <span className="fw-8">{preparationProcess.listFinishedOrder?.length || 0}</span>
+                                    <span className="fw-8">{preparationProcess.listFinishedOrders?.length || 0}</span>
                                     <span style={{marginLeft:4}}>
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M14.4404 19.05L15.9604 20.57L19.0004 17.53" stroke="#323232" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -185,9 +160,9 @@ function Preparation_Home(props:PropsType) {
                         </div>
                         <br/>
                         <div className="col-lg-12 row mt-5">
-                            {/* preparationProcess.listWaitingOrders */orders?.map((order:Order, index:number) => (
+                            {preparationProcess?.listWaitingOrders?.map((order:Order, index:number) => (
                                 <div className="col-lg-6 col-md-12" key={index}>
-                                    <PreparationCommandBox key={index} order={order} handleClick={()=>handleOrderClicked(order)}/>
+                                    <PreparationCommandBox order={order} handleClick={()=>handleOrderClicked(order)}/>
                                 </div>
                             ) )}
                         </div>

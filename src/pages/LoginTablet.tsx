@@ -20,7 +20,7 @@ type AuthBody = {
 
 function LoginTablet(props:PropType) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
-    const [authBody, setAuthBody] = useState<AuthBody>({email:'', password:''});
+    const [authBody, setAuthBody] = useState<AuthBody>({email:'lala@gmail.com', password:'azerty12345'});
     const [showError, setShowError] = useState<boolean>(false) ;
     const [errorMessage, setErrorMessage] = useState<string>('') ;
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
@@ -38,43 +38,27 @@ function LoginTablet(props:PropType) {
 
     const handleLogin = () => {
         showErrorFunction("Connexion en cours...", 'text-success') ;
+        console.log(authBody)
         axios.post(BASE_URL + 'api/v1/auth/login',authBody).then((response:any) => {
             console.log(response) ;
             if (response.status == 200 || response.status == 201 || response.status == 202) {
                 // console.log(institutionId) ;
                 homeProcess.authToken = response.data.data.token ;
                 setAdminProcessValues("authToken", response.data.data.token) ;
-                getRequest('api/v1/team-members/current',
-                    (res)=> {
-                        let user:TeamMember = res.data.data.teamMembers ;
-                        user.institution.institutionCategory = null ;
-                        user.institution.teamMembers = null ;
-                        user.institution.productCategories = null ;
-                        user.institution.roomStations = null ;
-                        user.institution.barStations = null ;
-                        user.institution.cuisineStations = null ;
-                        user.institution.ingredientCategories = null ;
-                        user.institution.ingredients = null ;
-                        user.institution.categoryOnMenus = null ;
-                        user.institution.objectifs = null ;
-                        // console.log(user) ;
-                        if (user.position == "Chef de Rang") {
-                            showErrorFunction('Veuillez vous connecter sur votre smartphone !') ;
-                        } else if (user.position == "Serveur") {
-                            showErrorFunction('Veuillez vous connecter sur votre smartphone !') ;
-                        } else {
-                            showErrorFunction("Connexion Reussie, Redirection...", "text-success", 10000) ;
-                            localStorage.setItem('isLoggedin', 'true') ;
-                            setAdminProcessValues("userLogged", user) ;
-                            setTimeout(()=>{
-                                props.handleAfterLogged(user.position);
-                            }, 1000) ;
-                        }
-                    },
-                    (err)=>{
-                        setErrorMessageColor("text-danger") ;
-                        showErrorFunction("Erreur de Chargement, Veuillez Ressayer... !") ;
-                    }) ;
+                let user:TeamMember = response.data.data.teamMember ;
+                // console.log(user) ;
+                if (user.position == "Chef de Rang") {
+                    showErrorFunction('Veuillez vous connecter sur votre smartphone !') ;
+                } else if (user.position == "Serveur") {
+                    showErrorFunction('Veuillez vous connecter sur votre smartphone !') ;
+                } else {
+                    showErrorFunction("Connexion Reussie, Redirection...", "text-success", 10000) ;
+                    localStorage.setItem('isLoggedin', 'true') ;
+                    setAdminProcessValues("userLogged", user) ;
+                    setTimeout(()=>{
+                        props.handleAfterLogged(user.position);
+                    }, 1000) ;
+                }
             } else { showErrorFunction("Erreur de Chargement, Veuillez Ressayer... !") ; }
         }).catch(()=> {showErrorFunction('Vos identifiants sont incorrects !') ;})
     } ;

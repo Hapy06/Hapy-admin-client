@@ -31,9 +31,9 @@ function PreparationContainer() {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!preparationProcess.orderDetail) {
-      setPreparationProcess(getProcessStored("preparationProcess")) ;
+      // setPreparationProcess(getProcessStored("preparationProcess")) ;
     }
-    if (!preparationProcess.listAllOrders) {
+    /*if (!preparationProcess.listAllOrders) {
       let temp = {...preparationProcess} ;
       temp.orderWaintingMilliseconde = {} ;
       let arr: Order[] = [] ;
@@ -55,9 +55,9 @@ function PreparationContainer() {
       temp.orderCooking = arr.find(elt => elt.status == "cooking") ;
       setPreparationProcess({...temp}) ;
     }
-    console.log(preparationProcess) ;
+    console.log(preparationProcess) ;*/
 
-    /************************ SOCKET FOR OPEN TABLE DEMANDS ****************************/
+    /************************ SOCKET FOR COMMANDS ****************************/
     /*socket.on('connect', () => {
       console.log('connected Preparation socket !') ;
       socket.emit("source", payloadForSocket);
@@ -93,58 +93,6 @@ function PreparationContainer() {
     // socketOpenTable.emit("cdr confirm table openning", newNotif.tableId);
   } ;
 
-  // const [count, setCount] = useState(0) ;
-  const pageVariants = {
-    initial: {
-      opacity: 0
-    },
-    in: {
-      opacity: 1
-    },
-    out: {
-      opacity: 0
-    }
-  };
-
-  const pageTransition = {
-    type: "tween",
-    ease: "linear",
-    duration: 0.5
-  };
-
-  const PageLayout = ({ children }) => children;
-
-  const AnimationLayout = () => {
-    const { pathname } = useLocation();
-    return (
-        <PageLayout>
-          <motion.div
-              key={pathname}
-              initial="initial"
-              animate="in"
-              variants={pageVariants}
-              transition={pageTransition}
-          >
-            <Outlet />
-          </motion.div>
-        </PageLayout>
-    );
-  };
-
-  /*const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <AnimationLayout />,
-      children: [
-        {path: "/", element: <Preparation_Home/>},
-        {path: "/home", element: <Preparation_Home/>},
-        {path: "/preparation", element: <Preparation_Home/>},
-        {path: "/preparation/order", element: <Preparation_Attente/>},
-        {path: "/preparation/poste", element: <Preparation_Perte/>},
-        {path: "/!*", element: <Preparation_Home/> }
-      ]
-    }
-  ]);*/
 
   const router = createBrowserRouter([
     {path: "/", element: <Preparation_Home/>},

@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Preparation_Top from "./Preparation_Top";
 import IconTimer2 from "../../globals/icons-components/IconTimer2";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
@@ -8,22 +8,19 @@ import IconVerify from "../../globals/icons-components/IconVerify";
 import PreparationCommandBox from "./PreparationCommandBox";
 import {PreparationProcessModel} from "../../globals/models/models";
 import {preparationContext} from "./PreparationContainer";
+import PreparationCommandBoxForOrderDetail from "./PreparationCommandBoxForOrderDetail";
 
 type PropsType = {
 }
 
 function Preparation_Attente(props:PropsType) {
-    const location = useLocation() ;
     const navigate = useNavigate() ;
-    const [preparationProcess, setPreparationProcess] = useState(location.state.temp); //useContext<{preparationProcess:PreparationProcessModel, setPreparationProcess: any}>(preparationContext) ;
-    const [pause, setPause] = useState<boolean>(false);
+    const {preparationProcess, setPreparationProcess} =  useContext<{preparationProcess:PreparationProcessModel, setPreparationProcess: any}>(preparationContext) ;
     const [blurBG, setBlurBG] = useState<string>('');
     const [isModalOpened, setIsModalOpened] = useState<{state:boolean,modalToOpen:any}>({state:false,modalToOpen:null});
     const [showError, setShowError] = useState<boolean>(false) ;
     const [errorMessage, setErrorMessage] = useState<string>('') ;
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
-
-    console.log(location)
 
     const handleOpenModal = (modalToOpen) => {
         setBlurBG('blur-bg') ;
@@ -39,32 +36,41 @@ function Preparation_Attente(props:PropsType) {
         let temp = preparationProcess ;
         if (temp.orderDetail.status == "cooking") {
             temp.orderDetail.status = 'pause' ;
+            if (!temp.listPausedOrders) temp.listPausedOrders = [] ;
             temp.listPausedOrders.push(temp.orderDetail) ;
-            temp.orderCooking = null ;
-            showErrorFunction("Mise en pause !")
+            temp.orderCooking = temp.listWaitingOrders.shift() ;
+            showErrorFunction("Mise en pause !") ;
         } else {
             if (temp.orderCooking) {
-                showErrorFunction('Une commande est déjà en préparation !', "text-danger") ;
-            } else {
-                temp.orderDetail.status == "waiting" ?
-                    temp.listWaitingOrders = temp.listWaitingOrders.filter(order => order.notificationID != temp.orderDetail.notificationID) :
-                    temp.listPausedOrders = temp.listPausedOrders.filter(order => order.notificationID != temp.orderDetail.notificationID) ;
+                let tempOrder = {...temp.orderCooking} ;
+                tempOrder.status = 'pause' ;
+                temp.listPausedOrders.unshift(tempOrder) ;
+                temp.listPausedOrders = temp.listPausedOrders.filter(order => order.id != temp.orderDetail.id) ;
+                temp.orderDetail.status = 'cooking' ;
                 temp.orderCooking = temp.orderDetail ;
-                temp.orderCooking.status = 'cooking' ;
-                showErrorFunction('La commande est lancée !') ;
+            } else {
+                temp.listPausedOrders = temp.listPausedOrders.filter(order => order.id != temp.orderDetail.id) ;
+                temp.orderDetail.status = 'cooking' ;
+                temp.orderCooking = temp.orderDetail ;
             }
+                showErrorFunction("Reprise de la commande !", "text-success");
         }
         setPreparationProcess(temp) ;
     } ;
 
     const handleClickValidate = () => {
-        let temp = preparationProcess ;
+        let temp = {...preparationProcess} ;
         temp.orderCooking.status = "finished" ;
         temp.orderCooking.finishedAt = new Date() ;
         temp.orderCooking.endTime = new Date().getHours() + ':' + new Date().getMinutes() ;
-        temp.orderCooking = null ;
-        setPreparationProcess(temp) ;
-        navigate('/preparation') ;
+        if (!temp.listFinishedOrders) temp.listFinishedOrders = [] ;
+        temp.listFinishedOrders.push(temp.orderCooking) ;
+        console.log(temp) ;
+        // setPreparationProcess({...temp}) ;
+        // navigate('/home') ;
+        /*temp.orderCooking = temp.listWaitingOrders.pop() ;
+        temp.orderCooking.status = 'cooking' ;
+        temp.orderDetail = temp.orderCooking ;*/
     } ;
 
     const showErrorFunction = (errorMessage: string, color:'text-success' | 'text-danger' = "text-success" , timeout: number = 5000) => {
@@ -76,7 +82,12 @@ function Preparation_Attente(props:PropsType) {
         }, timeout) ;
     } ;
 
-    useEffect(()=>{},[])
+    const handleSelectCoupon = (couponsReadyIds: string[]) => {
+        // avoid error to push in undefined array
+        if (!preparationProcess.orderCooking.couponsReadyIds) preparationProcess.orderCooking.couponsReadyIds = [] ;
+        preparationProcess.orderCooking.couponsReadyIds = couponsReadyIds ;
+        console.log(preparationProcess.orderCooking.couponsReadyIds) ;
+    }
 
     return (
         <>
@@ -99,7 +110,13 @@ function Preparation_Attente(props:PropsType) {
                     </div>
                     <div className="row">
                         <div className="col-lg-3 col-md-4 mt-5">
-                            <PreparationCommandBox order={preparationProcess.orderDetail} borderOrange={true} removePauseIcon={true} handleClick={() => navigate('/preparation/1')}/>
+                            {preparationProcess.orderDetail.status == 'cooking' ? (
+                                <PreparationCommandBoxForOrderDetail order={preparationProcess.orderDetail} handleSelectedCoupon={(couponId) => handleSelectCoupon(couponId)}
+                                                                     borderOrange={true} removePauseIcon={true} handleClick={null}/>
+                            ) : (
+                                <PreparationCommandBox order={preparationProcess.orderDetail}
+                                                                     borderOrange={true} removePauseIcon={true} handleClick={null}/>
+                            ) }
                         </div>
                         <div className="col-lg-3 col-md-4"> </div>
                         {/*All COMMAND LIST COL */}
@@ -144,9 +161,11 @@ function Preparation_Attente(props:PropsType) {
                                 <br/> <br/>
                                 <div className="float-end" style={{marginTop:96}}>
                                     {showError && (<div className={"mb-3 -mt-4 text-center " + errorMessageColor}>{errorMessage}</div>)}
-                                    <HapyButtonWithIcon handleClick={handleClickPause} iconComponent={<IconTimer2/>}
-                                                        text={preparationProcess.orderDetail.status == "waiting" ? ("Demarrer") :
-                                                            ( preparationProcess.orderDetail.status == "pause" ? "En attente" : "Mettre en attente")} btnWidth={366}/>
+                                    {preparationProcess.orderDetail.status != "waiting" && (
+                                        <HapyButtonWithIcon handleClick={handleClickPause} iconComponent={<IconTimer2/>}
+                                                        text={( preparationProcess.orderDetail.status == "pause" ? "En attente" : "Mettre en attente")} btnWidth={366}/>
+
+                                    )}
                                 </div>
                                 {(preparationProcess.orderDetail == preparationProcess.orderCooking
                                     && preparationProcess.orderCooking.status == "cooking") && (
@@ -155,10 +174,10 @@ function Preparation_Attente(props:PropsType) {
                                                             text={"Valider"} btnWidth={366}/>
                                     </div>
                                 )}
-                                <div className="float-end" style={{marginTop:64}}>
+                                <div className="float-end" style={{marginTop:96}}>
                                     <HapyButtonWithIcon text="Retour à votre gestion" handleClick={()=>{navigate('/preparation')}}
                                                         btnWidth={366}
-                                                        iconComponent={<IconArrowLeft width={32} height={32}/>}/>
+                                                        iconComponent={<IconArrowLeft classIcon={"mt-2"} width={32} height={32}/>}/>
                                 </div>
                             </div>
                         </div>
