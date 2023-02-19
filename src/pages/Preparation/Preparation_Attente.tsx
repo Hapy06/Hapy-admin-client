@@ -9,6 +9,7 @@ import PreparationCommandBox from "./PreparationCommandBox";
 import {PreparationProcessModel} from "../../globals/models/models";
 import {preparationContext} from "./PreparationContainer";
 import PreparationCommandBoxForOrderDetail from "./PreparationCommandBoxForOrderDetail";
+import {API_REQUEST_ORDER, putRequest} from "../../globals/GlobalVariables";
 
 type PropsType = {
 }
@@ -63,9 +64,26 @@ function Preparation_Attente(props:PropsType) {
         temp.orderCooking.status = "finished" ;
         temp.orderCooking.finishedAt = new Date() ;
         temp.orderCooking.endTime = new Date().getHours() + ':' + new Date().getMinutes() ;
+        if (!temp.orderCooking.couponsReadyIds) temp.orderCooking.couponsReadyIds = [] ;
+        temp.orderCooking.coupons.forEach(coupon => {
+            temp.orderCooking.couponsReadyIds.push(coupon.id) ;
+        }) ;
         if (!temp.listFinishedOrders) temp.listFinishedOrders = [] ;
         temp.listFinishedOrders.push(temp.orderCooking) ;
         console.log(temp) ;
+        /*putRequest(API_REQUEST_ORDER + '' , temp.orderCooking.id, temp.orderCooking, ((response) => {
+            console.log(response) ;
+            if (response.status == 200) {
+                temp.orderCooking = temp.listWaitingOrders.shift() ;
+                temp.orderDetail = temp.orderCooking ;
+                setPreparationProcess(temp) ;
+                showErrorFunction("Commande validée !", "text-success") ;
+            } else {
+                showErrorFunction("Erreur lors de la validation de la commande !", "text-danger") ;
+            }
+        }), ((error) => {
+
+        }) ;*/
         // setPreparationProcess({...temp}) ;
         // navigate('/home') ;
         /*temp.orderCooking = temp.listWaitingOrders.pop() ;
@@ -81,13 +99,6 @@ function Preparation_Attente(props:PropsType) {
             setShowError(false) ;
         }, timeout) ;
     } ;
-
-    const handleSelectCoupon = (couponsReadyIds: string[]) => {
-        // avoid error to push in undefined array
-        if (!preparationProcess.orderCooking.couponsReadyIds) preparationProcess.orderCooking.couponsReadyIds = [] ;
-        preparationProcess.orderCooking.couponsReadyIds = couponsReadyIds ;
-        console.log(preparationProcess.orderCooking.couponsReadyIds) ;
-    }
 
     return (
         <>
@@ -110,13 +121,8 @@ function Preparation_Attente(props:PropsType) {
                     </div>
                     <div className="row">
                         <div className="col-lg-3 col-md-4 mt-5">
-                            {preparationProcess.orderDetail.status == 'cooking' ? (
-                                <PreparationCommandBoxForOrderDetail order={preparationProcess.orderDetail} handleSelectedCoupon={(couponId) => handleSelectCoupon(couponId)}
-                                                                     borderOrange={true} removePauseIcon={true} handleClick={null}/>
-                            ) : (
-                                <PreparationCommandBox order={preparationProcess.orderDetail}
-                                                                     borderOrange={true} removePauseIcon={true} handleClick={null}/>
-                            ) }
+                            <PreparationCommandBox order={preparationProcess.orderDetail}
+                                                   borderOrange={true} removePauseIcon={true} handleClick={null}/>
                         </div>
                         <div className="col-lg-3 col-md-4"> </div>
                         {/*All COMMAND LIST COL */}

@@ -7,7 +7,7 @@ import HapyMobileTop from "../../components/HapyMobileTop";
 import {CDRProcessModel, Coupon, Order, SimpleCommand} from "../../globals/models/models";
 import {cdrProcessContext} from "./ChefDeRangContainer";
 import {
-    API_REQUEST_NOTIFICATION,
+    API_REQUEST_NOTIFICATION, API_REQUEST_ORDER,
     deleteRequest,
     getAdminProcessValues,
     postRequest,
@@ -59,8 +59,7 @@ function ChefDeRang02_TableListCommand(props) {
         }) ;
         console.log("New Order => ") ;
         console.log(order) ;
-        exportData(order) ;
-        postRequest('api/v1/managements/order', order,
+        postRequest(API_REQUEST_ORDER + '/create', order,
             ()=> {
                 temp.listNotifs =
                 temp.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Index = ({index, coupon}) => {
-    if(coupon.cookingStation != "Bar"){
+    if(/*coupon.cookingStation != "Bar"*/true){
         return (
             <div key={index} className={coupon.isPregnant ? "row fw-5 mb-3 mt-4" : "row fw-5 mb-3"}>
                                 <span className="col-1">1</span>
