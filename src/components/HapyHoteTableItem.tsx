@@ -14,9 +14,17 @@ type PropsType = {
 }
 
 function HapyHoteTableItem(props:PropsType) {
+    let btnClass = 'hapy-btn-with-icon text-center';
+    if (props.status == 'close') {
+        btnClass = 'hapy-btn-with-icon text-center';
+    } else if (props.status == 'unavailable') {
+        btnClass = 'hapy-btn-with-icon text-center border-red';
+    } else {
+        btnClass = 'hapy-btn-with-icon text-center border-green';
+    }
     return (
         <>
-            <button className={props.status == 'close' ? 'hapy-btn-with-icon text-center' : 'hapy-btn-with-icon text-center border-green'} onClick={props.handleClick}
+            <button className={ btnClass } onClick={props.handleClick}
                     style={{width:props.btnWidth, marginLeft:props.marginLeft, marginRight:props.marginRight,
                             marginBottom:props.marginBottom, marginTop:props.marginTop}}>
                 { props.isChecked && (
@@ -35,7 +43,7 @@ function HapyHoteTableItem(props:PropsType) {
                             <path d="M24.5299 28.1334H24.5359" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
                             <path d="M24.5299 30.1334H24.5359" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
                             <defs>
-                            <filter id="filter0_d_630_2661" x="0" y="0" width="54" height="54" filterUnits="userSpaceOnUse" colorInterpolation-filters="sRGB">
+                            <filter id="filter0_d_630_2661" x="0" y="0" width="54" height="54" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                             <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                             <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                             <feMorphology radius="3" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_630_2661"/>

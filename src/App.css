@@ -691,6 +691,10 @@
   background: #424242;
 }
 
+.border-red {
+  border: 2px solid #FF6063;
+}
+
 .hapy-modal {
   position: absolute;
   background-color: white;

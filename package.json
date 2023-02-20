@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fontsource/poppins": "^4.5.10",
+    "@mui/x-date-pickers": "^5.0.19",
     "axios": "^1.2.2",
     "bootstrap": "^5.2.3",
     "date-fns": "^2.29.3",
