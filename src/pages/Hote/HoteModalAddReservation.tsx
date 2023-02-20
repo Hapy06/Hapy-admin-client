@@ -108,8 +108,8 @@ function HoteModalAddReservation(props:PropsType) {
                                        inputValue={newBooking.dateOfreservation} handleChange={handleForm}/>*/}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
-                        renderInput={(props) => <TextField {...props} className="hapy-input" />}
-                        label="DateTimePicker"
+                        renderInput={(props) => <TextField {...props} style={{width:366, borderRadius:20, border: '1px solid gray'}} />}
+                        label=""
                         value={newBooking.dateOfreservation}
                         onChange={(newValue) => {
                             setNewBooking({...newBooking, dateOfreservation: newValue});

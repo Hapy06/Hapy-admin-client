@@ -6,6 +6,7 @@ import {preparationContext} from "./PreparationContainer";
 import {timerReducer} from "react-timer-and-stopwatch/dist/reducers/timer-reducer";
 
 import { CouponCard } from './components';
+import {screenHeightPourcent} from "./Preparation_Top";
 
 type PropsType = {
     handleClick?:any ;
@@ -41,7 +42,7 @@ function PreparationCommandBox(props:PropsType) {
 
     return (
         <>
-            <div className="current-command-container" style={{cursor:"pointer", border: props.borderOrange ? "2px solid #F7B927" : ""}} onClick={props.handleClick}>
+            <div className="current-command-container" style={{cursor:"pointer", border: props.borderOrange ? "2px solid #F7B927" : "", height: screenHeightPourcent(55)}} onClick={props.handleClick}>
                 <div className="text-disabled row">
                     <div className="f-12 col-3 mt-2">{props.order.startTime}</div>
                     <div className="col-9 text-end">

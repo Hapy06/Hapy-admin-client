@@ -4,7 +4,7 @@ import IconTimer2 from "../../globals/icons-components/IconTimer2";
 import PreparationCommandBox from "./PreparationCommandBox";
 import PreparationCurrentCommandRed from "./PreparationCurrentCommandRed";
 import {useNavigate} from "react-router";
-import {Order, PreparationProcessModel} from "../../globals/models/models";
+import {NotificationHapy, Order, PreparationProcessModel} from "../../globals/models/models";
 import axios from "axios";
 import { BASE_URL, getAdminProcessValues, getProcessStored, setProcessStored } from '../../globals/GlobalVariables';
 import PullToRefresh from "react-simple-pull-to-refresh";
@@ -12,6 +12,9 @@ import {preparationContext} from "./PreparationContainer";
 import io from "socket.io-client";
 
 import {Simulate} from "react-dom/test-utils";
+import IconKey from "../../globals/icons-components/IconKey";
+import IconOrder from "../../globals/icons-components/IconOrder";
+import {ScrollMenu} from "react-horizontal-scrolling-menu";
 
 type PropsType = {
 }
@@ -160,12 +163,14 @@ function Preparation_Home(props:PropsType) {
                             </div>
                         </div>
                         <br/>
-                        <div className="col-lg-12 row mt-5">
-                            {preparationProcess?.listWaitingOrders?.slice(0,4).map((order:Order, index:number) => (
-                                <div className="col-lg-6 col-md-12" key={index}>
-                                    <PreparationCommandBox order={order} handleClick={()=>handleOrderClicked(order)}/>
-                                </div>
-                            ) )}
+                        <div className="mt-5">
+                            <ScrollMenu scrollContainerClassName="scroll-and-hidden pl-2" >
+                                {preparationProcess?.listWaitingOrders?.map((order:Order, index:number) => (
+                                    <div key={index} style={{width:366, marginRight:16}} >
+                                        <PreparationCommandBox order={order} handleClick={()=>handleOrderClicked(order)}/>
+                                    </div>
+                                ) )}
+                            </ScrollMenu>
                         </div>
                         {/*<div className="list-command-container" style={{marginTop:66, marginLeft:16}}>
                             <div className="row">
