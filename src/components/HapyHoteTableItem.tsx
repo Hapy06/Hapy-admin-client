@@ -1,5 +1,6 @@
 import React from 'react' ;
 
+
 type PropsType = {
     handleClick: any ;
     number:number | string;

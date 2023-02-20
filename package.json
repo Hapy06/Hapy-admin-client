@@ -9,11 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@fontsource/poppins": "^4.5.10",
+    "@mui/material": "^5.4.1",
+    "@mui/styled-engine": "latest",
+    "@mui/system": "^5.4.1",
     "@mui/x-date-pickers": "^5.0.19",
     "axios": "^1.2.2",
     "bootstrap": "^5.2.3",
     "date-fns": "^2.29.3",
+    "dayjs": "^1.11.7",
     "firebase": "^9.15.0",
     "framer-motion": "6.2.9",
     "react": "^18.2.0",

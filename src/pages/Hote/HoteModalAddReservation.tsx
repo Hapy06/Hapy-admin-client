@@ -14,6 +14,7 @@ import addNotification from "react-push-notification";
 import Booking, {Table} from "../../globals/models/models";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {Input, TextField} from "@mui/material";
 
 type PropsType = {
     handleCloseModal: any ;
@@ -107,8 +108,7 @@ function HoteModalAddReservation(props:PropsType) {
                                        inputValue={newBooking.dateOfreservation} handleChange={handleForm}/>*/}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
-                        renderInput={(props) => <HapyInput inputName='dateOfreservation' label='Date de la réservation' inputType={"text"}
-                                                           inputValue={null} handleChange={null}/>}
+                        renderInput={(props) => <TextField {...props} className="hapy-input" />}
                         label="DateTimePicker"
                         value={newBooking.dateOfreservation}
                         onChange={(newValue) => {
