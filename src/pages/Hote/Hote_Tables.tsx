@@ -11,12 +11,20 @@ import HoteModalOpenTable from "./HoteModalOpenTable";
 import HoteModalAddReservation from "./HoteModalAddReservation";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import axios from "axios";
-import {BASE_URL, getAdminProcessValues} from "../../globals/GlobalVariables";
+import {
+    API_REQUEST_BOOKING,
+    API_REQUEST_ZONE_BY_INSTITUTION_ID,
+    BASE_URL,
+    getAdminProcessValues,
+    reloadToken
+} from "../../globals/GlobalVariables";
 import Booking, {Order, Table} from "../../globals/models/models";
 import {TeamMember, Zone} from "../../globals/models/Inscription.models";
 import addNotification from "react-push-notification";
 import HapyTableItemServeur from "../../components/HapyTableItemServeur";
 import HoteModalCloseTable from "./HoteModalCloseTable";
+import {Simulate} from "react-dom/test-utils";
+import loadedData = Simulate.loadedData;
 
 type PropsType = {
 }
@@ -27,34 +35,35 @@ function Hote_Tables(props:PropsType) {
 
     const [blurBG, setBlurBG] = useState<string>('');
     const [isModalOpened, setIsModalOpened] = useState<{state:boolean,modalToOpen:any}>({state:false,modalToOpen:null});
-    const [listZones, setListZones] = useState(/*getAdminProcessValues("userLogged").institution.zones || */[]) ;
+    const [listZones, setListZones] = useState([]) ;
     const [zoneToShow, setZoneToShow] = useState(null);
     const [zoneToShowIndex, setZoneToShowIndex] = useState(0);
     const navigate = useNavigate();
     const [error, setError] = useState<string>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [listAllTables, setListAllTables] = useState<Table[]>([]);
+    const [listBooking, setListBooking] = useState<Booking[]>([]);
 
     useEffect(()=>{
-        window.scrollTo(0, 0);
-        console.log(getAdminProcessValues("userLogged").institution.bookings) ;
-        let allZones: Zone[] = getAdminProcessValues("userLogged").institution.zones ;
-        let arr:Table[] = [] ;
-        allZones.forEach(zone => {
-            arr = arr.concat(zone.tableIds) ;
-        }) ;
-        setListAllTables(arr) ;
         handleLoadData() ;
     }, []) ;
 
     const handleLoadData = () => {
         setIsLoading(true) ;
-        return axios.get(BASE_URL + 'api/v1/team-members/current',
+        return axios.get(BASE_URL + API_REQUEST_ZONE_BY_INSTITUTION_ID + '/' + getAdminProcessValues("userLogged").institution.id,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
             console.log(response) ;
-            let user:TeamMember = response.data.data.teamMembers ;
-            if (user.institution.zones.length > 0) {
-                let arr = user.institution.zones.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
+            if (response.data.data.items.length > 0) {
+                handleLoadBookings() ;
+                let arr = response.data.data.items.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
+                arr.forEach((zone, index) => {
+                    zone.tableIds = zone.tableIds.sort((a,b) => a.tableNumber < b.tableNumber ? -1 : 1 ) ;
+                }) ;
+                let alltables: Table[] = [] ;
+                arr.forEach((zone, index) => {
+                    alltables = alltables.concat(zone.tableIds) ;
+                }) ;
+                setListAllTables(alltables) ;
                 setListZones(arr) ;
                 setZoneToShow(arr[0]) ;
             } else {
@@ -65,18 +74,28 @@ function Hote_Tables(props:PropsType) {
         })
             .catch(error => {
                 console.log(error);
-                setError("Erreur de chargement, Veuillez Réssayer !");
-                addNotification({
-                    title: 'Erreur lors du Chargement',
-                    subtitle: '',
-                    message: 'Veuillez Ressayez....',
-                    theme: 'red',
-                    native: true // when using native, your OS will handle theming.
-                });
+                if (error.response.status == 401) {
+                    reloadToken() ;
+                } else {
+                    setError("Erreur de chargement, Veuillez Réssayer !");
+                }
                 throw error; })
             .finally(() => {setIsLoading(false) ;});
 
     }
+
+    const handleLoadBookings = () => {
+        return axios.get(BASE_URL + API_REQUEST_BOOKING + '/byInstitutionId/' + getAdminProcessValues("userLogged").institution.id,
+            { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
+            console.log(response) ;
+            if (response.data.data.items.length > 0) {
+                setListBooking(response.data.data.items) ;
+            }
+            return true ;
+        }) .catch(error => {
+            console.error(error);
+            throw error; });
+    } ;
 
     const handleOpenModal = (modalToOpen) => {
         setBlurBG('blur-bg') ;
@@ -86,6 +105,7 @@ function Hote_Tables(props:PropsType) {
     const handleCloseModal = () => {
         setBlurBG('') ;
         setIsModalOpened({state:false,modalToOpen:null}) ;
+        handleLoadData() ;
     } ;
 
     const nextZone = () => {
@@ -119,7 +139,7 @@ function Hote_Tables(props:PropsType) {
     } ;
 
     const checkedIfReserved = (table:Table) => {
-        return getAdminProcessValues("userLogged").institution.bookings.some((booking:Booking) => {
+        return listBooking.some((booking:Booking) => {
             return booking.tableNumber == table.tableNumber ;
         })
     } ;
@@ -194,7 +214,7 @@ function Hote_Tables(props:PropsType) {
                                             <HapyHoteTableItem marginLeft={49} marginBottom={49} isChecked={checkedIfReserved(table)} status={table.status}
                                                                handleClick={checkedIfReserved(table) ? () => handleOpenModal(<HoteModalDetailReservation
                                                                    containerStyle={{marginTop: 100}} bookingDetail={
-                                                                   getAdminProcessValues("userLogged").institution.bookings.find((booking:Booking) => {
+                                                                   listBooking.find((booking:Booking) => {
                                                                        return booking.tableNumber == table.tableNumber ;
                                                                    })
                                                                }

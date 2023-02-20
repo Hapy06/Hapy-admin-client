@@ -12,7 +12,7 @@ import {TeamMember} from "../../globals/models/Inscription.models";
 
 function ReservationList(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
-    const [listBooking, setListBooking] = useState<Booking[]>(getAdminProcessValues("userLogged").institution.bookings || []);
+    const [listBooking, setListBooking] = useState<Booking[]>([]);
     const [loadMessage, setLoadMessage] = useState<string>("(Pas de reservations en cours)");
     const navigate = useNavigate();
 

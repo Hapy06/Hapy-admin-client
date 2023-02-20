@@ -31,7 +31,7 @@ function HoteModalCloseTable(props:PropsType) {
 
     const handleCloseTable = () => {
         showErrorFunction("Fermeture de la table...", "text-success", 10000) ;
-        putRequest(API_REQUEST_TABLE + '/update', props.tableDetail.id, {status: 'close'},
+        putRequest(API_REQUEST_TABLE + '/update', props.tableDetail.id, {status: 'close', statusForNewClient: 'close'},
             ()=> {setShowCloseTableValidated(true)},
             ()=>{showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")}) ;
     } ;

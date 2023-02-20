@@ -30,9 +30,6 @@ function HoteModalDetailReservation(props:PropsType) {
         showErrorFunction(MSG_SAVING, "text-success") ;
         putRequest(API_REQUEST_BOOKING, props.bookingDetail.id, {...props.bookingDetail, status:'Effectuée'},
             (response)=> {
-                let temp = getAdminProcessValues("userLogged") ;
-                temp.institution.bookings.filter(elt => elt.id != props.bookingDetail.id) ;
-                setAdminProcessValues("userLogged", temp) ;
                 props.handleCloseModal() ;
             },
             (error)=>{

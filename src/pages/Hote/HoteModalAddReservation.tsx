@@ -8,8 +8,7 @@ import {
     API_REQUEST_BOOKING,
     getAdminProcessValues,
     monthListFR, MSG_SAVING,
-    postRequest, setAdminProcessValues,
-    setProcessStored
+    postRequest,
 } from "../../globals/GlobalVariables";
 import addNotification from "react-push-notification";
 import Booking, {Table} from "../../globals/models/models";
@@ -59,9 +58,6 @@ function HoteModalAddReservation(props:PropsType) {
         console.log(newBooking) ;
         postRequest(API_REQUEST_BOOKING, newBooking,
             (response)=>{
-                let temp = getAdminProcessValues("userLogged") ;
-                temp.institution.bookings.push(response.data.data.booking) ;
-                setAdminProcessValues("userLogged", temp) ;
                 props.handleCloseModal() ;
             },
             (error)=>{

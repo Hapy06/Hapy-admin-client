@@ -44,7 +44,7 @@ function HomeContainer(props: PropsType) {
         return props.isMobile ? <ServeurContainer/> : <ErrorPage errorTitle={"Vous êtes au mauvais endroit"} showBtn={true} btnText={"Aller à la page de connexion"}
                                                                  handleBtnClick={redirectLogin}
                                                                  errorMessage={"Utilisez votre smartphone pour acceder à cette page !"}/>
-      } else if (isAuth.user == "Hote" || isAuth.user == "Administrateur") {
+      } else if (isAuth.user == "Accueil" || isAuth.user == "Administrateur") {
         return !props.isMobile ? <HoteContainer/> : <ErrorPage errorTitle={"Vous êtes au mauvais endroit"} showBtn={true} btnText={"Aller à la page de connexion"}
                                                                handleBtnClick={redirectLogin}
                                                                  errorMessage={"Utilisez votre Tablette or PC pour acceder à cette page !"}/>

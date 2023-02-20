@@ -31,7 +31,7 @@ function HoteModalOpenTable(props:PropsType) {
 
     const handleOpenTable = () => {
         showErrorFunction("Ouverture de la table...", "text-success", 10000) ;
-        putRequest(API_REQUEST_TABLE + '/update', props.tableDetail.id, {status: 'waiting-to-join'},
+        putRequest(API_REQUEST_TABLE + '/update', props.tableDetail.id, {status: 'waiting-to-join', statusForNewClient: 'waiting-to-join'},
             ()=> {setShowOpenTableValidated(true)},
             ()=>{showErrorFunction("Echec de l'ouverture, Veuillez ressayer !")}) ;
     } ;
