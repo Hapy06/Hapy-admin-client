@@ -43,6 +43,7 @@ function Preparation_Home(props:PropsType) {
                 setLoadMessageNotif("(Pas de commandes en cours)") ;
             } else {
                 let temp = {...preparationProcess}
+                temp.ticketQuantity = listOrdersFromDB.length ;
                 if (!temp.listAllOrders) temp.listAllOrders = [] ;
                 if (!temp.listWaitingOrders) temp.listWaitingOrders = [] ;
                 listOrdersFromDB.forEach((order:Order) => {
@@ -107,16 +108,18 @@ function Preparation_Home(props:PropsType) {
                 </div>
                 <div className="row">
                 {/*COMMAND COMMAND COL */}
-                <div className="col-lg-3 col-md-4">
-                <div className="text-center f-20" style={{opacity:0.32}}>{preparationProcess.listPausedOrders?.length} <IconTimer2 width={48} height={48} styleIcon={{width:32}} classIcon="mt-1"/></div>
-                    <hr className="-mt-1 center-force"/>
-                    <br/>
-                    <div style={{marginTop:-12}}>
-                        {preparationProcess.listPausedOrders?.map((order:Order, index:number) => (
-                            <PreparationCommandBox key={index} order={order} handleClick={()=>handleOrderClicked(order)}/>
-                        ) )}
-                    </div>
-                    </div>
+                    {preparationProcess.listPausedOrders?.length > 0 && (
+                        <div className="col-lg-3 col-md-4">
+                            <div className="text-center f-20" style={{opacity:0.32}}>{preparationProcess.listPausedOrders?.length} <IconTimer2 width={48} height={48} styleIcon={{width:32}} classIcon="mt-1"/></div>
+                            <hr className="-mt-1 center-force"/>
+                            <br/>
+                            <div style={{marginTop:-12}}>
+                                {preparationProcess.listPausedOrders?.map((order:Order, index:number) => (
+                                    <PreparationCommandBox key={index} order={order} handleClick={()=>handleOrderClicked(order)}/>
+                                ) )}
+                            </div>
+                        </div>
+                    )}
                     {/*RED COMMAND COL */}
                     <div className="col-lg-3 col-md-4">
                         <br/>
@@ -125,7 +128,7 @@ function Preparation_Home(props:PropsType) {
                         )}
                     </div>
                     {/*All COMMAND LIST COL */}
-                    <div className="col-lg-6 col-md-4">
+                    <div className={preparationProcess.listPausedOrders?.length > 0 ? "col-lg-6 col-md-4" : "col-lg-9 col-md-8"}>
                         <div className="col-lg-5 col-md-12 float-end row">
                             <div className="col-4">
                                 <div className="fw-3 mb-1" style={{fontSize:8}}>Couverts</div>
