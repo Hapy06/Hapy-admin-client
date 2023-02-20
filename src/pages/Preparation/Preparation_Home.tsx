@@ -31,11 +31,11 @@ function Preparation_Home(props:PropsType) {
 
 
     const handleLoadData = () => {
-        return axios.get(BASE_URL + 'api/v1/managements/order?status=waiting&institutionID=' + getAdminProcessValues('userLogged').institution.id,
+        return axios.get(BASE_URL + 'api/v1/managements/order?status=waiting&institutionID=' + getAdminProcessValues('userLogged').institution.id + '&position=' + getAdminProcessValues('userLogged').position,
     { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
         console.log(response) ;
         if (response.status === 200 || response.status === 201 || response.status === 202 || response.status === 203 || response.status === 204) {
-            let listOrdersFromDB = response.data.data.response.items.sort((a,b) => a.createdAt < b.createdAt ? 1 : -1 ) ;
+            let listOrdersFromDB = response.data.data.response.items.sort((a,b) => a.createdAt < b.createdAt ? -1 : 1 ) ;
             if (listOrdersFromDB?.length == 0) {
                 setLoadMessageNotif("(Pas de commandes en cours)") ;
             } else {
@@ -43,9 +43,10 @@ function Preparation_Home(props:PropsType) {
                 if (!temp.listAllOrders) temp.listAllOrders = [] ;
                 if (!temp.listWaitingOrders) temp.listWaitingOrders = [] ;
                 listOrdersFromDB.forEach((order:Order) => {
-                    if ( temp?.listAllOrders?.some((elt:Order) => elt.id == order.id) == false)
-                    { temp.listAllOrders.push(order) ;
-                    temp.listWaitingOrders.push(order) ; }
+                    if ( temp?.listAllOrders?.some((elt:Order) => elt.id == order.id) == false) {
+                        temp.listAllOrders.push(order) ;
+                        temp.listWaitingOrders.push(order) ;
+                    }
                 }) ;
                 if (!temp.orderCooking) {
                     temp.orderCooking = temp.listWaitingOrders.pop() ;
@@ -160,7 +161,7 @@ function Preparation_Home(props:PropsType) {
                         </div>
                         <br/>
                         <div className="col-lg-12 row mt-5">
-                            {preparationProcess?.listWaitingOrders?.map((order:Order, index:number) => (
+                            {preparationProcess?.listWaitingOrders?.slice(0,4).map((order:Order, index:number) => (
                                 <div className="col-lg-6 col-md-12" key={index}>
                                     <PreparationCommandBox order={order} handleClick={()=>handleOrderClicked(order)}/>
                                 </div>

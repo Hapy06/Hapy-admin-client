@@ -61,34 +61,27 @@ function Preparation_Attente(props:PropsType) {
 
     const handleClickValidate = () => {
         let temp = {...preparationProcess} ;
-        temp.orderCooking.status = "finished" ;
-        temp.orderCooking.finishedAt = new Date() ;
-        temp.orderCooking.endTime = new Date().getHours() + ':' + new Date().getMinutes() ;
-        if (!temp.orderCooking.couponsReadyIds) temp.orderCooking.couponsReadyIds = [] ;
+        temp.orderCooking.couponsReadyIds = [] ;
         temp.orderCooking.coupons.forEach(coupon => {
             temp.orderCooking.couponsReadyIds.push(coupon.id) ;
         }) ;
-        if (!temp.listFinishedOrders) temp.listFinishedOrders = [] ;
-        temp.listFinishedOrders.push(temp.orderCooking) ;
-        console.log(temp) ;
-        /*putRequest(API_REQUEST_ORDER + '' , temp.orderCooking.id, temp.orderCooking, ((response) => {
-            console.log(response) ;
-            if (response.status == 200) {
+        putRequest(API_REQUEST_ORDER + '/updateWithCouponsReadyIds' , temp.orderCooking.id, {couponsReadyIds : temp.orderCooking.couponsReadyIds},
+            ((response) => {
+                showErrorFunction("Commande validée !", "text-success") ;
+                temp.orderCooking.status = "finished" ;
+                temp.orderCooking.finishedAt = new Date() ;
+                temp.orderCooking.endTime = new Date().getHours() + ':' + new Date().getMinutes() ;
+                if (!temp.listFinishedOrders) temp.listFinishedOrders = [] ;
+                temp.listFinishedOrders.push(temp.orderCooking) ;
                 temp.orderCooking = temp.listWaitingOrders.shift() ;
+                temp.orderCooking.status = 'cooking' ;
                 temp.orderDetail = temp.orderCooking ;
                 setPreparationProcess(temp) ;
-                showErrorFunction("Commande validée !", "text-success") ;
-            } else {
-                showErrorFunction("Erreur lors de la validation de la commande !", "text-danger") ;
-            }
-        }), ((error) => {
+                navigate('/home') ;
 
-        }) ;*/
-        // setPreparationProcess({...temp}) ;
-        // navigate('/home') ;
-        /*temp.orderCooking = temp.listWaitingOrders.pop() ;
-        temp.orderCooking.status = 'cooking' ;
-        temp.orderDetail = temp.orderCooking ;*/
+        }), ( (error) => {
+            showErrorFunction("Erreur lors de la validation de la commande !", "text-danger") ;
+        }) ) ;
     } ;
 
     const showErrorFunction = (errorMessage: string, color:'text-success' | 'text-danger' = "text-success" , timeout: number = 5000) => {

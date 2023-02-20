@@ -78,7 +78,7 @@ function ChefDeRang02_OpenTable(props) {
     } ;
 
     const handleDeleteNotif = () => {
-        deleteRequest(API_REQUEST_NOTIFICATION, cdrProcess.notifDetail.id,
+        deleteRequest(API_REQUEST_NOTIFICATION + '/delete', cdrProcess.notifDetail.id,
             ()=>{
                 cdrProcess.validationMessage = "Demande d'ouverture supprimée avec Succèss !" ;
                 navigate('/command-canceled') ;

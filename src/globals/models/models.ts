@@ -265,6 +265,8 @@ export class TicketPayed {
     order?: Order ;
     teamMemberId: string ;
     teamMember?: TeamMember ;
+    institutionId: string ;
+    institution?: Institution ;
     day: string ;
     dayNumber: number ;
     morningOrEvening: 'morning' | 'evening' ;

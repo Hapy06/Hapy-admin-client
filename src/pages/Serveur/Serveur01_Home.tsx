@@ -58,10 +58,6 @@ function Serveur01_Home(props) {
         return axios.get(BASE_URL + API_REQUEST_NOTIFICATION + '/intitution-id?intitutionID=' + getAdminProcessValues("userLogged").institutionId,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
             console.log(response) ;
-            /*let arrNotifdemands: NotificationHapy[] = response.data.data.items ;
-            arrNotifdemands.forEach(notif => {
-                deleteRequest(API_REQUEST_NOTIFICATION + '/delete', notif.id, ()=>{}, ()=>{})
-            }) ;*/
             let arrNotifdemands: NotificationHapy[] = response.data.data.items.filter((elt:NotificationHapy) => elt.nature != "foodReady"
                 && elt.nature != "commandToValidate" && elt.nature != "openTable" && !elt.isDone) ;
             if (arrNotifdemands.length == 0) {
@@ -80,12 +76,13 @@ function Serveur01_Home(props) {
                 setListNotifsDemands(arrNotifdemands.reverse()) ;
             }
             serveurProcess.listNotificationDemands = arrNotifdemands.reverse() ;
-            setProcessStored("serveurProcess", serveurProcess) ;
             if (response.data.data.items.filter((elt:NotificationHapy) => elt.nature == "foodReady")?.length == 0) {
                 setLoadMessageFoodReady("(Pas de plats prêts pour l'instant)") ;
             } else {
-                setListNotifsFoodReady(response.data.data.items.filter((elt:NotificationHapy) => elt.nature == "foodReady")) ;
+                setListNotifsFoodReady(response.data.data.items.filter((elt:NotificationHapy) => elt.nature == "foodReady").reverse()) ;
+                serveurProcess.listNotificationFoodReady = response.data.data.items.filter((elt:NotificationHapy) => elt.nature == "foodReady").reverse() ;
             }
+            setProcessStored("serveurProcess", serveurProcess) ;
             return true ;
             })
             .catch(error => {

@@ -18,7 +18,6 @@ type PropsType = {
 function PreparationCommandBox(props:PropsType) {
     const {preparationProcess, setPreparationProcess} = useContext<{preparationProcess:PreparationProcessModel, setPreparationProcess: any}>(preparationContext) ;
     // let order:Order = {...props.order} ;
-    const [couponNumber, setCouponNumber] = useState(0)
     /*const timer = useTimer({
         create: {
             stopwatch: {startAtMilliseconds:props.order.millisecondePastSinceStart || 0}

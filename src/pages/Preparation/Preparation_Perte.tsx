@@ -228,7 +228,7 @@ function Preparation_Perte(props:PropsType) {
                         <div className="col-1" style={{borderLeft:'1px solid #C8C8C8', marginTop:80}}></div>
                         <div className="col-5">
                             {/*<div className="text-end -mt-15">
-                                <HapyButtonWithIcon handleClick={()=>handleOpenModal(<PreparationModal1 handleCloseModal={handleCloseModal}/>)} btnWidth={210} iconComponent={<IconArchive/>}
+                                <HapyButtonWithIcon handleClick={()=>handleOpenModal(<PreparationAllOrdersModal handleCloseModal={handleCloseModal}/>)} btnWidth={210} iconComponent={<IconArchive/>}
                                                      text={"Historique"}/>
                             </div>*/}
                             <br/>

@@ -15,7 +15,7 @@ const Index = ({handleCloseModal}) => {
                 <div className="text-center mt-4 mb-4">
                     <IconHapyLogo width={48} height={48} styleIcon={{width: 22}}/>
                 </div>
-            </div>
+    </div>
   )
 }
 
