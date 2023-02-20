@@ -20,7 +20,7 @@ type AuthBody = {
 
 function LoginTablet(props:PropType) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
-    const [authBody, setAuthBody] = useState<AuthBody>({email:'aerium@gmail.com', password:'55555'});
+    const [authBody, setAuthBody] = useState<AuthBody>({email:'ngueda@gmail.com', password:'test'});
     const [showError, setShowError] = useState<boolean>(false) ;
     const [errorMessage, setErrorMessage] = useState<string>('') ;
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
