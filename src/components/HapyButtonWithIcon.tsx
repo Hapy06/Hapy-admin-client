@@ -15,7 +15,7 @@ function HapyButtonWithIcon(props:PropsType) {
         <>
             <button className={'hapy-btn-with-icon vertical-center ' + props.btnClass} onClick={props.handleClick} style={{width:props.btnWidth}}>
                 <span className="float-start" style={{marginLeft:32, marginRight:32}} >{props.iconComponent}</span>
-                <span className="float-start fw-4">{props.text}</span>
+                <span style={{fontSize:'16px', fontWeight:500}} className="float-start fw-4">{props.text}</span>
                 {props.numberAtEnd && (<span className="mr-32" style={{color:props.numberAtEndColor, marginLeft:"auto"}}>{props.numberAtEnd}</span>)}
             </button>
         </>

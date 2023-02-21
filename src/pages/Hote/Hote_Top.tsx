@@ -39,7 +39,7 @@ function Hote_Top(props:PropsType) {
         <div className={props.classAdditional ? "preparation-top-container text-white " + props.classAdditional : "preparation-top-container text-white"}
              /*style={{width:screenWidth+5}}*/>
             <div className="preparation-container-wrapper">
-                <div className="text-center welcome-word">Welcome to Hâpy</div>
+                <div className="text-center welcome-word" style={{fontWeight:600}}>Welcome to Hâpy</div>
                 <div className="row">
                     <div className="col-2" style={{maxWidth:305}}>
                         <h3>{getAdminProcessValues("userLogged").position}</h3>
@@ -48,19 +48,21 @@ function Hote_Top(props:PropsType) {
                     <div className="col-4 mt-3">
                         {props.showLeftBtn ? (props.leftBtnComponent) : (
                             screenWidth > 1100 ? (
-                                <HapyButtonWithIcon_Little text='Se deconnecter' handleClick={handleLogout}
+                                <div style={{display:'flex', justifyContent:'center', marginLeft:'-105px'}}>
+                                                                    <HapyButtonWithIcon_Little text='Se deconnecter' handleClick={handleLogout}
                                                            iconComponent={<IconSomeoneDelete stroke='white'/>} btnClass='hapy-btn-with-icon-black max-width-248' />
+                                </div>
                             ) : (
                                 <HapyButtonOnlyIcon handleClick={handleLogout} iconComponent={<IconSomeoneDelete stroke={'white'}/>} isChecked={false} btnClass='hapy-btn-with-icon-black' btnWidth={66} />
                             )
                         )}
                     </div>
-                    <div className="col-2" style={{marginLeft:-25}}>
-                        <div className="f-12">Libres</div>
-                        <div style={{marginTop:-10}}>
-                            <span className="f-48 fw-6 text-green">{props?.numberOfCloseTable || 0}</span>
-                            {/*<span className="fw-6 f-32 ml-1 text-white">14</span>*/}
-                        </div>
+                    <div className="col-2" style={{marginLeft:-40, marginTop:'5px'}}>
+                            <div className="f-12" style={{marginLeft:'15px'}}>Libres</div>
+                            <div style={{marginTop:-10}}>
+                                <span className="f-48 fw-6 text-green">{props?.numberOfCloseTable || 0}</span>
+                                {/*<span className="fw-6 f-32 ml-1 text-white">14</span>*/}
+                            </div>
                     </div>
                     <div className="col-4 float-end mt-3">
                         <Hapy2ButtonSwitching activeBtn={activeBtn} textBtn1={"Tables"} textBtn2={"Réservations"}
