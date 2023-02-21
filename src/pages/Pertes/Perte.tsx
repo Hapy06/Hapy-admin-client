@@ -15,7 +15,7 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 
 function Perte(props) {
     const [loadMessage, setLoadMessage] = useState<string>("(Pas de produits trouvé)");
-    const [listProducts, setListProducts] = useState<Product[]>(getAdminProcessValues("userLogged").institution.variants || []);
+    const [listProducts, setListProducts] = useState<Product[]>([]);
     const [listVariantChoosed, setListVariantChoosed] = useState<Variant[]>([]);
     const [listVariantSelectedWithQty, setListVariantSelectedWithQty] = useState({});
     const [totalQty, setTotalQty] = useState<number>(0);

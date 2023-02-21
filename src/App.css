@@ -680,7 +680,11 @@
 }
 
 .preparation-container {
-  background-color: #323232;
+  background-color: #323232 ;
+  /*justify-content: center;
+  max-height: 100vh;
+  margin: 0;*/
+  /*border: 10px solid red;*/
 }
 
 .bg-orange {
