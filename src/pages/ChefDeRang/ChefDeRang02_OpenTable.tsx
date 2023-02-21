@@ -120,11 +120,11 @@ function ChefDeRang02_OpenTable(props) {
                     <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M105.547 79.6267C94.5605 90.56 78.8271 93.92 65.0138 89.6L39.8938 114.667C38.0805 116.533 34.5071 117.653 31.9471 117.28L20.3205 115.68C16.4805 115.147 12.9071 111.52 12.3205 107.68L10.7205 96.0533C10.3471 93.4933 11.5738 89.92 13.3338 88.1067L38.4005 63.04C34.1338 49.1733 37.4405 33.44 48.4271 22.5067C64.1605 6.77333 89.7071 6.77333 105.494 22.5067C121.28 38.24 121.28 63.8933 105.547 79.6267Z" stroke="#323232" strokeWidth="5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
                         <path d="M36.7471 93.28L49.0137 105.547" stroke="#323232" strokeWidth="5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M77.333 58.6666C81.7513 58.6666 85.333 55.0849 85.333 50.6666C85.333 46.2483 81.7513 42.6666 77.333 42.6666C72.9147 42.6666 69.333 46.2483 69.333 50.6666C69.333 55.0849 72.9147 58.6666 77.333 58.6666Z" stroke="#00B0FF" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M77.333 58.6666C81.7513 58.6666 85.333 55.0849 85.333 50.6666C85.333 46.2483 81.7513 42.6666 77.333 42.6666C72.9147 42.6666 69.333 46.2483 69.333 50.6666C69.333 55.0849 72.9147 58.6666 77.333 58.6666Z" stroke="#FF6063" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <br/>
                     <br/>
-                    <IconProfile2Users width={32} height={32} stroke={'#00B0FF'}/> <span className="fw-6 ml-1">{cdrProcess.notifDetail.content} courverts</span>
+                    <IconProfile2Users width={32} height={32} stroke={'#FF6063'}/> <span className="fw-6 ml-1">{cdrProcess.notifDetail.content} courverts</span>
                 </div>
                 <div className="horizontal-center inner-button-container-validate-btn">
                     <div className="validated-btn-container mt-4">

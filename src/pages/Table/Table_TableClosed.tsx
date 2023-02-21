@@ -5,7 +5,7 @@ import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import IconArrowLeft from "../../globals/icons-components/IconArrowLeft";
 import {HomeProcessModel} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
-import {API_REQUEST_TABLE, putRequest} from "../../globals/GlobalVariables";
+import {API_REQUEST_TABLE, getAdminProcessValues, putRequest} from "../../globals/GlobalVariables";
 
 function Table_TableClosed(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
@@ -31,9 +31,9 @@ function Table_TableClosed(props) {
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
-                           subtitleStart="Hugo"
+                           subtitleStart={getAdminProcessValues("userLogged").firstName}
                            subtitleStartClassName="text-red-orange"
-                           subtitleEnd="LEVOIR"
+                           subtitleEnd={getAdminProcessValues("userLogged").lastName}
                            title="Tout est bon"
                            showBtnBack={false}
                            showRightSideBtn={false}

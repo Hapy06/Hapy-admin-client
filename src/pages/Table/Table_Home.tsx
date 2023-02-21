@@ -13,6 +13,7 @@ import {
 import Modal from 'react-modal';
 import Table_OpenTableModal from "./Table_OpenTableModal";
 import {homeProcessContext} from "../HomeContainer";
+import {getAdminProcessValues} from "../../globals/GlobalVariables";
 
 function Table_Home(props) {
     const {commandProcess, setCommandProcess} = useContext<{commandProcess:CommandProcessModel,setCommandProcess:any}>(homeProcessContext) ;
@@ -33,12 +34,12 @@ function Table_Home(props) {
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
-                           subtitleStart="Quentin"
+                           subtitleStart={getAdminProcessValues("userLogged").firstName}
                            subtitleStartClassName="text-red-orange"
-                           subtitleEnd="LELOUCHE"
+                           subtitleEnd={getAdminProcessValues("userLogged").lastName}
                            title="Gérer la table"
                            showBtnBack={true}
-                           handleClickBtnBack={()=>navigate('/home')}
+                           handleClickBtnBack={()=>navigate('/list-tables')}
                            showRightSideBtn={false}
                            hapyLogoBtnColor={"#FF6063"}
 

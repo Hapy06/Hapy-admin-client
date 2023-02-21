@@ -162,7 +162,7 @@ function Table_Note(props) {
         ticketPayed.isMultipleReglements = listReglement.length > 1 ;
         ticketPayed.uniqueReglement = reglement ;
         ticketPayed.listReglement = listReglement ;
-        ticketPayed.institutionId = getAdminProcessValues("institution").id ;
+        ticketPayed.institutionId = getAdminProcessValues("userLogged").institution.id ;
         // exportData(ticketPayed) ;
         saveTicketPayedToDB(ticketPayed) ;
     } ;
@@ -189,9 +189,9 @@ function Table_Note(props) {
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
-                           subtitleStart="Quentin"
+                           subtitleStart={getAdminProcessValues("userLogged").firstName}
                            subtitleStartClassName="text-red-orange"
-                           subtitleEnd="LELOUCHE"
+                           subtitleEnd={getAdminProcessValues("userLogged").lastName}
                            title="Régler la table"
                            showBtnBack={true}
                            handleClickBtnBack={()=>navigate('/table-opened')}

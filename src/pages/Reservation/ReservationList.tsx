@@ -4,23 +4,29 @@ import IconReservationAdd from "../../globals/icons-components/IconReservationAd
 import HapyMobileTop from "../../components/HapyMobileTop";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import {API_REQUEST_BOOKING, BASE_URL, getAdminProcessValues, setProcessStored} from "../../globals/GlobalVariables";
-import Booking, {HomeProcessModel} from "../../globals/models/models";
+import Booking, {HomeProcessModel, Table} from "../../globals/models/models";
 import axios from "axios";
 import {homeProcessContext} from "../HomeContainer";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import {TeamMember} from "../../globals/models/Inscription.models";
+import HapyTableItemCDR from "../../components/HapyTableItemCDR";
+import IconArrowLeft from "../../globals/icons-components/IconArrowLeft";
+import IconArrowRight from "../../globals/icons-components/IconArrowRight";
 
 function ReservationList(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
     const [listBooking, setListBooking] = useState<Booking[]>([]);
     const [loadMessage, setLoadMessage] = useState<string>("(Pas de reservations en cours)");
     const navigate = useNavigate();
+    const [error, setError] = useState<string>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(()=>{
         handleLoadData() ;
     }, []) ;
 
     const handleLoadData = () => {
+        setIsLoading(true) ;
         return axios.get(BASE_URL + API_REQUEST_BOOKING + '/byInstitutionId/' + getAdminProcessValues("userLogged").institution.id,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
             console.log(response) ;
@@ -35,7 +41,10 @@ function ReservationList(props) {
         }) .catch(error => {
                 console.error(error);
                 setLoadMessage('(Erreur de Chargement, Veuillez ressayez...)');
-                throw error; });
+                throw error; },
+            ).finally(() => {
+                setIsLoading(false) ;
+        });
     } ;
 
     const handleShowBooking = (booking:Booking) => {
@@ -60,26 +69,37 @@ function ReservationList(props) {
             <div className="happy-div-bottom">
                 <PullToRefresh onRefresh={handleLoadData}>
                     <>
-                        {listBooking?.length > 0 ? (
-                                listBooking?.map((booking:Booking, index:number) => (
-                                    <div key={index}>
-                                        <div className="reservation-item text-center fw-5"
-                                             onClick={() => handleShowBooking(booking)}>
-                                            <span className="float-start">{booking?.tableNumber || 20}</span>
-                                            <span className="float-none">{booking?.clientName || 'Nom du Client'}</span>
-                                            <span className="float-end f-12 text-end"
-                                                  style={{marginTop: -7}}>{booking?.dateOfreservation}
-                                                <br/>{booking?.timeOfreservation || '14:55'}</span>
-                                        </div>
-                                        <br/>
-                                    </div>
-                                ))
+                        {isLoading ? (
+                            <div className="text-center mt-3">Chargement des réservations...</div>
                         ) : (
-                            <div> <br/>
-                                <div className="text-center mb-5">{loadMessage}</div>
-                                <br/> <br/> <br/> <br/> <br/> <br/>
-                            </div>
+                            error ? (
+                                <div className="text-center mt-3">{error}</div>
+                            ) : (
+                                <>
+                                    {listBooking?.length > 0 ? (
+                                        listBooking?.map((booking:Booking, index:number) => (
+                                            <div key={index}>
+                                                <div className="reservation-item text-center fw-5"
+                                                     onClick={() => handleShowBooking(booking)}>
+                                                    <span className="float-start">{booking?.tableNumber || 20}</span>
+                                                    <span className="float-none">{booking?.clientName || 'Nom du Client'}</span>
+                                                    <span className="float-end f-12 text-end"
+                                                          style={{marginTop: -7}}>{booking?.dateOfreservation}
+                                                        <br/>{booking?.timeOfreservation || '14:55'}</span>
+                                                </div>
+                                                <br/>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div> <br/>
+                                            <div className="text-center mb-5">{loadMessage}</div>
+                                            <br/> <br/> <br/> <br/> <br/> <br/>
+                                        </div>
+                                    )}
+                                </>
+                            )
                         )}
+
             <div className="horizontal-center inner-button-container-validate-btn mt-4">
             <HapyButtonWithIcon text="Réserver la table" handleClick={()=>{navigate('/reservation/new')}}
                                     btnWidth={350}

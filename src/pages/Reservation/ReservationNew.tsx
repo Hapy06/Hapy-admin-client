@@ -51,6 +51,7 @@ function ReservationNew(props) {
         let arr = newBooking.dateOfreservation.split('/') ;
         newBooking.dateOfreservationToShow = arr[0] + ' ' + monthListFR[parseInt(arr[1])-1] + ' ' + arr[2] ;
         newBooking.status = "En cours" ;
+        newBooking.institutionId = getAdminProcessValues('userLogged').institution.id ;
         console.log(newBooking) ;
         postRequest(API_REQUEST_BOOKING, newBooking,
             (response)=>{

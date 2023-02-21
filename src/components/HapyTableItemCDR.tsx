@@ -11,15 +11,15 @@ function HapyTableItemCDR(props:PropsType) {
     const render = ()=>{
         switch (props.tableStatus) {
             case "close":
-                return (<div style={{backgroundColor:'#EFEFEF'}} className="table-item">{props.tableNumber}</div>) ;
+                return (<div style={{backgroundColor:'#EFEFEF', opacity:0.32}} className="table-item">{props.tableNumber}</div>) ;
             case "closed":
-                return (<div style={{backgroundColor:'#EFEFEF'}} className="table-item">{props.tableNumber}</div>) ;
+                return (<div style={{backgroundColor:'#EFEFEF', opacity:0.32}} className="table-item">{props.tableNumber}</div>) ;
             case "ask-to-open":
-                return (<div style={{backgroundColor:'#EFEFEF',border: '2px solid #00B0FF'}} className="table-item">{props.tableNumber}</div>) ;
+                return (<div style={{backgroundColor:'#EFEFEF', border: '2px solid #536DFE'}} className="table-item">{props.tableNumber}</div>) ;
             case "command-waiting-validation":
                 return (<div style={{backgroundColor:'white',border: '2px solid #FF6063'}} className="table-item">{props.tableNumber}</div>) ;
-            case "command-preparation":
-                return (<div style={{backgroundColor:'#EFEFEF',border: '2px solid green'}} className="table-item">{props.tableNumber}</div>) ;
+            /*case "command-preparation":
+                return (<div style={{backgroundColor:'#EFEFEF',border: '2px solid green'}} className="table-item">{props.tableNumber}</div>) ;*/
             case "opened":
                 return (<div style={{backgroundColor:'white'}} className="table-item">{props.tableNumber}</div>) ;
             case "opened-and-served":
@@ -27,7 +27,7 @@ function HapyTableItemCDR(props:PropsType) {
             case "unavailable":
                 return (<div style={{backgroundColor:'red'}} className="table-item">{props.tableNumber}</div>) ;
             default :
-                return (<></>) ;
+                return (<div style={{backgroundColor:'#EFEFEF'}} className="table-item">{props.tableNumber}</div>) ;
         }
     } ;
 

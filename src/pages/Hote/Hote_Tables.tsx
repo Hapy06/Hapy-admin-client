@@ -188,7 +188,7 @@ function Hote_Tables(props:PropsType) {
                                                                        handleCloseModal={handleCloseModal}/>)} number={item.number}
                                                                    btnWidth={64}/>
                                             ))}*/}
-                                            <div className="row table-item-container mt-3 scroll-and-hidden" style={{height:250}}>
+                                            <div className="row table-item-container mt-3 scroll-and-hidden">
                                                 { zoneToShow?.tableIds?.map((table, index) => (
                                                     <HapyHoteTableItem marginLeft={49} marginBottom={49} status={table.status}
                                                     handleClick={() => table.status != 'unavailable' ? handleOpenModal(
@@ -229,7 +229,7 @@ function Hote_Tables(props:PropsType) {
                                                                btnWidth={64}/>
                                         ))}*/}
 
-                                        <div className="row table-item-container mt-3 scroll-and-hidden" style={{height:250}}>
+                                        <div className="row table-item-container mt-3 scroll-and-hidden">
                                             { zoneToShow?.tableIds?.map((table, index) => (
                                                 <HapyHoteTableItem marginLeft={49} marginBottom={49} isChecked={checkedIfReserved(table)} status={table.status}
                                                                    handleClick={checkedIfReserved(table) ? () => handleOpenModal(<HoteModalDetailReservation

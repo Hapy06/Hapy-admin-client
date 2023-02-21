@@ -63,7 +63,7 @@ function ChefDeRang02_TableListCommand(props) {
             ()=> {
                 temp.listNotifs =
                 temp.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
-                temp.validationMessage = "Commande Validée avec Succèss !" ;
+                temp.validationMessage = "La commande est envoyée en préparation !" ;
                 setProcessStored("cdrProcess", temp) ;
                 setCDRProcess(temp) ;
                 addNotification({
@@ -92,7 +92,7 @@ function ChefDeRang02_TableListCommand(props) {
     const handleDeleteNotif = () => {
         deleteRequest(API_REQUEST_NOTIFICATION + '/delete', cdrProcess.notifDetail.id,
             ()=>{
-                cdrProcess.validationMessage = "Commande supprimée avec Succèss !" ;
+                cdrProcess.validationMessage = "La Commande est supprimée !" ;
                 cdrProcess.listNotifs = cdrProcess.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
                 setProcessStored("cdrProcess", cdrProcess) ;
                 navigate('/command-canceled') ;

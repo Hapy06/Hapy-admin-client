@@ -283,7 +283,7 @@ export const ICONS = {
     tableAskToOpenIcon:<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_1239_22988)">
             <rect x="11" y="11" width="20" height="20" rx="10" fill="#EFEFEF"/>
-            <rect x="11.5" y="11.5" width="19" height="19" rx="9.5" stroke="#00B0FF"/>
+            <rect x="11.5" y="11.5" width="19" height="19" rx="9.5" stroke="#536DFE"/>
         </g>
         <defs>
             <filter id="filter0_d_1239_22988" x="0" y="0" width="42" height="42" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
@@ -322,7 +322,7 @@ export const ICONS = {
 
     tableUnavailableIcon:<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_1239_22988)">
-            <rect x="11" y="11" width="20" height="20" rx="10" fill="#EFEFEF"/>
+            <rect x="11" y="11" width="20" height="20" rx="10" fill="red"/>
             <rect x="11.5" y="11.5" width="19" height="19" rx="9.5" stroke="red"/>
         </g>
         <defs>

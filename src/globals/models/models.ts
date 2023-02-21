@@ -203,6 +203,7 @@ export class Table {
 export default class Booking {
     id: string;
     bookingId: string;
+    institutionId: string;
     phoneNumber: string;
     numberOfPeople: number;
     tableId: string;

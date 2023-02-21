@@ -159,10 +159,10 @@ function ChefDeRang03_ListTables(props) {
                         <span>{ICONS.tableUnavailableIcon}</span>
                         <span style={{marginLeft:10}}>Table indisponible</span>
                     </li>
-                    <li>
+                    {/*<li>
                         <span>{ICONS.tableCommandPreparationIcon}</span>
                         <span style={{marginLeft:10}}>Commande en préparation</span>
-                    </li>
+                    </li>*/}
                 </ul>
                     </>
                 </PullToRefresh>
