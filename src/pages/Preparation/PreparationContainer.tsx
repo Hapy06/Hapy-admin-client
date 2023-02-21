@@ -105,9 +105,9 @@ function PreparationContainer() {
 
   return (
       <div className="preparation-container">
-      <preparationContext.Provider value={allContextValues}>
-        <RouterProvider router={router} />
-      </preparationContext.Provider>
+        <preparationContext.Provider value={allContextValues}>
+          <RouterProvider router={router} />
+        </preparationContext.Provider>
       </div>
   )
 }

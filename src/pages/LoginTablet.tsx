@@ -20,7 +20,7 @@ type AuthBody = {
 
 function LoginTablet(props:PropType) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
-    const [authBody, setAuthBody] = useState<AuthBody>({email:'aerium@gmail.com', password:'55555'});
+    const [authBody, setAuthBody] = useState<AuthBody>({email:'ngueda@gmail.com', password:'test'});
     const [showError, setShowError] = useState<boolean>(false) ;
     const [errorMessage, setErrorMessage] = useState<string>('') ;
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
@@ -99,9 +99,9 @@ function LoginTablet(props:PropType) {
                        inputValue={authBody.password}
                        inputWidth={366}
                        handleChange={handleloginForm}/>
-            <div className="f-12 fw-3 mt-3" >
+            {/* <div className="f-12 fw-3 mt-3" >
                 Celui ci vous a été envoyé par mail ce matin à 5:00 ainsi qu'à votre manager
-            </div>
+            </div> */}
             </div>
                 <div className="text-center inner-button-container-validate-btn mt-2">
                     {showError && (<div className={"mb-3 -mt-4 " + errorMessageColor}>{errorMessage}</div>)}

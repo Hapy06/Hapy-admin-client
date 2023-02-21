@@ -4,7 +4,7 @@ import IconHapyLogo from "../../globals/icons-components/IconHapyLogo";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import IconLose from "../../globals/icons-components/IconLose";
 import {useNavigate} from "react-router";
-import {Ingredient, Variant} from "../../globals/models/Inscription.models";
+import {Ingredient, ProductIngredient, Variant} from "../../globals/models/Inscription.models";
 import {HomeProcessModel} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
 import {
@@ -17,7 +17,7 @@ import {
 
 type PropsType = {
     handleCloseModal: any ;
-    listIngredientChoosed: Ingredient[] ;
+    listIngredientChoosed: ProductIngredient[] ;
     listIngredientSelectedWithQty: any ;
     totalQty: number ;
 }
@@ -87,9 +87,9 @@ function PreparationModalPerteIngredient(props:PropsType) {
                         <IconHapyLogo width={48} height={48} styleIcon={{width:22}}/>
                     </div>
                     <br/>
-                    {props.listIngredientChoosed.map(ingredient => (
+                    {props.listIngredientChoosed.map(productIngredient => (
                         <div>
-                            <span className="text-red-orange ml-4 mr-4 fw-6">{props.listIngredientSelectedWithQty[ingredient.id]}</span> {ingredient.entitled} <br/><br/>
+                            <span className="text-red-orange ml-4 mr-4 fw-6">{props.listIngredientSelectedWithQty[productIngredient.id]}</span> {productIngredient.ingredientEntitled} <br/><br/>
                         </div>
                     ))}
                     <br/><br/><br/><br/>
