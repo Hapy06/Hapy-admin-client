@@ -19,13 +19,13 @@ function PreparationAllOrdersModal(props:PropsType) {
     return (
         <>
             <div className="hapy-modal">
-                <button className="back-btn-modal" style={{float: "left", marginTop: -5}}
+                <button className="back-btn-modal text-center" style={{ marginTop: -5}}
                         onClick={props.handleCloseModal}>
-                    <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 5}}/>
+                    <IconArrowLeft width={32} height={32} styleIcon={{marginLeft: 8,marginTop: 8}}/>
                 </button>
                 <br/><br/><br/>
-                <p className="text-black"><span className="text-orange">{getAdminProcessValues("userLogged")?.firstName || "hâpy"}</span> {getAdminProcessValues("userLogged")?.lastName || "hâpy"}</p>
-                <h1 className="text-black f-32 fw-6">{getAdminProcessValues("userLogged")?.position}</h1>
+                <p className="text-black mb-0"><span className="text-orange">{getAdminProcessValues("userLogged")?.firstName || "hâpy"}</span> {getAdminProcessValues("userLogged")?.lastName || "hâpy"}</p>
+                <h1 className="text-black f-32 fw-6 mt-0">{getAdminProcessValues("userLogged")?.position}</h1>
                 <div className="text-center mt-4 mb-4">
                     <IconHapyLogo width={48} height={48} styleIcon={{width: 22}}/>
                 </div>
