@@ -67,7 +67,7 @@ function Preparation_Top(props:PropsType) {
                 <div className="row">
                     <div className="col-6 row" style={{cursor:"pointer"}} onClick={()=>navigate('/preparation')}>
                     <div className="col-6">
-                        <h1>{getAdminProcessValues("userLogged")?.position || "Poste en Cuisine"}</h1>
+                        <h1 className="fw-5 f-32" >{getAdminProcessValues("userLogged")?.position || "Poste en Cuisine"}</h1>
                         <span className="text-orange">{getAdminProcessValues("userLogged")?.firstName || "hâpy"}</span> <span>{getAdminProcessValues("userLogged")?.lastName || "HAPY"}</span>
                     </div>
                     <div className="col-5 mt-3">
@@ -89,7 +89,7 @@ function Preparation_Top(props:PropsType) {
                             <span className="fw-6 f-32 ml-1">{couponNumber}</span>
                         </div>
                     </div>
-                    <div className="col text-end float-end row mt-3">
+                    <div className="col d-flex justify-content-end row mt-3">
                         {/*<HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-orange bg-black-btn' handleClick={()=>props.handleOpenModal(<PreparationAllOrdersModal handleCloseModal={props.handleCloseModal}/>)}
                                              btnWidth={80} marginRight={12} iconComponent={<IconOrderAdd stroke={'white'}/>}
                                              isChecked={false}/>*/}

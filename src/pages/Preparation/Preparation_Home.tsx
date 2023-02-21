@@ -129,8 +129,8 @@ function Preparation_Home(props:PropsType) {
                     </div>
                     {/*All COMMAND LIST COL */}
                     <div className={preparationProcess.listPausedOrders?.length > 0 ? "col-lg-6 col-md-4" : "col-lg-9 col-md-8"}>
-                        <div className="col-lg-5 col-md-12 float-end row">
-                            <div className="col-4">
+                        <div className="col-lg-5 col-md-12 float-end  d-flex  justify-content-end">
+                            <div className="" style={{marginRight:32}}>
                                 <div className="fw-3 mb-1" style={{fontSize:8}}>Couverts</div>
                                 <span className="fw-7">0</span>
                                 <span style={{marginLeft:4}}>
@@ -142,7 +142,7 @@ function Preparation_Home(props:PropsType) {
                                     </svg>
                                 </span>
                             </div>
-                            <div className="col-4">
+                            <div className="" style={{marginRight:32}}>
                                     <div className="fw-3 mb-1" style={{fontSize:8, marginLeft:15}}>Ticket</div>
                                     <span className="fw-8">{orders.length}</span>
                                     <span style={{marginLeft:4}}>
@@ -153,7 +153,7 @@ function Preparation_Home(props:PropsType) {
                                         </svg>
                                     </span>
                             </div>
-                            <div className="col-4">
+                            <div className="" >
                                     <div className="fw-3 mb-1" style={{fontSize:8, marginLeft:15}}>Envoyé</div>
                                     <span className="fw-8">{preparationProcess.listFinishedOrders?.length || 0}</span>
                                     <span style={{marginLeft:4}}>
