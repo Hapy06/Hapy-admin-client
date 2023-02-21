@@ -20,7 +20,7 @@ type AuthBody = {
 
 function Login(props:PropType) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
-    const [authBody, setAuthBody] = useState<AuthBody>({email:'', password:''});
+    const [authBody, setAuthBody] = useState<AuthBody>({email:'varld@gmail.com', password:'xxxx'});
     const [showError, setShowError] = useState<boolean>(false) ;
     const [errorMessage, setErrorMessage] = useState<string>('') ;
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
