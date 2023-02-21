@@ -66,7 +66,7 @@ function HoteModalOpenTable(props:PropsType) {
                 </div>
             ) : (
                 <div className="hapy-modal" style={props.containerStyle}>
-                    <button className="back-btn-modal" style={{float: "left", marginTop: -5}}
+                    <button className="back-btn-modal" style={{float: "left", marginTop: -5, padding:0}}
                             onClick={props.handleCloseModal}>
                         <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 10}}/>
                     </button>
