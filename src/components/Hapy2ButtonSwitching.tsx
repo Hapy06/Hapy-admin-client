@@ -12,12 +12,12 @@ function Hapy2ButtonSwitching(props:PropsType) {
     const classBtnActive: string = 'hapy-btn-without-icon col-6' ;
     const classBtnNotActive: string = 'text-white hapy-2btnSwitching-secondBtn text-center col-6' ;
     return (
-        <div className="hapy-2btnSwitching row" style={{cursor:"pointer"}}
+        <div className="hapy-2btnSwitching row" style={{cursor:"pointer", position:'fixed', right:'32px'}}
              >
             <button className={props.activeBtn == 'btn1' ? classBtnActive : classBtnNotActive}
-                    onClick={props.handleClickBtn1}>{props.textBtn1}</button>
+                    onClick={props.handleClickBtn1} style={{width:'186px'}}>{props.textBtn1}</button>
             <button className={props.activeBtn == 'btn2' ? classBtnActive : classBtnNotActive}
-                    onClick={props.handleClickBtn2}>{props.textBtn2}</button>
+                    onClick={props.handleClickBtn2} style={{width:'186px'}}>{props.textBtn2}</button>
         </div>
     )
 }
