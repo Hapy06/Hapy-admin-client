@@ -39,7 +39,7 @@ function Hote_Top(props:PropsType) {
         <div className={props.classAdditional ? "preparation-top-container text-white " + props.classAdditional : "preparation-top-container text-white"}
              /*style={{width:screenWidth+5}}*/>
             <div className="preparation-container-wrapper">
-                <div className="text-center welcome-word" >Welcome to Hâpy</div>
+                <div className="text-center welcome-word" style={{fontWeight:600}}>Welcome to Hâpy</div>
                 <div className="row">
                     <div className="col-2" style={{maxWidth:305}}>
                         <h3>{getAdminProcessValues("userLogged").position}</h3>
