@@ -51,6 +51,7 @@ function HoteContainer() {
       element: <AnimationLayout />,
       children: [
         {path: "/", element: <Hote_Tables/>},
+        {path: "/*", element: <Hote_Tables/>},
       ]
     }
   ]);
