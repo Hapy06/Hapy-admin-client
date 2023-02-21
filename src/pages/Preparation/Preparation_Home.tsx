@@ -185,7 +185,7 @@ function Preparation_Home(props: PropsType) {
                       {preparationProcess.listPausedOrders?.map(
                         (order: Order, index: number) => (
                           <PreparationCommandBox
-                          removePauseIcon={false}
+                            removePauseIcon={false}
                             key={index}
                             order={order}
                             handleClick={() => handleOrderClicked(order)}
@@ -216,7 +216,7 @@ function Preparation_Home(props: PropsType) {
                   }
                 >
                   <div className="col-lg-5 col-md-12 float-end  d-flex  justify-content-end">
-                    <div className="" style={{ marginRight: 32 }}>
+                    <div className="" style={{ marginRight: 48 }}>
                       <div className="fw-3 mb-1" style={{ fontSize: 8 }}>
                         Couverts
                       </div>
@@ -260,7 +260,7 @@ function Preparation_Home(props: PropsType) {
                         </svg>
                       </span>
                     </div>
-                    <div className="" style={{ marginRight: 32 }}>
+                    <div className="" style={{ marginRight: 48 }}>
                       <div
                         className="fw-3 mb-1"
                         style={{ fontSize: 8, marginLeft: 15 }}
@@ -354,7 +354,7 @@ function Preparation_Home(props: PropsType) {
                             style={{ width: 366, marginRight: 16 }}
                           >
                             <PreparationCommandBox
-                            removePauseIcon={true}
+                              removePauseIcon={true}
                               order={order}
                               handleClick={() => handleOrderClicked(order)}
                             />
