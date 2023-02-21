@@ -56,6 +56,7 @@ function Hote_Tables(props:PropsType) {
             if (response.data.data.items.length > 0) {
                 handleLoadBookings() ;
                 let arr = response.data.data.items.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
+
                 arr.forEach((zone, index) => {
                     zone.tableIds = zone.tableIds.sort((a,b) => a.tableNumber < b.tableNumber ? -1 : 1 ) ;
                 }) ;
@@ -63,6 +64,7 @@ function Hote_Tables(props:PropsType) {
                 arr.forEach((zone, index) => {
                     alltables = alltables.concat(zone.tableIds) ;
                 }) ;
+                alltables = alltables.sort((a,b) => a.tableNumber < b.tableNumber ? -1 : 1 ) ;
                 setListAllTables(alltables) ;
                 setListZones(arr) ;
                 setZoneToShow(arr[0]) ;
@@ -185,14 +187,14 @@ function Hote_Tables(props:PropsType) {
                                             <div className="row table-item-container mt-3 scroll-and-hidden" style={{height:250}}>
                                                 { zoneToShow?.tableIds?.map((table, index) => (
                                                     <HapyHoteTableItem marginLeft={49} marginBottom={49} status={table.status}
-                                                    handleClick={() => handleOpenModal(
+                                                    handleClick={() => table.status != 'unavailable' ? handleOpenModal(
                                                         table.status == 'close' ? <HoteModalOpenTable tableDetail={table}
                                                                                                       containerStyle={{marginTop: 50}}
                                                                                                       handleCloseModal={handleCloseModal}/> :
                                                             <HoteModalCloseTable tableDetail={table}
                                                                                 containerStyle={{marginTop: 50}}
                                                                                 handleCloseModal={handleCloseModal}/>
-                                                    )} number={table.tableNumber}
+                                                    ) : null } number={table.tableNumber}
                                                     btnWidth={64}/>
                                                 ))
                                                 }
@@ -209,8 +211,9 @@ function Hote_Tables(props:PropsType) {
                                         </div>
                                     </>
                                 ) : (
+                                    <>
                                     <div className="row">
-                                        {listAllTables.map((table, index) => (
+                                        {/*{listAllTables.map((table, index) => (
                                             <HapyHoteTableItem marginLeft={49} marginBottom={49} isChecked={checkedIfReserved(table)} status={table.status}
                                                                handleClick={checkedIfReserved(table) ? () => handleOpenModal(<HoteModalDetailReservation
                                                                    containerStyle={{marginTop: 100}} bookingDetail={
@@ -220,8 +223,33 @@ function Hote_Tables(props:PropsType) {
                                                                }
                                                                    handleCloseModal={handleCloseModal}/>) : null} number={table.tableNumber}
                                                                btnWidth={64}/>
-                                        ))}
+                                        ))}*/}
+
+                                        <div className="row table-item-container mt-3 scroll-and-hidden" style={{height:250}}>
+                                            { zoneToShow?.tableIds?.map((table, index) => (
+                                                <HapyHoteTableItem marginLeft={49} marginBottom={49} isChecked={checkedIfReserved(table)} status={table.status}
+                                                                   handleClick={checkedIfReserved(table) ? () => handleOpenModal(<HoteModalDetailReservation
+                                                                       containerStyle={{marginTop: 100}} bookingDetail={
+                                                                       listBooking.find((booking:Booking) => {
+                                                                           return booking.tableNumber == table.tableNumber ;
+                                                                       })
+                                                                   }
+                                                                       handleCloseModal={handleCloseModal}/>) : null} number={table.tableNumber}
+                                                                   btnWidth={64}/>
+                                            ))
+                                            }
+                                        </div>
                                     </div>
+                                        <div className="text-center">
+                                    {zoneToShowIndex != 0 && (
+                                        <span onClick={previousZone} className="float-start" style={{cursor:"pointer"}}><IconArrowLeft/></span>
+                                        )}
+                                        <span className="float-none">{zoneToShow?.name}</span>
+                                    {zoneToShowIndex != (listZones.length - 1) && (
+                                        <span onClick={nextZone} className="float-end" style={{cursor:"pointer"}}><IconArrowRight/></span>
+                                        )}
+                                        </div>
+                                    </>
                                 )}
                             </>
                         )

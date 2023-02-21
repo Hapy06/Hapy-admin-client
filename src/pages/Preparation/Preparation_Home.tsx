@@ -4,7 +4,7 @@ import IconTimer2 from "../../globals/icons-components/IconTimer2";
 import PreparationCommandBox from "./PreparationCommandBox";
 import PreparationCurrentCommandRed from "./PreparationCurrentCommandRed";
 import {useNavigate} from "react-router";
-import {Order, PreparationProcessModel} from "../../globals/models/models";
+import {NotificationHapy, Order, PreparationProcessModel} from "../../globals/models/models";
 import axios from "axios";
 import { BASE_URL, getAdminProcessValues, getProcessStored, setProcessStored } from '../../globals/GlobalVariables';
 import PullToRefresh from "react-simple-pull-to-refresh";
@@ -12,6 +12,9 @@ import {preparationContext} from "./PreparationContainer";
 import io from "socket.io-client";
 
 import {Simulate} from "react-dom/test-utils";
+import IconKey from "../../globals/icons-components/IconKey";
+import IconOrder from "../../globals/icons-components/IconOrder";
+import {ScrollMenu} from "react-horizontal-scrolling-menu";
 
 type PropsType = {
 }
@@ -40,6 +43,7 @@ function Preparation_Home(props:PropsType) {
                 setLoadMessageNotif("(Pas de commandes en cours)") ;
             } else {
                 let temp = {...preparationProcess}
+                temp.ticketQuantity = listOrdersFromDB.length ;
                 if (!temp.listAllOrders) temp.listAllOrders = [] ;
                 if (!temp.listWaitingOrders) temp.listWaitingOrders = [] ;
                 listOrdersFromDB.forEach((order:Order) => {
@@ -104,16 +108,18 @@ function Preparation_Home(props:PropsType) {
                 </div>
                 <div className="row">
                 {/*COMMAND COMMAND COL */}
-                <div className="col-lg-3 col-md-4">
-                <div className="text-center f-20" style={{opacity:0.32}}>{preparationProcess.listPausedOrders?.length} <IconTimer2 width={48} height={48} styleIcon={{width:32}} classIcon="mt-1"/></div>
-                    <hr className="-mt-1 center-force"/>
-                    <br/>
-                    <div style={{marginTop:-12}}>
-                        {preparationProcess.listPausedOrders?.map((order:Order, index:number) => (
-                            <PreparationCommandBox key={index} order={order} handleClick={()=>handleOrderClicked(order)}/>
-                        ) )}
-                    </div>
-                    </div>
+                    {preparationProcess.listPausedOrders?.length > 0 && (
+                        <div className="col-lg-3 col-md-4">
+                            <div className="text-center f-20" style={{opacity:0.32}}>{preparationProcess.listPausedOrders?.length} <IconTimer2 width={48} height={48} styleIcon={{width:32}} classIcon="mt-1"/></div>
+                            <hr className="-mt-1 center-force"/>
+                            <br/>
+                            <div style={{marginTop:-12}}>
+                                {preparationProcess.listPausedOrders?.map((order:Order, index:number) => (
+                                    <PreparationCommandBox key={index} order={order} handleClick={()=>handleOrderClicked(order)}/>
+                                ) )}
+                            </div>
+                        </div>
+                    )}
                     {/*RED COMMAND COL */}
                     <div className="col-lg-3 col-md-4">
                         <br/>
@@ -122,7 +128,7 @@ function Preparation_Home(props:PropsType) {
                         )}
                     </div>
                     {/*All COMMAND LIST COL */}
-                    <div className="col-lg-6 col-md-4">
+                    <div className={preparationProcess.listPausedOrders?.length > 0 ? "col-lg-6 col-md-4" : "col-lg-9 col-md-8"}>
                         <div className="col-lg-5 col-md-12 float-end row">
                             <div className="col-4">
                                 <div className="fw-3 mb-1" style={{fontSize:8}}>Couverts</div>
@@ -160,12 +166,14 @@ function Preparation_Home(props:PropsType) {
                             </div>
                         </div>
                         <br/>
-                        <div className="col-lg-12 row mt-5">
-                            {preparationProcess?.listWaitingOrders?.slice(0,4).map((order:Order, index:number) => (
-                                <div className="col-lg-6 col-md-12" key={index}>
-                                    <PreparationCommandBox order={order} handleClick={()=>handleOrderClicked(order)}/>
-                                </div>
-                            ) )}
+                        <div className="mt-5">
+                            <ScrollMenu scrollContainerClassName="scroll-and-hidden pl-2" >
+                                {preparationProcess?.listWaitingOrders?.map((order:Order, index:number) => (
+                                    <div key={index} style={{width:366, marginRight:16}} >
+                                        <PreparationCommandBox order={order} handleClick={()=>handleOrderClicked(order)}/>
+                                    </div>
+                                ) )}
+                            </ScrollMenu>
                         </div>
                         {/*<div className="list-command-container" style={{marginTop:66, marginLeft:16}}>
                             <div className="row">

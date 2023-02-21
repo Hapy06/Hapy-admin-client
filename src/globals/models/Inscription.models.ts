@@ -223,6 +223,7 @@ export class ProductIngredient {
     id?: string ;
     ingredient?: Ingredient ;
     ingredientId?: string;
+    ingredientEntitled?: string;
     quantity: number = 0;
     isIngredientModifiable: boolean ;
 }

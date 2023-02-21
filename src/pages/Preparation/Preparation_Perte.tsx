@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Preparation_Top, {screenWidth} from "./Preparation_Top";
+import Preparation_Top, {screenHeightPourcent, screenWidth} from "./Preparation_Top";
 import HapySearch from "../../components/HapySearch";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import IconChecked from "../../globals/icons-components/IconChecked";
@@ -7,10 +7,11 @@ import IconArrowDown from "../../globals/icons-components/IconArrowDown";
 import IconVerify from "../../globals/icons-components/IconVerify";
 import {useNavigate} from "react-router";
 import PreparationModalPerte from "./PreparationModalPerte";
-import {Ingredient, Variant} from "../../globals/models/Inscription.models";
-import {getAdminProcessValues} from "../../globals/GlobalVariables";
+import {Ingredient, Product, ProductIngredient, Variant} from "../../globals/models/Inscription.models";
+import {API_REQUEST_PRODUCT, BASE_URL, getAdminProcessValues} from "../../globals/GlobalVariables";
 import PerteModal from "../Pertes/PerteModal";
 import PreparationModalPerteIngredient from "./PreparationModalPerteIngredient";
+import axios from "axios";
 
 type PropsType = {
 }
@@ -20,28 +21,52 @@ function Preparation_Perte(props:PropsType) {
     const [isModalOpened, setIsModalOpened] = useState<{state:boolean,modalToOpen:any}>({state:false,modalToOpen:null});
     const navigate = useNavigate() ;
     const [loadMessage, setLoadMessage] = useState<string>("(Pas de produits trouvé)");
-    const [listVariants, setListVariants] = useState<Variant[]>(getAdminProcessValues("userLogged").institution.variants || []);
-    const [listVariantChoosed, setListVariantChoosed] = useState<Variant[]>([]);
-    const [listVariantSelectedWithQty, setListVariantSelectedWithQty] = useState({});
-    const [loadMessageIngredient, setLoadMessageIngredient] = useState<string>("(Pas d'Ingredients trouvé)");
-    const [listIngredients, setListIngredients] = useState<Ingredient[]>(getAdminProcessValues("userLogged").institution.ingredients || []);
-    const [listIngredientChoosed, setListIngredientChoosed] = useState<Ingredient[]>([]);
-    const [listIngredientSelectedWithQty, setListIngredientSelectedWithQty] = useState({});
-    const [totalQtyVariant, setTotalQtyVariant] = useState<number>(0);
-    const [totalQtyIngredient, setTotalQtyIngredient] = useState<number>(0);
+    const [listProducts, setListProducts] = useState<Product[]>([]);
+    const [listProductsOfTheTeamMember, setListProductsOfTheTeamMember] = useState<Product[]>([]);
+    const [listVariantsOfTheTeamMember, setListVariantsOfTheTeamMember] = useState<Variant[]>( []);
+    // const [listVariantChoosed, setListVariantChoosed] = useState<Variant[]>([]);
+    const [listCookingStationWithVariant, setListCookingStationWithVariant] = useState<{cookingPosition:string, variants:Variant[]}  []>([]);
 
-    const handleChangeListVariantChoosed = () => {
-        let arr:Variant[] = [] ;
-        listVariants.forEach(variant => {
-            if (listVariantSelectedWithQty[variant.id] && listVariantSelectedWithQty[variant.id] > 0) {
-                arr.push(variant) ;
+
+    const [listVariantSelectedAllPoste, setListVariantSelectedAllPoste] = useState({});
+    const [listProductIngredientChoosedAllPoste, setListProductIngredientChoosedAllPoste] = useState<ProductIngredient[]>([]);
+    const [listProductIngredientSelectedWithQtyAllPoste, setListProductIngredientSelectedWithQtyAllPoste] = useState({});
+    const [totalQtyProductIngredientAllPoste, setTotalQtyProductIngredientAllPoste] = useState<number>(0);
+
+    useEffect(()=>{
+        window.scrollTo(0, 0);
+        handleLoadData() ;
+    }, []) ;
+
+    const handleLoadData = () => {
+        return axios.get(BASE_URL + API_REQUEST_PRODUCT + '/byInstitutionId/' + getAdminProcessValues("userLogged").institution.id,
+            { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
+            console.log(response)
+            if (response.data.data.items.length > 0) {
+                let arr = response.data.data.items.filter((product:Product)=>product.variants.length > 0) ;
+                setListProducts(arr) ;
+                setListProductsOfTheTeamMember(arr.filter((product:Product)=>product.cookingStation == getAdminProcessValues("userLogged").position)) ;
+                // get product by cooking station
+                let arrCookingStation: {cookingPosition:string, variants:Variant[]} [] = [] ;
+                arr.forEach((product:Product)=>{
+                        let cookingStation = arrCookingStation.find((item)=>item.cookingPosition == product.cookingStation) ;
+                        if (cookingStation) {
+                            cookingStation.variants = cookingStation.variants.concat(product.variants) ;
+                        } else {
+                            arrCookingStation.push({cookingPosition:product.cookingStation, variants:product.variants}) ;
+                        }
+                    }) ;
+                setListCookingStationWithVariant(arrCookingStation) ;
+            } else {
+                setLoadMessage("(Pas de produits trouvé)") ;
             }
-        }) ;
-        setListVariantChoosed(arr) ;
-        // console.log(arr) ;
+            // console.log(zoneToShow) ;
+            return true ;
+        }) .catch(error => {
+            console.error(error);
+            setLoadMessage('(Erreur de Chargement, Veuillez ressayez...)');
+            throw error; });
     } ;
-
-    useEffect(()=>handleChangeListVariantChoosed, [listVariantSelectedWithQty])
 
     const handleOpenModal = (modalToOpen) => {
         setBlurBG('blur-bg') ;
@@ -53,62 +78,51 @@ function Preparation_Perte(props:PropsType) {
         setIsModalOpened({state:false,modalToOpen:null}) ;
     } ;
 
-    const handleSelectedVariant = (variantId:string) => {
+    const handleSelectedVariantAllPoste = (variantId:string) => {
         // console.log(variantId) ;
-        let temp = {...listVariantSelectedWithQty} ;
+        let temp = {...listVariantSelectedAllPoste} ;
         temp[variantId] = 0 ;
         console.log(temp) ;
-        setListVariantSelectedWithQty({...temp}) ;
+        setListVariantSelectedAllPoste({...temp}) ;
     } ;
 
-    const handleUnselectedVariant = (variantId:string) => {
+    const handleUnselectedVariantAllPoste = (variantId:string) => {
         // console.log(variantId) ;
-        let temp = {...listVariantSelectedWithQty} ;
+        let temp = {...listVariantSelectedAllPoste} ;
         temp[variantId] = null ;
         console.log(temp) ;
-        setListVariantSelectedWithQty({...temp}) ;
-    } ;
-    const handleSelectedIngredient = (ingredientId:string) => {
-        // console.log(ingredientId) ;
-        let temp = {...listIngredientSelectedWithQty} ;
-        temp[ingredientId] = 0 ;
-        console.log(temp) ;
-        setListIngredientSelectedWithQty({...temp}) ;
+        setListVariantSelectedAllPoste({...temp}) ;
     } ;
 
-    const handleUnselectedIngredient = (ingredientId:string) => {
-        // console.log(ingredientId) ;
-        let temp = {...listIngredientSelectedWithQty} ;
-        temp[ingredientId] = null ;
+    const handleSelectedProductIngredientAllPoste = (productIngredientId:string) => {
+        // console.log(productIngredientId) ;
+        let temp = {...listProductIngredientSelectedWithQtyAllPoste} ;
+        temp[productIngredientId] = 0 ;
         console.log(temp) ;
-        setListIngredientSelectedWithQty({...temp}) ;
+        setListProductIngredientSelectedWithQtyAllPoste({...temp}) ;
     } ;
 
-    const handleQtyChangeVariant = (variantId: string, increaseOrDescrease: 'increase' | 'decrease') => {
-        let temp = {...listVariantSelectedWithQty} ;
-        if (increaseOrDescrease == "increase") {
-            temp[variantId] += 1 ;
-            setTotalQtyVariant(totalQtyVariant + 1) ;
-        } else {
-            if (temp[variantId] > 0) {
-                temp[variantId] -= 1 ;
-                setTotalQtyVariant(totalQtyVariant - 1) ;
-            }
-        }
-        setListVariantSelectedWithQty({...temp}) ;
+    const handleUnselectedProductIngredientAllPoste = (productIngredientId:string) => {
+        // console.log(productIngredientId) ;
+        let temp = {...listProductIngredientSelectedWithQtyAllPoste} ;
+        temp[productIngredientId] = null ;
+        console.log(temp) ;
+        setListProductIngredientSelectedWithQtyAllPoste({...temp}) ;
     } ;
-    const handleQtyChangeIngredient = (ingredientId: string, increaseOrDescrease: 'increase' | 'decrease') => {
-        let temp = {...listIngredientSelectedWithQty} ;
+
+
+    const handleQtyChangeProductIngredient = (ingredientId: string, increaseOrDescrease: 'increase' | 'decrease') => {
+        let temp = {...listProductIngredientSelectedWithQtyAllPoste} ;
         if (increaseOrDescrease == "increase") {
             temp[ingredientId] += 1 ;
-            setTotalQtyIngredient(totalQtyIngredient + 1) ;
+            setTotalQtyProductIngredientAllPoste(totalQtyProductIngredientAllPoste + 1) ;
         } else {
             if (temp[ingredientId] > 0) {
                 temp[ingredientId] -= 1 ;
-                setTotalQtyIngredient(totalQtyIngredient - 1) ;
+                setTotalQtyProductIngredientAllPoste(totalQtyProductIngredientAllPoste - 1) ;
             }
         }
-        setListIngredientSelectedWithQty({...temp}) ;
+        setListProductIngredientSelectedWithQtyAllPoste({...temp}) ;
     } ;
 
     return (
@@ -176,37 +190,42 @@ function Preparation_Perte(props:PropsType) {
                         {/*FIRST COL */}
                         <div className="col-6">
                             <br/><br/>
-                            <h3>Vos produits</h3>
+                            <h3>Mon poste</h3>
                             <br/><br/>
                             <div className="scroll-and-hidden" style={{height:385}}>
                                 {/*<span className="f-20">Salade César</span>*/}
                                 {/*<br/><br/>*/}
-                                    { listVariants.length > 0 ? (
-                                            listVariants.map((variant:Variant, index:number) => (
-                                                    listVariantSelectedWithQty[variant.id] != null ? (
-                                                        <div key={variant.id} className="row mb-5 fw-5">
-                                                            <span className="col-1" onClick={()=>handleUnselectedVariant(variant.id)} style={{cursor:"pointer"}}>
+                                    { listProductsOfTheTeamMember.length > 0 ? (
+                                        listProductsOfTheTeamMember.map((product:Product, index:number) => (
+                                            <>
+                                                <h3>{product.name}</h3>
+                                                { product.variants.map((variant:Variant, index:number) => (
+                                                listVariantSelectedAllPoste[variant.id] != null ? (
+                                                <div key={variant.id} className="row mb-5 fw-5">
+                                                            <span className="col-1" onClick={()=>handleUnselectedVariantAllPoste(variant.id)} style={{cursor:"pointer"}}>
                                                                 <IconChecked fill={'#F7B927'} stroke={'white'}/>
                                                             </span>
-                                                            <span className="col-5">{variant.name}</span>
-                                                            <span className="col-4 mt-1">
-                                                                <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeVariant(variant.id, "increase")}>+</span>
-                                                                <span style={{color:'#F7B927'}} className="ml-2 mr-2 fw-6">{listVariantSelectedWithQty[variant.id]}</span>
-                                                                <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeVariant(variant.id, "decrease")}>-</span>
+                                                    <span className="col-5">{variant.name}</span>
+                                                    <span className="col-4 mt-1">
+                                                                {/*<span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeVariant(variant.id, "increase")}>+</span>*/}
+                                                                <span style={{color:'#F7B927'}} className="ml-2 mr-2 fw-6">{listVariantSelectedAllPoste[variant.id]}</span>
+                                                                {/*<span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeVariant(variant.id, "decrease")}>-</span>*/}
                                                         </span>
-                                                        </div>
-                                                    ) : (
-                                                        <div className="row mb-5 fw-5">
-                                                            <span className="col-1" onClick={()=>handleSelectedVariant(variant.id)} style={{cursor:"pointer"}}>
+                                                </div>
+                                                ) : (
+                                                <div className="row mb-5 fw-5">
+                                                            <span className="col-1" onClick={()=>handleSelectedVariantAllPoste(variant.id)} style={{cursor:"pointer"}}>
                                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                 <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
                                                                 </svg>
                                                             </span>
-                                                            <span className="col-6">{variant.name}</span>
-                                                        </div>
-                                                    )
+                                                    <span className="col-6">{variant.name}</span>
+                                                </div>
                                                 )
-                                            )
+                                                )
+                                                ) }
+                                            </>
+                                            ) )
                                         ) : (
                                             <div className="text-center">{loadMessage} <br/><br/><br/><br/><br/></div>
                                         )}
@@ -214,15 +233,15 @@ function Preparation_Perte(props:PropsType) {
                             <div className="text-center">
                                 <IconArrowDown/>
                             </div>
-                            {totalQtyVariant > 0 && (
+                            {/*{totalQtyVariant > 0 && (
                                 <div className="horizontal-center mt-4">
                                     <HapyButtonWithIcon text="Valider" handleClick={()=>handleOpenModal(<PreparationModalPerte
-                                        listVariantChoosed={listVariantChoosed} listVariantSelectedWithQty={listVariantSelectedWithQty}
+                                        listVariantChoosed={listVariantChoosed} listVariantSelectedWithQty={listVariantSelectedAllPoste}
                                         totalQty={totalQtyVariant} handleCloseModal={handleCloseModal}/>)}
                                                         btnWidth={350} numberAtEnd={totalQtyVariant + ''} numberAtEndColor={"#F7B927"}
                                                         iconComponent={<IconVerify/>}/>
                                 </div>
-                            )}
+                            )}*/}
                         </div>
                         {/*2ND COL */}
                         <div className="col-1" style={{borderLeft:'1px solid #C8C8C8', marginTop:80}}></div>
@@ -232,52 +251,77 @@ function Preparation_Perte(props:PropsType) {
                                                      text={"Historique"}/>
                             </div>*/}
                             <br/>
-                            <div style={{marginLeft:-50}}>
+                            <div style={{marginLeft:-40}}>
                                 <br/>
-                                <h3>Vos ingrédients</h3>
-                                <br/><br/>
-                                <div className="scroll-and-hidden" style={{height:385}}>
-                                    {/*<span className="f-20">Burger Gourmand</span>*/}
-                                    {/*<br/><br/>*/}
-                                    { listIngredients.length > 0 ? (
-                                        listIngredients.map((ingredient:Ingredient, index:number) => (
-                                                listIngredientSelectedWithQty[ingredient.id] != null ? (
-                                                    <div key={ingredient.id} className="row mb-5 fw-5">
-                                                            <span className="col-1" onClick={()=>handleUnselectedIngredient(ingredient.id)} style={{cursor:"pointer"}}>
+                                { listCookingStationWithVariant.map((cookingStation) => (
+                                    <>
+                                        <h3>{cookingStation.cookingPosition}</h3>
+                                        <div>
+                                            {
+                                                cookingStation.variants.map( (variant:Variant, index:number) => (
+                                                    <>
+                                                    <h6 key={variant.id} className="mb-3 fw-5">{variant.name}</h6>
+                                                    {listVariantSelectedAllPoste[variant.id] != null ? (
+                                                        <div key={variant.id} className="row mb-4 fw-5">
+                                                            <span className="col-1" onClick={()=>handleUnselectedVariantAllPoste(variant.id)} style={{cursor:"pointer"}}>
                                                                 <IconChecked fill={'#F7B927'} stroke={'white'}/>
                                                             </span>
-                                                        <span className="col-5">{ingredient.entitled}</span>
-                                                        <span className="col-4 mt-1">
-                                                                <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeIngredient(ingredient.id, "increase")}>+</span>
-                                                                <span style={{color:'#F7B927'}} className="ml-2 mr-2 fw-6">{listIngredientSelectedWithQty[ingredient.id]}</span>
-                                                                <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeIngredient(ingredient.id, "decrease")}>-</span>
-                                                        </span>
-                                                    </div>
-                                                ) : (
-                                                    <div className="row mb-5 fw-5">
-                                                            <span className="col-1" onClick={()=>handleSelectedIngredient(ingredient.id)} style={{cursor:"pointer"}}>
-                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
-                                                                </svg>
+                                                                <span className="col-4 mt-1">
+                                                                <span className="col-5 text-orange">Produit fini</span>
                                                             </span>
-                                                        <span className="col-6">{ingredient.entitled}</span>
-                                                    </div>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="row mb-4 fw-5">
+                                                        <span className="col-1" onClick={()=>handleSelectedVariantAllPoste(variant.id)} style={{cursor:"pointer"}}>
+                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
+                                                            </svg>
+                                                        </span>
+                                                            <span className="col-6 text-orange">Produit fini</span>
+                                                        </div>
+                                                    )}
+                                                    { variant.productIngredients?.map( (productIngredient:ProductIngredient, index:number) => (
+                                                        <>
+                                                            {listProductIngredientSelectedWithQtyAllPoste[productIngredient.id] != null ? (
+                                                                <div key={variant.id} className="row mb-4 fw-5">
+                                                                        <span className="col-1" onClick={()=>handleUnselectedProductIngredientAllPoste(productIngredient.id)} style={{cursor:"pointer"}}>
+                                                                            <IconChecked fill={'#F7B927'} stroke={'white'}/>
+                                                                        </span>
+                                                                    <span className="col-5">{productIngredient.ingredientEntitled || 'Ingredient inconnue'}</span>
+                                                                    <span className="col-4 mt-1">
+                                                                        <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeProductIngredient(productIngredient.id, "increase")}>+</span>
+                                                                        <span style={{color:'#F7B927'}} className="ml-2 mr-2 fw-6">{listProductIngredientSelectedWithQtyAllPoste[productIngredient.id]}</span>
+                                                                        <span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeProductIngredient(productIngredient.id, "decrease")}>-</span>
+                                                                    </span>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="row mb-4 fw-5">
+                                                                        <span className="col-1" onClick={()=>handleSelectedProductIngredientAllPoste(productIngredient.id)} style={{cursor:"pointer"}}>
+                                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
+                                                                        </svg>
+                                                                        </span>
+                                                                    <span className="col-6">{productIngredient.ingredientEntitled || 'Ingredient inconnue'}</span>
+                                                                </div>
+                                                            )}
+                                                        </>
+                                                    ) ) }
+
+                                                    </>)
                                                 )
-                                            )
-                                        )
-                                    ) : (
-                                        <div className="text-center">{loadMessageIngredient} <br/><br/><br/><br/><br/></div>
-                                    )}
-                                </div>
+                                            }
+                                        </div>
+                                    </>
+                                )) }
                                 <div className="text-center">
                                     <IconArrowDown/>
                                 </div>
-                                {totalQtyIngredient > 0 && (
+                                {(totalQtyProductIngredientAllPoste > 0 || listVariantSelectedAllPoste) && (
                                     <div className="horizontal-center mt-4">
-                                        {/*<HapyButtonWithIcon text="Valider" handleClick={()=>handleOpenModal(<PreparationModalPerteIngredient listIngredientChoosed={listVariantChoosed} listIngredientSelectedWithQty={listVariantSelectedWithQty}
-                                                                                                                                             totalQty={totalQtyIngredient} handleCloseModal={handleCloseModal}/>)}
-                                                            btnWidth={350} numberAtEnd={totalQtyIngredient + ''} numberAtEndColor={"#F7B927"}
-                                                            iconComponent={<IconVerify/>}/>*/}
+                                        <HapyButtonWithIcon text="Valider" handleClick={()=>handleOpenModal(<PreparationModalPerteIngredient listIngredientChoosed={listProductIngredientChoosedAllPoste} listIngredientSelectedWithQty={listProductIngredientSelectedWithQtyAllPoste}
+                                                                                                                                             totalQty={totalQtyProductIngredientAllPoste} handleCloseModal={handleCloseModal}/>)}
+                                                            btnWidth={350} numberAtEnd={totalQtyProductIngredientAllPoste + ''} numberAtEndColor={"#F7B927"}
+                                                            iconComponent={<IconVerify/>}/>
                                     </div>
                                 )}
                             </div>

@@ -7,7 +7,7 @@ const Index = ({index, coupon}) => {
         return (
             <div key={index} className={coupon.isPregnant ? "row fw-5 mb-3 mt-4" : "row fw-5 mb-3"}>
                                 <span className="col-1">
-                                    {coupon.isCouponCooked ? ICONS.checkedBlue : ICONS.closeCircle}
+                                    {/*{coupon.isCouponCooked ? ICONS.checkedBlue : ICONS.closeCircle}*/} 1
                                 </span>
                                 <span className="col-10" style={{marginTop:-24}}>
                                 {coupon.isPregnant && (<span className="text-orange" style={{fontSize:12, marginLeft:15}}>Enceinte</span>)}
@@ -21,14 +21,14 @@ const Index = ({index, coupon}) => {
                                         <path d="M7.99609 11.3333H8.00208" stroke="#F9A826" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
                                     </span>*/}
-                                    <span className="fw-5" style={{marginLeft:10}}>{coupon.productVariant?.name || "Inconnue"} <span style={{fontSize:12}}>({coupon.cookingStation})</span></span>
+                                    <span className="fw-5" style={{marginLeft:10}}>{coupon.productVariant?.name || "Inconnue"} {/*<span style={{fontSize:12}}>({coupon.cookingStation})</span>*/}</span>
                                 </span>
                                 ) : (
-                                    <span className="fw-5" style={{marginLeft:15}}>{coupon.productVariant?.name || "Inconnue"} <span style={{fontSize:12}}>({coupon.cookingStation})</span></span>
+                                    <span className="fw-5" style={{marginLeft:15}}>{coupon.productVariant?.name || "Inconnue"} {/*<span style={{fontSize:12}}>({coupon.cookingStation})</span>*/}</span>
                                 )}
                                 {coupon.ingredientsModifiablesStates?.length > 0 && (
                                     <div style={{fontSize:12, marginLeft:15}}>
-                                        {coupon.ingredientsModifiablesStates.map((elt:string, index) => (
+                                        {coupon.ingredientsModifiablesStates.filter(elt => elt.includes('sans')).map((elt:string, index) => (
                                             <span key={index}>{elt}<br/></span>
                                         ))}
                                     </div>

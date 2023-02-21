@@ -82,7 +82,7 @@ function Preparation_Top(props:PropsType) {
                     <div className="col-3" style={{marginLeft:0}}>
                         <div className="f-12">Ticket</div>
                         <div style={{marginTop:-10}}>
-                            <span className="f-48 fw-6">{/* preparationProcess.ticketQuantity */ orderNumber }</span>
+                            <span className="f-48 fw-6">{preparationProcess.ticketQuantity}</span>
                             <svg className="-mt-2 ml-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="10" cy="10" r="10" fill="#FF6063"/>
                             </svg>
@@ -96,11 +96,11 @@ function Preparation_Top(props:PropsType) {
                         <HapyButtonOnlyIcon2 classAddtionnal="mb-2 bg-black-btn" handleClick={()=>props.handleOpenModal(<PreparationAllOrdersModal handleCloseModal={props.handleCloseModal}/>)}
                                              btnWidth={80} marginRight={12} iconComponent={<IconArchive stroke={'white'}/>}
                                              isChecked={false}/>
-                        <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={null}
-                                             btnWidth={80} marginRight={12} iconComponent={<IconTrash stroke={'white'}/>}
-                                             isChecked={false}/>
                         <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={()=>navigate('/preparation/poste')}
-                                             btnWidth={80} iconComponent={<IconLose stroke={'white'}/>}
+                                             btnWidth={80} marginRight={12} iconComponent={<IconLose stroke={'white'}/>}
+                                             isChecked={false}/>
+                        <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={null}
+                                             btnWidth={80}  iconComponent={<IconTrash stroke={'white'}/>}
                                              isChecked={false}/>
 
                     </div>

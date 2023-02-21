@@ -60,20 +60,26 @@ function Preparation_Attente(props:PropsType) {
     } ;
 
     const handleClickValidate = () => {
+        showErrorFunction("Validation de la commande !", "text-success") ;
         let temp = {...preparationProcess} ;
-        temp.orderCooking.couponsReadyIds = [] ;
-        temp.orderCooking.coupons.forEach(coupon => {
-            temp.orderCooking.couponsReadyIds.push(coupon.id) ;
+        temp.orderDetail.couponsReadyIds = [] ;
+        temp.orderDetail.coupons.forEach(coupon => {
+            temp.orderDetail.couponsReadyIds.push(coupon.id) ;
         }) ;
-        putRequest(API_REQUEST_ORDER + '/updateWithCouponsReadyIds' , temp.orderCooking.id, {couponsReadyIds : temp.orderCooking.couponsReadyIds},
+        putRequest(API_REQUEST_ORDER + '/updateWithCouponsReadyIds' , temp.orderDetail.id, {couponsReadyIds : temp.orderDetail.couponsReadyIds},
             ((response) => {
                 showErrorFunction("Commande validée !", "text-success") ;
-                temp.orderCooking.status = "finished" ;
-                temp.orderCooking.finishedAt = new Date() ;
-                temp.orderCooking.endTime = new Date().getHours() + ':' + new Date().getMinutes() ;
+                let lastStatus = temp.orderDetail.status ;
+                temp.orderDetail.status = "finished" ;
+                temp.orderDetail.finishedAt = new Date() ;
+                temp.orderDetail.endTime = new Date().getHours() + ':' + new Date().getMinutes() ;
                 if (!temp.listFinishedOrders) temp.listFinishedOrders = [] ;
-                temp.listFinishedOrders.push(temp.orderCooking) ;
-                temp.orderCooking = temp.listWaitingOrders.shift() ;
+                temp.listFinishedOrders.push(temp.orderDetail) ;
+                if (lastStatus == "pause") {
+                    temp.listPausedOrders = temp.listPausedOrders.filter(elt => elt.id != temp.orderDetail.id) ;
+                } else {
+                    temp.orderCooking = temp.listWaitingOrders.shift() ;
+                }
                 temp.orderCooking.status = 'cooking' ;
                 temp.orderDetail = temp.orderCooking ;
                 setPreparationProcess(temp) ;
@@ -166,8 +172,8 @@ function Preparation_Attente(props:PropsType) {
 
                                     )}
                                 </div>
-                                {(preparationProcess.orderDetail == preparationProcess.orderCooking
-                                    && preparationProcess.orderCooking.status == "cooking") && (
+                                {(preparationProcess.orderDetail.status == "pause"
+                                    || preparationProcess.orderDetail.status == "cooking") && (
                                     <div className="float-end" style={{marginTop:64}}>
                                         <HapyButtonWithIcon btnClass="bg-orange" handleClick={handleClickValidate} iconComponent={<IconVerify/>}
                                                             text={"Valider"} btnWidth={366}/>

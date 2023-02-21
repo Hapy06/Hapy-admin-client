@@ -12,6 +12,9 @@ import {
 } from "../../globals/GlobalVariables";
 import addNotification from "react-push-notification";
 import Booking, {Table} from "../../globals/models/models";
+import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {Input, TextField} from "@mui/material";
 
 type PropsType = {
     handleCloseModal: any ;
@@ -101,8 +104,18 @@ function HoteModalAddReservation(props:PropsType) {
                                        inputValue={newBooking.numberOfPeople} handleChange={handleForm}/>
                 <br/> <br/> <HapyInput inputName='tableNumber' label='Numéro de table' inputType={"text"}
                                        inputValue={newBooking.tableNumber} handleChange={handleForm}/>
-                <br/> <br/> <HapyInput inputName='dateOfreservation' label='Date de la réservation' inputType={"text"}
-                                       inputValue={newBooking.dateOfreservation} handleChange={handleForm}/>
+                <br/> <br/> {/*<HapyInput inputName='dateOfreservation' label='Date de la réservation' inputType={"text"}
+                                       inputValue={newBooking.dateOfreservation} handleChange={handleForm}/>*/}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                        renderInput={(props) => <TextField {...props} style={{width:366, borderRadius:20, border: '1px solid gray'}} />}
+                        label=""
+                        value={newBooking.dateOfreservation}
+                        onChange={(newValue) => {
+                            setNewBooking({...newBooking, dateOfreservation: newValue});
+                        }}
+                    />
+                </LocalizationProvider>
                 <br/><br/><br/>
                 {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
                 <HapyButtonWithIcon text="Réserver la table" handleClick={handleSubmitBooking}
