@@ -86,7 +86,7 @@ function Preparation_Top(props:PropsType) {
                             <svg className="-mt-2 ml-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="10" cy="10" r="10" fill="#FF6063"/>
                             </svg>
-                            <span className="fw-6 f-32 ml-1">{couponNumber}</span>
+                            <span className="fw-5 f-16 ml-1 text-red-orange" >{couponNumber}</span>
                         </div>
                     </div>
                     <div className="col d-flex justify-content-end row mt-3">
