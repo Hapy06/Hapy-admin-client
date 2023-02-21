@@ -278,6 +278,7 @@
 .mr-4 {margin-right: 40px}
 .mr-5 {margin-right: 50px}
 
+.ml-demi{margin-left: 5px}
 .ml-1 {margin-left: 10px}
 .ml-2 {margin-left: 20px}
 .ml-3 {margin-left: 30px}
@@ -771,4 +772,10 @@
 
 .max-width-248 {
   max-width: 224px;
+}
+.circle-red{
+width: 20px;
+height: 20px;
+border-radius: 10px;
+background: #FF6063;
 }
