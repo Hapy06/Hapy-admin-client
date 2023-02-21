@@ -298,9 +298,9 @@ function Preparation_Attente(props: PropsType) {
                   </span>
                 </div>
               </div>
-              <div className="col-lg-12">
+              <div className="col-lg-12 d-flex align-items-end flex-column h-100">
                 <br /> <br />
-                <div className="float-end" style={{ marginTop: 96 }}>
+                <div className="">
                   {showError && (
                     <div
                       className={"mb-3 -mt-4 text-center " + errorMessageColor}
@@ -308,81 +308,141 @@ function Preparation_Attente(props: PropsType) {
                       {errorMessage}
                     </div>
                   )}
-                  {preparationProcess.orderDetail.status != "waiting" && (
-                    <HapyButtonWithIcon
-                      handleClick={handleClickPause}
-                      iconComponent={ <svg
-                        style={{ marginTop: -6 }}
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                  {preparationProcess.orderDetail.status != "waiting" &&
+                    preparationProcess.orderDetail.status != "pause" && (
+                      <HapyButtonWithIcon
+                        handleClick={handleClickPause}
+                        iconComponent={
+                          <svg
+                            style={{ marginTop: -6 }}
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12 22C7.17 22 3.25 18.08 3.25 13.25C3.25 8.42 7.17 4.5 12 4.5C16.83 4.5 20.75 8.42 20.75 13.25"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M12 8V13"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M9 2H15"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeMiterlimit="10"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M19 17V21"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M16 17V21"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        }
+                        btnClass={"mb-64"}
+                        text={"Mettre en attente"}
+                        btnWidth={366}
+                      />
+                    )}
+
+                  {preparationProcess.orderDetail.status != "waiting" &&
+                    preparationProcess.orderDetail.status == "pause" && (
+                      <div
+                        className={" vertical-center "}
+                        style={{ width: 366 }}
                       >
-                        <path
-                          d="M12 22C7.17 22 3.25 18.08 3.25 13.25C3.25 8.42 7.17 4.5 12 4.5C16.83 4.5 20.75 8.42 20.75 13.25"
-                          stroke="#323232"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M12 8V13"
-                          stroke="#323232"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M9 2H15"
-                          stroke="#323232"
-                          strokeWidth="1.5"
-                          strokeMiterlimit="10"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M19 17V21"
-                          stroke="#323232"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M16 17V21"
-                          stroke="#323232"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>}
-                      text={
-                        preparationProcess.orderDetail.status == "pause"
-                          ? "En attente"
-                          : "Mettre en attente"
-                      }
-                      btnWidth={366}
-                    />
+                        <span
+                          className="float-start"
+                          style={{ marginLeft: 32, marginRight: 32 }}
+                        >
+                          <svg
+                            style={{ marginTop: -6 }}
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12 22C7.17 22 3.25 18.08 3.25 13.25C3.25 8.42 7.17 4.5 12 4.5C16.83 4.5 20.75 8.42 20.75 13.25"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M12 8V13"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M9 2H15"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeMiterlimit="10"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M19 17V21"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M16 17V21"
+                              stroke="#323232"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                        <span className="float-start fw-4">En attente</span>
+                      </div>
+                    )}
+                  {preparationProcess.orderDetail.status == "cooking" && (
+                    <div className="">
+                      <HapyButtonWithIcon
+                        btnClass="bg-orange"
+                        handleClick={handleClickValidate}
+                        iconComponent={<IconVerify />}
+                        text={"Valider"}
+                        btnWidth={366}
+                      />
+                    </div>
                   )}
                 </div>
-                {(preparationProcess.orderDetail.status == "pause" ||
-                  preparationProcess.orderDetail.status == "cooking") && (
-                  <div className="float-end" style={{ marginTop: 64 }}>
-                    <HapyButtonWithIcon
-                      btnClass="bg-orange"
-                      handleClick={handleClickValidate}
-                      iconComponent={<IconVerify />}
-                      text={"Valider"}
-                      btnWidth={366}
-                    />
-                  </div>
-                )}
-                <div className="float-end" style={{ marginTop: 96 }}>
+                <div className="mt-auto "   style={{marginBottom:32}}>
                   <HapyButtonWithIcon
                     text="Retour à votre gestion"
                     handleClick={() => {
                       navigate("/preparation");
                     }}
+                  
                     btnWidth={366}
                     iconComponent={
                       <IconArrowLeft
