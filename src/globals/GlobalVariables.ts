@@ -9,7 +9,7 @@ export const BASE_URL = 'http://localhost:4000/';
 export const BASE_URL_SOCKET = 'http://localhost:3000/';
 export const BASE_URL_CLIENT = 'http://localhost:5175/inscription/id=';*/
 
-export const BASE_URL = 'https://api.dear-hapy.com/';
+export const BASE_URL = 'https://api.dear-hapy.com/' ;
 export const IMG_PATH_ONLINE = 'http://api.dear-hapy.com/upload/images/' ;
 export const BASE_URL_CLIENT = 'https://api.dear-hapy.com/inscription/id=';
 export const BASE_URL_SOCKET = 'https://api-socket.dear-hapy.com/';
