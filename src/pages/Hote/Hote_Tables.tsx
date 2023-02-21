@@ -149,9 +149,13 @@ function Hote_Tables(props:PropsType) {
     return (
         <>
             <Hote_Top classAdditional={blurBG} handleSwitchListToShow={(value)=>setListToShow(value)} numberOfCloseTable={listAllTables?.filter(table => table.status == "close").length}
-                      showLeftBtn={listToShow == 'Reservations'} leftBtnComponent={<HapyButtonWithIcon text='Ajouter une réservation'
+                      showLeftBtn={listToShow == 'Reservations'} leftBtnComponent={
+                        <div style={{display:'flex', justifyContent:'center', marginLeft:'-105px'}}>
+                            <HapyButtonWithIcon text='Ajouter une réservation'
                                                                                    handleClick={()=>handleOpenModal(<HoteModalAddReservation listAllTables={listAllTables} containerStyle={{marginTop:150}} handleCloseModal={handleCloseModal}/>)}
-                                                                                   btnWidth={350} iconComponent={<IconReservationAdd stroke='white'/>} btnClass='hapy-btn-with-icon-black' />}/>
+                                                                                   btnWidth={350} iconComponent={<IconReservationAdd stroke='white'/>} btnClass='hapy-btn-with-icon-black' />
+                        </div>
+                      }/>
             {/*<div className={"border-green-container preparation-container-wrapper " + blurBG} style={{width:(screenWidth+8), marginLeft:-4}}></div>*/}
             <div className="preparation-bottom-container-without-border border-green-top">
                 <div className={"preparation-container-wrapper mt-3 " + blurBG}>
