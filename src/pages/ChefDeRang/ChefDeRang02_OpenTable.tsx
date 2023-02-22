@@ -55,7 +55,7 @@ function ChefDeRang02_OpenTable(props) {
             socketOpenTable.emit("CDR-OPEN_TABLE_CONFIRM", {...payloadBase, idTableToReturnResponse:cdrProcess.notifDetail.tableID});
             putRequest(API_REQUEST_NOTIFICATION + '/update', cdrProcess.notifDetail.id, {...cdrProcess.notifDetail, isDone:true},
                 ()=> {
-                cdrProcess.validationMessage = "Demande d'ouverture validée avec Succèss !" ;
+                cdrProcess.validationMessage = "Demande d'ouverture validée avec succès !" ;
                 navigate('/command-validated') ;},
                 ()=>{
                     addNotification({
@@ -80,7 +80,7 @@ function ChefDeRang02_OpenTable(props) {
     const handleDeleteNotif = () => {
         deleteRequest(API_REQUEST_NOTIFICATION + '/delete', cdrProcess.notifDetail.id,
             ()=>{
-                cdrProcess.validationMessage = "Demande d'ouverture supprimée avec Succèss !" ;
+                cdrProcess.validationMessage = "Demande d'ouverture supprimée avec succès !" ;
                 navigate('/command-canceled') ;
             },
             ()=>{

@@ -164,7 +164,7 @@ function Serveur01_Home(props) {
                 <HapyButtonWithIcon text="Accéder à la table" handleClick={()=>{navigate('/list-tables')}} iconComponent={<IconSomeoneTable width={32} height={32}/>} />
                 <br/> <HapyButtonWithIcon text="Voir les réservations" handleClick={()=>{navigate('/reservation/list')}} iconComponent={<IconReservationSearch width={32} height={32}/>} />
                 <br/> <HapyButtonWithIcon text="Noter une perte" handleClick={()=>{navigate('/lose')}} iconComponent={<IconLose width={32} height={32}/>} />
-                <br/> <HapyButtonWithoutIcon text="Se Deconnecter" handleClick={handleLogout} />
+                {/*<br/> <HapyButtonWithoutIcon text="Se Deconnecter" handleClick={handleLogout} />*/}
                 </>
                 </PullToRefresh>
             </div>

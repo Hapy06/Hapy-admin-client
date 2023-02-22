@@ -67,7 +67,7 @@ function ChefDeRang02_TableListCommand(props) {
                 setProcessStored("cdrProcess", temp) ;
                 setCDRProcess(temp) ;
                 addNotification({
-                    title: 'Envoyé avec succèss',
+                    title: 'Envoyé avec succès',
                     subtitle: getAdminProcessValues("userLogged")?.fullName || "chef de rang Hâpy",
                     message: 'Commande Validée',
                     theme: 'light',

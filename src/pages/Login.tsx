@@ -109,6 +109,7 @@ function Login(props:PropType) {
                            showBtnBack={false}
                            showRightSideBtn={false}
                            hapyLogoBtnColor={"#FF6063"}
+                           hideHapyLogo={true}
 
             />
             <div className="happy-div-bottom">

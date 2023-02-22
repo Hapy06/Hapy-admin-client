@@ -146,6 +146,7 @@ function Perte(props) {
                     )}
             </>
             </PullToRefresh>
+            <br/><br/><br/>
             <div className="horizontal-center inner-button-container-validate-btn mt-4">
                 <HapyButtonWithIcon text="Noter comme perte" handleClick={()=>{openModal()}}
                                     btnWidth={350} numberAtEnd={totalQty + ''} numberAtEndColor={"#FF6063"}

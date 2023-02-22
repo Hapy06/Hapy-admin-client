@@ -22,6 +22,8 @@ import axios from "axios";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import {Simulate} from "react-dom/test-utils";
 import loadedData = Simulate.loadedData;
+import IconVerify from "../../globals/icons-components/IconVerify";
+import IconVerifyFilled from "../../globals/icons-components/IconVerifyFilled";
 
 function ChefDeRang01_Home(props) {
     const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess: any}>(cdrProcessContext) ;
@@ -132,11 +134,11 @@ function ChefDeRang01_Home(props) {
                 <PullToRefresh onRefresh={handleLoadData}>
                 <>
                 {listNotifs?.length > 0 ? (
-                    <ScrollMenu scrollContainerClassName="scroll-and-hidden pl-2" itemClassName="service-item" >
+                    <ScrollMenu scrollContainerClassName="scroll-and-hidden" itemClassName="service-item" >
                         {listNotifs?.map((elt:NotificationHapy, index:number) => (
                             <div key={index} onClick={()=>handleNotifClicked(elt)}>
                                 <div>{elt.nature == "openTable" ? (<IconKey/>) : (<IconOrder/>)}</div>
-                                <div className="mt-3 text-center">
+                                <div className="text-center">
                                     <span style={{fontSize: 12}}>Table </span>
                                     <span className="text-red-orange">{elt.tableNumber}</span>
                                 </div>
@@ -144,43 +146,17 @@ function ChefDeRang01_Home(props) {
                         ))}
                     </ScrollMenu>
                 ) : (
-                    <div className="text-center">{loadMessageNotif}</div>
+                    <div className="vertical-center"
+                         style={{borderLeft: '1px solid gray', paddingLeft: 24, height: 104, marginBottom:24}}>
+                        <div className="text-center">
+                            <IconVerifyFilled stroke={"#FF6063"} width={32} height={32}/>
+                        </div>
+                    </div>
                 )}
-                {/*<div className="row service-list">
-                    <div className="col-3 service-item text-center" onClick={()=>navigate('/table-list-commands')}>
-                        <div> <IconOrder /> </div>
-                        <div className="mt-3">
-                            <span style={{fontSize:12}}>Table </span>
-                            <span className="text-red-orange">728</span>
-                        </div>
-                    </div>
-                    <div className="col-3 service-item text-center" onClick={()=>navigate('/open-table')}>
-                        <div> <IconKey width={32} height={32} /> </div>
-                        <div className="mt-3">
-                            <span style={{fontSize:12}}>Table </span>
-                            <span className="text-blue">728 </span>
-                        </div>
-                    </div>
-                    <div className="col-3 service-item text-center">
-                        <div> <IconOrder width={32} height={32} /> </div>
-                        <div className="mt-3">
-                            <span style={{fontSize:12}}>Table </span>
-                            <span className="text-red-orange">728</span>
-                        </div>
-                    </div>
-                    <div className="col-3 service-item text-center">
-                        <div> <IconKey width={32} height={32} /> </div>
-                        <div className="mt-3">
-                            <span style={{fontSize:12}}>Table </span>
-                            <span className="text-blue">728</span>
-                        </div>
-                    </div>
-                </div>*/}
-                <br/>
                 <HapyButtonWithIcon text="Accéder à la table" handleClick={()=>{navigate('/list-tables')}} iconComponent={<IconSomeoneTable width={32} height={32}/>} />
                 <br/> <HapyButtonWithIcon text="Voir les réservations" handleClick={()=>{navigate('/reservation/list')}} iconComponent={<IconReservationSearch width={32} height={32}/>} />
                 <br/> <HapyButtonWithIcon text="Noter une perte" handleClick={()=>{navigate('/lose')}} iconComponent={<IconLose width={32} height={32}/>} />
-                <br/> <HapyButtonWithoutIcon text="Se Deconnecter" handleClick={handleLogout} />
+                {/*<br/> <HapyButtonWithoutIcon text="Se Deconnecter" handleClick={handleLogout} />*/}
                 </>
                 </PullToRefresh>
             </div>

@@ -47,6 +47,7 @@ function ReservationNew(props) {
     } ;
 
     const saveAndContinue = () => {
+        showErrorFunction("Enregistrement en cours...", "text-success", 10000) ;    
         newBooking.timeOfreservation = new Date().getHours() + ':' + new Date().getMinutes() ;
         let arr = newBooking.dateOfreservation.split('/') ;
         newBooking.dateOfreservationToShow = arr[0] + ' ' + monthListFR[parseInt(arr[1])-1] + ' ' + arr[2] ;
@@ -55,9 +56,7 @@ function ReservationNew(props) {
         console.log(newBooking) ;
         postRequest(API_REQUEST_BOOKING, newBooking,
             (response)=>{
-                homeProcess.bookingDetail = response.data.data.booking ;
-                setProcessStored("homeProcess", homeProcess) ;
-                navigate('/reservation/detail') ;
+                navigate('/reservation/list') ;
             },
             (error)=>{
                 addNotification({
