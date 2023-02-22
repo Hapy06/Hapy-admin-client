@@ -148,7 +148,7 @@ function Hote_Tables(props:PropsType) {
 
     return (
         <>
-            <Hote_Top classAdditional={blurBG} handleSwitchListToShow={(value)=>setListToShow(value)} numberOfCloseTable={listAllTables?.filter(table => table.status == "close").length}
+            <Hote_Top classAdditional={blurBG} handleSwitchListToShow={(value) => setListToShow(value)} numberOfCloseTable={listAllTables?.filter(table => table.status == "close").length}
                       showLeftBtn={listToShow == 'Reservations'} leftBtnComponent={
                         <div style={{display:'flex', justifyContent:'center', marginLeft:'-105px'}}>
                             <HapyButtonWithIcon text='Ajouter une réservation'

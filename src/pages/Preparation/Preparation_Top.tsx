@@ -72,7 +72,7 @@ function Preparation_Top(props:PropsType) {
                     </div>
                     <div className="col-5 mt-3">
                         {screenWidth > 1100 ? (
-                            <HapyButtonWithIcon_Little text='Se deconnecter' handleClick={handleLogout}
+                            <HapyButtonWithIcon_Little handleClick={handleLogout}
                                                        iconComponent={<IconSomeoneDelete stroke='white'/>} btnClass='hapy-btn-with-icon-black max-width-248' />
                         ) : (
                             <HapyButtonOnlyIcon handleClick={handleLogout} iconComponent={<IconSomeoneDelete stroke={'white'}/>} isChecked={false} btnClass='hapy-btn-with-icon-black' btnWidth={66} />

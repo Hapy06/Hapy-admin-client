@@ -583,12 +583,14 @@
   border: 0.5px solid #424242;
   box-shadow: 0 0 8px 3px rgba(50, 50, 50, 0.04);
   border-radius: 20px;
-  width: 100%;
+  width: 64px;
   height: 64px;
   /*font-weight: 500;*/
   overflow: hidden;
   white-space: nowrap;
   padding: 0 !important;
+  display: flex;
+  justify-content: center;
 }
 
 .text-orange {

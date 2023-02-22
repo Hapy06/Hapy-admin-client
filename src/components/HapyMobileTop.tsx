@@ -6,7 +6,6 @@ import {getAdminProcessValues, removeAdminProcessValues} from "../globals/Global
 import IconSomeoneDelete from "../globals/icons-components/IconSomeoneDelete";
 import HapyButtonWithIcon_Little from "./HapyButtonWithIcon_Little";
 import HapyButtonOnlyIcon from "./HapyButtonOnlyIcon";
-import {width} from "@mui/system";
 
 type PropsType = {
     welcomeWord1? : string ;
@@ -78,7 +77,7 @@ function HapyMobileTop(props:PropsType) {
                                                 )}
                                             </span>
                                             <span className="float-start" style={{marginLeft: lang == languageSelected ? 4 : 24}}
-                                                  onClick={()=>setLanguageSelected(lang)}>{lang}</span>
+                                                  onClick={()=> setLanguageSelected(lang)}>{lang}</span>
                                             <br/>
                                         </div>
                                     ))}

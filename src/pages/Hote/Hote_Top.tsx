@@ -49,7 +49,7 @@ function Hote_Top(props:PropsType) {
                         {props.showLeftBtn ? (props.leftBtnComponent) : (
                             screenWidth > 1100 ? (
                                 <div style={{display:'flex', justifyContent:'center', marginLeft:'-105px'}}>
-                                                                    <HapyButtonWithIcon_Little text='Se deconnecter' handleClick={handleLogout}
+                                                                    <HapyButtonWithIcon_Little handleClick={handleLogout}
                                                            iconComponent={<IconSomeoneDelete stroke='white'/>} btnClass='hapy-btn-with-icon-black max-width-248' />
                                 </div>
                             ) : (
