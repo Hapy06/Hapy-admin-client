@@ -25,9 +25,9 @@ function HapyTableItemCDR(props:PropsType) {
             case "opened-and-served":
                 return (<div style={{backgroundColor:'white'}} className="table-item">{props.tableNumber}</div>) ;
             case "unavailable":
-                return (<div style={{backgroundColor:'red'}} className="table-item">{props.tableNumber}</div>) ;
+                return (<div style={{backgroundColor:'#FF6063'}} className="table-item text-white">{props.tableNumber}</div>) ;
             default :
-                return (<div style={{backgroundColor:'#EFEFEF'}} className="table-item">{props.tableNumber}</div>) ;
+                return (<div style={{backgroundColor:'white'}} className="table-item">{props.tableNumber}</div>) ;
         }
     } ;
 

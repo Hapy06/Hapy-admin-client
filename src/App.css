@@ -45,7 +45,7 @@
 
 .happy-div-top {
   background-color: #323232;
-  padding: 32px 20px ;
+  padding: 0px 20px 32px 20px;  /*top right bottom left*/
 }
 
 .happy-div-bottom {
@@ -53,7 +53,7 @@
   /*min-height: 700px;*/
   width: 100%;
   border-radius: 20px 20px 0px 0px;
-  padding: 20px 20px 64px 24px;  /*top right bottom left*/
+  padding: 20px 20px 24px 24px;  /*top right bottom left*/
   margin-top: 2px;
 }
 
@@ -70,7 +70,7 @@
 }
 
 .welcome-word {
-  padding-top:5px;
+  /*padding-top:4px;*/
   margin: 0 auto;
   font-weight: 300;
   font-size: 8px;
@@ -177,9 +177,10 @@
 .inner-button-container-validate-btn{
   position: fixed;
   width: 100%;
-  height: 150px;
+  /*height: 150px;*/
   left: 0px;
-  top: 85%;
+  bottom: 24px;
+  /*top: 85%;*/
   /* background: linear-gradient(180deg, rgba(250, 250, 250, 0) -200%, #FAFAFA 40.63%); */
 }
 
