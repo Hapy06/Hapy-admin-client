@@ -12,7 +12,7 @@ function HapyButtonIconNumber(props:PropsType) {
         <>
             <button className="hapy-btn-with-icon row" onClick={props.handleClick} style={{width:props.btnWidth}}>
                 <span className="col-6 mt-3">{props.iconComponent}</span>
-                <span className="col-6" style={{marginTop:20}}>{props.text}</span>
+                <span className="col-6" style={{marginTop:20,fontSize:16}}>{props.text}</span>
             </button>
         </>
     )

@@ -24,7 +24,7 @@ function PreparationModalToTrash(props:PropsType) {
             <div className="hapy-modal">
                 <button className="back-btn-modal" style={{float: "left", marginTop:-5}}
                         onClick={props.handleCloseModal}>
-                    <IconArrowLeft width={24} height={24} styleIcon={{marginLeft:5}} />
+                    <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 9, marginRigth:9 }} />
                 </button>
                 <br/><br/><br/>
                 <span className="text-black"><span className="text-red-orange">Axel</span> BONSIGNOR</span>

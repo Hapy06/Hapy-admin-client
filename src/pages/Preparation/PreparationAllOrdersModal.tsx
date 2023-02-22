@@ -21,7 +21,7 @@ function PreparationAllOrdersModal(props:PropsType) {
             <div className="hapy-modal">
                 <button className="back-btn-modal text-center" style={{ marginTop: -5}}
                         onClick={props.handleCloseModal}>
-                    <IconArrowLeft width={32} height={32} styleIcon={{marginLeft: 8,marginTop: 8}}/>
+                    <IconArrowLeft width={32} height={32} styleIcon={{marginLeft: 9,marginTop: 9}}/>
                 </button>
                 <br/><br/><br/>
                 <p className="text-black mb-0"><span className="text-orange">{getAdminProcessValues("userLogged")?.firstName || "hâpy"}</span> {getAdminProcessValues("userLogged")?.lastName || "hâpy"}</p>

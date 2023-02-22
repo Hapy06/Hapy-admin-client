@@ -709,6 +709,7 @@
   left: 50%;
   right: auto;
   bottom: auto;
+  margin-top: 8%;
   transform: translate(-50%, -50%);
   border: 0.5px solid #C8C8C8;
   border-radius: 20px;

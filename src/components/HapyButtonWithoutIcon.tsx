@@ -9,7 +9,7 @@ type PropsType = {
 function HapyButtonWithoutIcon(props:PropsType) {
     return (
         <>
-            <button style={{width:props.btnWith}} className="hapy-btn-without-icon" onClick={props.handleClick}>{props.text}</button>
+            <button style={{width:props.btnWith}} className="hapy-btn-without-icon fw-5 f-16" onClick={props.handleClick}>{props.text}</button>
         </>
     )
 }
