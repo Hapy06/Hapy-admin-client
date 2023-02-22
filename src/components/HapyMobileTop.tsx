@@ -2,7 +2,11 @@ import React, {useState} from 'react';
 import {ICONS} from "../globals/Icons-svg";
 import IconArrowLeft from "../globals/icons-components/IconArrowLeft";
 import IconHapyLogo from "../globals/icons-components/IconHapyLogo";
-import {getAdminProcessValues} from "../globals/GlobalVariables";
+import {getAdminProcessValues, removeAdminProcessValues} from "../globals/GlobalVariables";
+import IconSomeoneDelete from "../globals/icons-components/IconSomeoneDelete";
+import HapyButtonWithIcon_Little from "./HapyButtonWithIcon_Little";
+import HapyButtonOnlyIcon from "./HapyButtonOnlyIcon";
+import {width} from "@mui/system";
 
 type PropsType = {
     welcomeWord1? : string ;
@@ -21,6 +25,7 @@ type PropsType = {
     hapyLogoBtnColor: '#536DFE' | '#FF6063' ;
     showLanguagueChoiced? : boolean ;
     titleEnding? : string ;
+    hideHapyLogo?: boolean ;
 }
 
 export const screenWidth: number = window.screen.width ;
@@ -34,9 +39,24 @@ function HapyMobileTop(props:PropsType) {
     const [languageSelected, setLanguageSelected] = useState<string>('FR');
     const listLanguage: string[] = ['EN', 'FR', 'CN', 'P', 'ES'] ;
 
+    const handleLogout = () => {
+        localStorage.removeItem('isLoggedin') ;
+        removeAdminProcessValues("authToken") ;
+        removeAdminProcessValues("userLogged") ;
+        setTimeout(()=>{
+            location.reload() ;
+        }, 500) ;
+    } ;
+
     return (
-        <div className="happy-div-top" style={{height:254}}>
-            <div className="text-center welcome-word mb-3">{props.welcomeWord1 || 'Welcome to Hâpy'}</div>
+        <div className="happy-div-top">
+            <div className="text-center welcome-word mb-3 ml-1">{props.welcomeWord1 || 'Welcome to Hâpy'}
+                {!props.hideHapyLogo && (
+                    <div className="float-end">
+                        <IconSomeoneDelete handleClick={handleLogout} width={32} height={32} styleIcon={{width:24, marginTop:-10}} stroke={'white'}/>
+                    </div>
+                )}
+            </div>
             <div className="welcome-word2">
                 { props.showWelcome2AndMenu && (
                     <>
@@ -78,13 +98,15 @@ function HapyMobileTop(props:PropsType) {
                 ) }
                 <div>
                     { props.showBtnBack && (
-                        <button className="back-btn" style={{float: "left"}}
+                        <button className="back-btn horizontal-center vertical-center" style={{float: "left"}}
                                 onClick={props.handleClickBtnBack}>
-                            <IconArrowLeft width={24} height={24} stroke={'white'} styleIcon={{marginLeft:5}} />
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.0004 26.5599L11.3071 17.8666C10.2804 16.8399 10.2804 15.1599 11.3071 14.1333L20.0004 5.43994" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </button>
                     ) }
                     <div className="text-center icon-happy" style={props.showBtnBack ? {marginRight:50} : {}}>
-                        <IconHapyLogo width={48} height={48} styleIcon={{width:32}} stroke={'#424242'} hapyLogoBtnColor={props.hapyLogoBtnColor}/>
+                        <IconHapyLogo stroke={'#424242'} hapyLogoBtnColor={props.hapyLogoBtnColor}/>
                     </div>
                 </div>
             </div>
@@ -94,7 +116,7 @@ function HapyMobileTop(props:PropsType) {
                         <p className="text-white f-20"><span className={props.subtitleStartClassName}>{getAdminProcessValues("userLogged")?.firstName || props.subtitleStart}</span> {getAdminProcessValues("userLogged")?.lastName || props.subtitleEnd}</p>
                         <h1 className="text-white f-32 fw-6">{props.title}</h1>
                     </div>
-                    <div className="float-end mt-4">
+                    <div className="float-end -mt-4">
                         <button className="close-btn"
                                 onClick={props.rightSideBtnHandleClick}>
                             {props.rightSideBtnIconComponent}

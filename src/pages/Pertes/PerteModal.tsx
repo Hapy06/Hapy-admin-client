@@ -8,7 +8,13 @@ import {useNavigate} from "react-router";
 import {HomeProcessModel} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
 import {Variant} from "../../globals/models/Inscription.models";
-import {API_REQUEST_PRODUCT_LOST, MSG_ERROR, MSG_SAVING, postRequest} from "../../globals/GlobalVariables";
+import {
+    API_REQUEST_PRODUCT_LOST,
+    getAdminProcessValues,
+    MSG_ERROR,
+    MSG_SAVING,
+    postRequest
+} from "../../globals/GlobalVariables";
 
 type PropsType = {
     handleCloseModal: any ;
@@ -80,29 +86,36 @@ function PerteModal(props:PropsType) {
                         <path d="M106.934 90.4536L95.627 101.707" stroke="#FF6063" strokeWidth="5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center f-20 fw-4">
                         Les pertes sont notées
                     </div>
                     <br/><br/><br/><br/>
                     <HapyButtonWithIcon text="Retour à votre interface" handleClick={()=>navigate(('/home'))}
-                                        iconComponent={<IconArrowLeft/>}/>
+                                        iconComponent={
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M20.0004 26.5599L11.3071 17.8666C10.2804 16.8399 10.2804 15.1599 11.3071 14.1333L20.0004 5.43994" stroke="#323232" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        }/>
                 </>
             ) : (
                 <>
                     <button className="back-btn-modal" style={{float: "left", marginTop:-5}}
                             onClick={props.handleCloseModal}>
-                        <IconArrowLeft width={24} height={24} styleIcon={{marginLeft:5}} />
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.0004 26.5599L11.3071 17.8666C10.2804 16.8399 10.2804 15.1599 11.3071 14.1333L20.0004 5.43994" stroke="#323232" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </button>
                     <br/><br/><br/>
-                    <p className="text-black"><span className="text-red-orange">Quentin</span> LELOUCHE</p>
-                    <h1 className="text-black f-32 fw-6">Noter en perte</h1>
+                    <p className="text-black"><span className="text-red-orange">{getAdminProcessValues('userLogged').firstName}
+                    </span> {getAdminProcessValues('userLogged').lastName}</p>
+                    <h1 className="text-black f-32 fw-6 -mt-2">Noter en perte</h1>
                     <div className="text-center mt-4 mb-4">
                         <IconHapyLogo width={48} height={48} styleIcon={{width:22}}/>
                     </div>
                     <br/>
                     {props.listVariantChoosed.map(variant => (
                         <div>
-                             <span className="text-red-orange ml-4 mr-4 fw-6">{props.listVariantSelectedWithQty[variant.id]}</span> {variant.name} <br/><br/>
+                             <span className="text-red-orange mr-2 fw-6 f-16">{props.listVariantSelectedWithQty[variant.id]}</span> {variant.name} <br/><br/>
                         </div>
                     ))}
                     <br/><br/><br/><br/>
