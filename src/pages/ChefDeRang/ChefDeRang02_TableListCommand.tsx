@@ -163,7 +163,7 @@ function ChefDeRang02_TableListCommand(props) {
                     </span>
                 </div>*/}
                 <div className="horizontal-center inner-button-container-validate-btn">
-                    <div className="validated-btn-container mt-4">
+                    <div className="validated-btn-container">
                         <HapyButtonWithIcon text="Valider la Commande" handleClick={handleValidateCommand}
                                             btnWidth={350}
                                             iconComponent={<IconChecked width={32} height={32}/>}/>

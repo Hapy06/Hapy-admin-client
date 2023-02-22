@@ -14,6 +14,7 @@ import Modal from 'react-modal';
 import Table_OpenTableModal from "./Table_OpenTableModal";
 import {homeProcessContext} from "../HomeContainer";
 import {getAdminProcessValues} from "../../globals/GlobalVariables";
+import IconReservationAdd from "../../globals/icons-components/IconReservationAdd";
 
 function Table_Home(props) {
     const {commandProcess, setCommandProcess} = useContext<{commandProcess:CommandProcessModel,setCommandProcess:any}>(homeProcessContext) ;
@@ -49,8 +50,8 @@ function Table_Home(props) {
                 <span className="f-20 fw-4">{homeProcess.tableDetail.zone?.name || homeProcess.tableDetail.zoneName || 'Zone Inconnue'}</span>
                 <br/>
                 <br/> <HapyButtonWithIcon text="Ouvrir la table" handleClick={()=>openModal()} iconComponent={<IconChecked/>} />
-                <br/> <br/>
-                <HapyButtonWithIcon text="Réserver la table" handleClick={()=>{navigate('/reservation/add')}} iconComponent={<IconNote/>} />
+                <br/>
+                <HapyButtonWithIcon text="Réserver la table" handleClick={()=>{navigate('/reservation/add')}} iconComponent={<IconReservationAdd/>} />
             </div>
             <div>
                 <Modal
