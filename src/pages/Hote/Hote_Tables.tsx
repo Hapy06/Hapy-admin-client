@@ -244,7 +244,7 @@ function Hote_Tables(props:PropsType) {
                                             }
                                         </div>
                                     </div>
-                                        <div className="text-center">
+                                        <div className="text-center left-right-button">
                                     {zoneToShowIndex != 0 && (
                                         <span onClick={previousZone} className="float-start" style={{cursor:"pointer"}}><IconArrowLeft/></span>
                                         )}
