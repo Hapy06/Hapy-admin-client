@@ -81,6 +81,27 @@ function ChefDeRang01_Home(props) {
             }
         }, 500) ;
     } ;
+
+    const renderNotifMenu = () => {
+        listNotifs.push(null);
+         return <ScrollMenu scrollContainerClassName="scroll-and-hidden" itemClassName="service-item">
+                            {listNotifs?.map((elt:NotificationHapy, index:number) => (
+                                elt ? <div key={index} onClick={()=>handleNotifClicked(elt)}>
+                                    <div>{elt.nature == "openTable" ? (<IconKey/>) : (<IconOrder/>)}</div>
+                                    <div className="text-center">
+                                        <span style={{fontSize: 12}}>Table </span>
+                                        <span className="text-red-orange">{elt.tableNumber}</span>
+                                    </div>
+                                </div>
+                                : <div className="vertical-center"
+                                style={{borderLeft: '1px solid gray', paddingLeft: 24, height: 104, marginBottom:24}}>
+                               <div className="text-center">
+                                   <IconVerifyFilled stroke={"#FF6063"} width={32} height={32}/>
+                               </div>
+                           </div>
+                            ))}
+        </ScrollMenu>
+    }
     return (
         <>
             {/*<div className="happy-div-top" style={{width:screenWidth, height:screenHeightPourcent(37)}}>
@@ -133,19 +154,22 @@ function ChefDeRang01_Home(props) {
             <div className="happy-div-bottom border-red-orange">
                 <PullToRefresh onRefresh={handleLoadData}>
                 <>
-                {listNotifs?.length > 0 ? (
-                    <ScrollMenu scrollContainerClassName="scroll-and-hidden" itemClassName="service-item" >
-                        {listNotifs?.map((elt:NotificationHapy, index:number) => (
-                            <div key={index} onClick={()=>handleNotifClicked(elt)}>
-                                <div>{elt.nature == "openTable" ? (<IconKey/>) : (<IconOrder/>)}</div>
-                                <div className="text-center">
-                                    <span style={{fontSize: 12}}>Table </span>
-                                    <span className="text-red-orange">{elt.tableNumber}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </ScrollMenu>
-                ) : (
+                {listNotifs?.length > 0 ? 
+                // (
+                //     <ScrollMenu scrollContainerClassName="scroll-and-hidden" itemClassName="service-item" >
+                //             {listNotifs?.map((elt:NotificationHapy, index:number) => (
+                //                 <div key={index} onClick={()=>handleNotifClicked(elt)}>
+                //                     <div>{elt.nature == "openTable" ? (<IconKey/>) : (<IconOrder/>)}</div>
+                //                     <div className="text-center">
+                //                         <span style={{fontSize: 12}}>Table </span>
+                //                         <span className="text-red-orange">{elt.tableNumber}</span>
+                //                     </div>
+                //                 </div>
+                //             ))}
+                //     </ScrollMenu>
+                // ) 
+                    renderNotifMenu()
+                : (
                     <div className="vertical-center"
                          style={{borderLeft: '1px solid gray', paddingLeft: 24, height: 104, marginBottom:24}}>
                         <div className="text-center">
