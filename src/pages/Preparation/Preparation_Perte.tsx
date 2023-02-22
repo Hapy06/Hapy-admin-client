@@ -54,6 +54,7 @@ function Preparation_Perte(props: PropsType) {
 
   const [listVariantSelectedAllPoste, setListVariantSelectedAllPoste] =
     useState({});
+  const [heigthValue, setheigthValue] = useState(window.innerHeight -window.innerHeight/2);
   const [
     listProductIngredientChoosedAllPoste,
     setListProductIngredientChoosedAllPoste,
@@ -377,13 +378,16 @@ function Preparation_Perte(props: PropsType) {
           </div>
           <div className="row">
             {/*FIRST COL */}
-            <div className="col-6 overflow-auto">
+            <div
+              className="col-6 overflow-auto "
+              style={{ height: heigthValue }}
+            >
               <br />
               <br />
               <span className="fw-6 f-32">Mon poste</span>
               <br />
               <br />
-              <div className="scroll-and-hidden" style={{ height: 385 }}>
+              <div className="scroll-and-hidden">
                 {/*<span className="f-20">Salade César</span>*/}
                 {/*<br/><br/>*/}
                 {listProductsOfTheTeamMember.length > 0 ? (
@@ -407,7 +411,12 @@ function Preparation_Perte(props: PropsType) {
                                     stroke={"white"}
                                   />
                                 </span>
-                                <span className="col-5" style={{marginLeft:32}}>{variant.name}</span>
+                                <span
+                                  className="col-5"
+                                  style={{ marginLeft: 32 }}
+                                >
+                                  {variant.name}
+                                </span>
                                 <span className="col-4 mt-1">
                                   {/*<span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeVariant(variant.id, "increase")}>+</span>*/}
                                   <span
@@ -447,7 +456,12 @@ function Preparation_Perte(props: PropsType) {
                                     />
                                   </svg>
                                 </span>
-                                <span className="col-6" style={{marginLeft:32}}>{variant.name}</span>
+                                <span
+                                  className="col-6"
+                                  style={{ marginLeft: 32 }}
+                                >
+                                  {variant.name}
+                                </span>
                               </div>
                             )
                         )}
@@ -478,9 +492,17 @@ function Preparation_Perte(props: PropsType) {
                             )}*/}
             </div>
             {/*2ND COL */}
-            <div className="col-5 overflow-auto d-flex">
+            <div
+              className="col-6 overflow-auto d-flex"
+              style={{ height: heigthValue }}
+            >
               <div
-                style={{ borderLeft: "1px solid #C8C8C8", marginTop: 80, marginRight:32 }}
+                style={{
+                  borderLeft: "1px solid #C8C8C8",
+
+                  marginRight: 32,
+                  height: heigthValue,
+                }}
               ></div>
               <div>
                 {/*<div className="text-end -mt-15">
@@ -517,7 +539,10 @@ function Preparation_Perte(props: PropsType) {
                                       stroke={"white"}
                                     />
                                   </span>
-                                  <span className="col-4 mt-1  " style={{marginLeft:32}}>
+                                  <span
+                                    className="col-4 mt-1  "
+                                    style={{ marginLeft: 32 }}
+                                  >
                                     <span className="col-5 text-orange">
                                       Produit fini
                                     </span>
@@ -551,7 +576,10 @@ function Preparation_Perte(props: PropsType) {
                                       />
                                     </svg>
                                   </span>
-                                  <span className="col-6 text-orange" style={{marginLeft:32}}>
+                                  <span
+                                    className="col-6 text-orange"
+                                    style={{ marginLeft: 32 }}
+                                  >
                                     Produit fini
                                   </span>
                                 </div>
@@ -583,7 +611,10 @@ function Preparation_Perte(props: PropsType) {
                                             stroke={"white"}
                                           />
                                         </span>
-                                        <span className="col-5 " style={{marginLeft:32}}>
+                                        <span
+                                          className="col-5 "
+                                          style={{ marginLeft: 32 }}
+                                        >
                                           {productIngredient.ingredientEntitled ||
                                             "Ingredient inconnue"}
                                         </span>
@@ -652,7 +683,10 @@ function Preparation_Perte(props: PropsType) {
                                             />
                                           </svg>
                                         </span>
-                                        <span className="col-6" style={{marginLeft:32}}>
+                                        <span
+                                          className="col-6"
+                                          style={{ marginLeft: 32 }}
+                                        >
                                           {productIngredient.ingredientEntitled ||
                                             "Ingredient inconnue"}
                                         </span>
