@@ -45,7 +45,7 @@
 
 .happy-div-top {
   background-color: #323232;
-  padding: 32px 20px ;
+  padding: 0px 20px 32px 20px;  /*top right bottom left*/
 }
 
 .happy-div-bottom {
@@ -70,7 +70,7 @@
 }
 
 .welcome-word {
-  padding-top:5px;
+  /*padding-top:4px;*/
   margin: 0 auto;
   font-weight: 300;
   font-size: 8px;

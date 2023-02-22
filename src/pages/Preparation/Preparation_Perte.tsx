@@ -40,7 +40,6 @@ function Preparation_Perte(props: PropsType) {
     state: boolean;
     modalToOpen: any;
   }>({ state: false, modalToOpen: null });
-  const navigate = useNavigate();
   const [loadMessage, setLoadMessage] = useState<string>(
     "(Pas de produits trouvé)"
   );

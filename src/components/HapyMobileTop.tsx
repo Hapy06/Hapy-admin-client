@@ -53,7 +53,7 @@ function HapyMobileTop(props:PropsType) {
             <div className="text-center welcome-word mb-3 ml-1">{props.welcomeWord1 || 'Welcome to Hâpy'}
                 {!props.hideHapyLogo && (
                     <div className="float-end">
-                        <IconSomeoneDelete handleClick={handleLogout} width={32} height={32} styleIcon={{width:24, marginTop:-10}} stroke={'white'}/>
+                        <IconSomeoneDelete handleClick={handleLogout} width={32} height={32} styleIcon={{width:24, marginTop:10}} stroke={'white'}/>
                     </div>
                 )}
             </div>
@@ -111,12 +111,12 @@ function HapyMobileTop(props:PropsType) {
                 </div>
             </div>
             { props.showRightSideBtn ? (
-                <div>
+                <div style={{height:90}}>
                     <div className="float-start">
                         <p className="text-white f-20"><span className={props.subtitleStartClassName}>{getAdminProcessValues("userLogged")?.firstName || props.subtitleStart}</span> {getAdminProcessValues("userLogged")?.lastName || props.subtitleEnd}</p>
                         <h1 className="text-white f-32 fw-6">{props.title}</h1>
                     </div>
-                    <div className="float-end -mt-4">
+                    <div className="float-end mt-3">
                         <button className="close-btn"
                                 onClick={props.rightSideBtnHandleClick}>
                             {props.rightSideBtnIconComponent}
@@ -124,10 +124,10 @@ function HapyMobileTop(props:PropsType) {
                     </div>
                 </div>
             ) : (
-                <>
+                <div style={{height:90}}>
                     <p className="text-white f-20"><span className={props.subtitleStartClassName}>{getAdminProcessValues("userLogged")?.firstName || props.subtitleStart}</span> {getAdminProcessValues("userLogged")?.lastName || props.subtitleEnd}</p>
                     <h1 className="text-white f-32 fw-6 -mt-1">{props.title}{props.titleEnding && (<span className="text-red-orange">{props.titleEnding}</span>)}</h1>
-                </>
+                </div>
             )}
         </div>
     )
