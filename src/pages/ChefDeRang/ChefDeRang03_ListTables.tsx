@@ -1,22 +1,19 @@
-import React, {useContext, useEffect, useState} from 'react' ;
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate} from "react-router";
 import IconArrowLeft from "../../globals/icons-components/IconArrowLeft";
 import HapyTableItemCDR from "../../components/HapyTableItemCDR";
 import IconArrowRight from "../../globals/icons-components/IconArrowRight";
 import {ICONS} from "../../globals/Icons-svg";
-import IconCloseSquare from "../../globals/icons-components/IconCloseSquare";
 import HapyMobileTop from "../../components/HapyMobileTop";
 import {
-    API_REQUEST_TEAM_MEMBERS,
-    API_REQUEST_ZONE, API_REQUEST_ZONE_BY_INSTITUTION_ID,
+    API_REQUEST_ZONE_BY_INSTITUTION_ID,
     BASE_URL,
-    getAdminProcessValues, reloadToken
+    getAdminProcessValues,
+    reloadToken
 } from "../../globals/GlobalVariables";
 import {HomeProcessModel, Table} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
 import axios from "axios";
-import {TeamMember} from "../../globals/models/Inscription.models";
-import addNotification from "react-push-notification";
 import PullToRefresh from "react-simple-pull-to-refresh";
 
 function ChefDeRang03_ListTables(props) {

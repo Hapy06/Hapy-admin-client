@@ -61,8 +61,8 @@ function ChefDeRang02_TableListCommand(props) {
         console.log(order) ;
         postRequest(API_REQUEST_ORDER + '/create', order,
             ()=> {
-                temp.listNotifs =
-                temp.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
+                // temp.listNotifs =
+                // temp.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
                 temp.validationMessage = "La commande est envoyée en préparation !" ;
                 setProcessStored("cdrProcess", temp) ;
                 setCDRProcess(temp) ;

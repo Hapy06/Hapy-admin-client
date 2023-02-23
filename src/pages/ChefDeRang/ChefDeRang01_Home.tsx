@@ -36,7 +36,9 @@ function ChefDeRang01_Home(props) {
     }, []) ;
 
     useEffect(() => {
-        setListNotifs(cdrProcess.listNotifs) ;
+        let arr = cdrProcess.listNotifs ;
+        arr.push(null) ;
+        setListNotifs(arr) ;
     }, [cdrProcess.listNotifs]) ;
 
     const handleLoadData = () => {
@@ -45,11 +47,12 @@ function ChefDeRang01_Home(props) {
             console.log(response) ;
             let arr = response.data.data.items.filter((elt:NotificationHapy) =>
                 (elt.nature == "commandToValidate" || elt.nature == "openTable") && !elt.isDone).reverse()
+            arr.push(null) ;
             setListNotifs(arr) ;
             if (response.data.data.items.length == 0) {
                 setLoadMessageNotif("(Pas de demandes de validation en cours)") ;
             }
-            cdrProcess.listNotifs = arr ;
+            cdrProcess.listNotifs = arr.slice(0, arr.length-1) ;
             setProcessStored("cdrProcess", cdrProcess) ;
             return true ;
         })
@@ -83,22 +86,20 @@ function ChefDeRang01_Home(props) {
     } ;
 
     const renderNotifMenu = () => {
-        listNotifs.push(null);
-         return <ScrollMenu scrollContainerClassName="scroll-and-hidden" itemClassName="service-item">
+         return <ScrollMenu scrollContainerClassName="scroll-and-hidden">
                             {listNotifs?.map((elt:NotificationHapy, index:number) => (
-                                elt ? <div key={index} onClick={()=>handleNotifClicked(elt)}>
+                                elt ? <div key={index} onClick={()=>handleNotifClicked(elt)} className="service-item">
                                     <div>{elt.nature == "openTable" ? (<IconKey/>) : (<IconOrder/>)}</div>
                                     <div className="text-center">
                                         <span style={{fontSize: 12}}>Table </span>
                                         <span className="text-red-orange">{elt.tableNumber}</span>
                                     </div>
                                 </div>
-                                : <div className="vertical-center"
-                                style={{borderLeft: '1px solid gray', paddingLeft: 24, height: 104, marginBottom:24}}>
-                               <div className="text-center">
-                                   <IconVerifyFilled stroke={"#FF6063"} width={32} height={32}/>
-                               </div>
-                           </div>
+                                : <div className="vertical-center" style={{borderLeft: '1px solid gray', paddingLeft: 24, height: 155, marginBottom:24}}>
+                                   <div className="text-center">
+                                       <IconVerifyFilled stroke={"#FF6063"} width={32} height={32}/>
+                                   </div>
+                                </div>
                             ))}
         </ScrollMenu>
     }

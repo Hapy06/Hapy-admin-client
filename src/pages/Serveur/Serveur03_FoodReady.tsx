@@ -3,12 +3,16 @@ import {useNavigate} from "react-router";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import IconOrder from "../../globals/icons-components/IconOrder";
 import HapyMobileTop from "../../components/HapyMobileTop";
-import {ServeurProcessModel} from "../../globals/models/models";
+import {Coupon, Order, ServeurProcessModel, SimpleCommand} from "../../globals/models/models";
 import {serveurProcessContext} from "./ServeurContainer";
 import {getAdminProcessValues} from "../../globals/GlobalVariables";
+import {format} from "date-fns";
 
 function Serveur03_FoodReady(props) {
     const {serveurProcess, setServeurProcess} = useContext<{serveurProcess:ServeurProcessModel, setServeurProcess: any}>(serveurProcessContext) ;
+    const coupons:Coupon[] = JSON.parse(serveurProcess?.notifDetail?.content) || null ;
+    console.clear()
+    console.log(coupons) ;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,31 +34,33 @@ function Serveur03_FoodReady(props) {
             />
             <div className="happy-div-bottom">
                 <br/>
-                <h1 className="fw-6">Table {serveurProcess.notifDetail.tableNumber}</h1>
-                <h5>{serveurProcess.notifDetail.tableZoneName || "Nom de la Zone"}</h5>
+                <h1 className="f-32 fw-6">Table {serveurProcess.notifDetail?.tableNumber}</h1>
+                <p className="f-20">{serveurProcess.notifDetail?.tableZoneName}</p>
+                <div className="text-center">{format(new Date(serveurProcess?.notifDetail?.askTime), 'HH : mm') }</div>
                 <br/>
-                <br/>
-                <div className="row fw-6" style={{marginLeft:20}}>
-                    <span className="col-2">2</span>
-                    <span className="col-10" style={{marginTop:-24}}>
-                        <span className="text-red-orange" style={{fontSize:12, paddingTop:-50}}>Enceinte</span>
-                        <br/>
-                        <span>Salade de fruits - Fruits rouges des bois</span>
-                        <br/>
-                        <div style={{fontSize:12}}>
-                            <span>Sans Orange</span>
+                {coupons ? (
+                    coupons?.map( (coupon:Coupon, index:number) => (
+                        <div key={coupon.id || index} className="row fw-6 command-box">
+                            <span className="col-2">{index + 1}</span>
+                            <span className="col-10" style={{marginTop:-24}}>
+                            {coupon.isPregnant && (<span className="text-red-orange" style={{fontSize:12, paddingTop:-50}}>Enceinte</span>)}
+                                <br/>
+                            <span>{coupon.product.name} - {coupon.productVariant.name}</span>
                             <br/>
-                            <span>Sans Orange</span>
+                            <div style={{fontSize:12}}>
+                                {coupon.ingredientsModifiablesStates.map(ingredient => (
+                                    <span>{ingredient} <br/></span>
+                                ))}
+                            </div>
+                        </span>
                         </div>
-                    </span>
-                </div>
+                    ))
+                    ) : (
+                    <div className="row fw-6" style={{marginLeft:20}}>
+
+                    </div>
+                )}
                 <br/>
-                {/*<div className="row" style={{marginLeft:20}}>
-                    <span className="col-2">1</span>
-                    <span className="col-10">
-                        <span>Bière blonde - 50 cl</span>
-                    </span>
-                </div>*/}
                 <div className="text-center inner-button-container-validate-btn mt-4">
                         <HapyButtonWithIcon text="La commande est servie" handleClick={()=>{navigate('/home')}}
                                             btnWidth={350}

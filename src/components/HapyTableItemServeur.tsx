@@ -17,9 +17,9 @@ function HapyTableItemServeur(props:PropsType) {
             case "opened" :
                 return (<div style={{backgroundColor:'white'}} className="table-item">{props.tableNumber}</div>) ;
             case "close" :
-                return (<div style={{backgroundColor:'#EFEFEF'}} className="table-item">{props.tableNumber}</div>) ;
+                return (<div style={{backgroundColor:'#EFEFEF', border:"none"}} className="table-item">{props.tableNumber}</div>) ;
             case "closed" :
-                return (<div style={{backgroundColor:'#EFEFEF'}} className="table-item">{props.tableNumber}</div>) ;
+                return (<div style={{backgroundColor:'#EFEFEF', border:"none"}} className="table-item">{props.tableNumber}</div>) ;
             case "command-waiting-validation":
                 return (<div style={{backgroundColor:'white',border: '2px solid #FF6063'}} className="table-item">{props.tableNumber}</div>) ;
             case "command-preparation":
@@ -27,7 +27,7 @@ function HapyTableItemServeur(props:PropsType) {
             case "command-ready":
                 return (<div style={{backgroundColor:'white',border: '2px solid #00B0FF'}} className="table-item">{props.tableNumber}</div>) ;
             case "unavailable":
-                return (<div style={{backgroundColor:'red'}} className="table-item">{props.tableNumber}</div>) ;
+                return (<div style={{backgroundColor:'#FF6063'}} className="table-item text-white">{props.tableNumber}</div>) ;
             default :
                 return (<div style={{backgroundColor:'#EFEFEF'}} className="table-item">{props.tableNumber}</div>) ;
         }

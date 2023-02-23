@@ -88,7 +88,7 @@ function Hote_Top(props: PropsType) {
                 iconComponent={<IconSomeoneDelete stroke={"white"} />}
                 isChecked={false}
                 btnClass="hapy-btn-with-icon-black"
-                btnWidth={66}
+                btnWidth={64}
               />
             )}
           </div>

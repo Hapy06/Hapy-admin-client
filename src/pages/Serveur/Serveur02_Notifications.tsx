@@ -28,7 +28,7 @@ function Serveur02_Notifications(props) {
         let temp = {...serveurProcess} ;
         temp.notifDetail.isDone = true ;
         temp.notifDetail.doneTime = new Date() + '' ;
-        putRequest('api/v1/managements/notification/update', temp.notifDetail.id, temp.notifDetail,
+        putRequest(API_REQUEST_NOTIFICATION + '/update', temp.notifDetail.id, temp.notifDetail,
             ()=> {
                 addNotification({
                     title: 'Envoyé avec succèss',
@@ -37,8 +37,8 @@ function Serveur02_Notifications(props) {
                     theme: 'light',
                     native: true // when using native, your OS will handle theming.
                 });
-                temp.listNotificationDemands = temp.listNotificationDemands.filter(elt => elt.id != temp.notifDetail.id) ;
-                setServeurProcess(temp) ;
+                // temp.listNotificationDemands = temp.listNotificationDemands.filter(elt => elt.id != temp.notifDetail.id) ;
+                // setServeurProcess(temp) ;
                 navigate('/home') ;
             },
             ()=> {

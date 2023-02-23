@@ -243,7 +243,7 @@ export const ICONS = {
     tableCommandPreparationIcon:<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_1648_11667)">
             <rect x="11" y="11" width="20" height="20" rx="10" fill="white"/>
-            <rect x="11.5" y="11.5" width="19" height="19" rx="9.5" stroke="green"/>
+            <rect x="11.5" y="11.5" width="19" height="19" rx="9.5" stroke="#F7B927"/>
         </g>
         <defs>
             <filter id="filter0_d_1648_11667" x="0" y="0" width="42" height="42" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
@@ -322,7 +322,7 @@ export const ICONS = {
 
     tableUnavailableIcon:<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_1239_22988)">
-            <rect x="11" y="11" width="20" height="20" rx="10" fill="red"/>
+            <rect x="11" y="11" width="20" height="20" rx="10" fill="#FF6063"/>
             <rect x="11.5" y="11.5" width="19" height="19" rx="9.5" stroke="#FF6063"/>
         </g>
         <defs>
