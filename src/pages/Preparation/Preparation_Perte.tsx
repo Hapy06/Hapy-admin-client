@@ -376,7 +376,7 @@ function Preparation_Perte(props: PropsType) {
               </div>
             </div>
           </div>
-          <div className="row">
+          <div className="row mt-4">
             {/*FIRST COL */}
             <div
               className="col-6 overflow-auto "
@@ -412,12 +412,12 @@ function Preparation_Perte(props: PropsType) {
                                   />
                                 </span>
                                 <span
-                                  className="col-5"
+                                  className="col-6"
                                   style={{ marginLeft: 32 }}
                                 >
                                   {variant.name}
                                 </span>
-                                <span className="col-4 mt-1">
+                                <span className="col-3">
                                   {/*<span style={{cursor:"pointer"}} onClick={()=>handleQtyChangeVariant(variant.id, "increase")}>+</span>*/}
                                   <span
                                     style={{ color: "#F7B927" }}
@@ -496,14 +496,7 @@ function Preparation_Perte(props: PropsType) {
               className="col-6 overflow-auto d-flex"
               style={{ height: heigthValue }}
             >
-              <div
-                style={{
-                  borderLeft: "1px solid #C8C8C8",
-
-                  marginRight: 32,
-                  height: heigthValue,
-                }}
-              ></div>
+              <div style={{borderLeft: "1px solid #C8C8C8", marginRight: 32, height: heigthValue}}></div>
               <div>
                 {/*<div className="text-end -mt-15">
                                 <HapyButtonWithIcon handleClick={()=>handleOpenModal(<PreparationAllOrdersModal handleCloseModal={handleCloseModal}/>)} btnWidth={210} iconComponent={<IconArchive/>}
@@ -514,7 +507,7 @@ function Preparation_Perte(props: PropsType) {
                   <br />
                   {listCookingStationWithVariant.map((cookingStation) => (
                     <>
-                      <h3>{cookingStation.cookingPosition}</h3>
+                      <div className="fw-6 f-32 mb-2">{cookingStation.cookingPosition}</div>
                       <div>
                         {cookingStation.variants.map(
                           (variant: Variant, index: number) => (
@@ -540,12 +533,10 @@ function Preparation_Perte(props: PropsType) {
                                     />
                                   </span>
                                   <span
-                                    className="col-4 mt-1  "
+                                    className="col-4 text-orange"
                                     style={{ marginLeft: 32 }}
                                   >
-                                    <span className="col-5 text-orange">
                                       Produit fini
-                                    </span>
                                   </span>
                                 </div>
                               ) : (
@@ -577,7 +568,7 @@ function Preparation_Perte(props: PropsType) {
                                     </svg>
                                   </span>
                                   <span
-                                    className="col-6 text-orange"
+                                    className="col-4 text-orange"
                                     style={{ marginLeft: 32 }}
                                   >
                                     Produit fini
@@ -612,13 +603,13 @@ function Preparation_Perte(props: PropsType) {
                                           />
                                         </span>
                                         <span
-                                          className="col-5 "
+                                          className="col-5"
                                           style={{ marginLeft: 32 }}
                                         >
                                           {productIngredient.ingredientEntitled ||
                                             "Ingredient inconnue"}
                                         </span>
-                                        <span className="col-4 mt-1 ">
+                                        <span className="col-4">
                                           <span
                                             style={{ cursor: "pointer" }}
                                             onClick={() =>

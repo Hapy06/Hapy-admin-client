@@ -64,33 +64,35 @@ function Preparation_Top(props:PropsType) {
              /*style={{width:screenWidth+5}}*/>
             <div className="preparation-container-wrapper">
                 <div className="text-center welcome-word">Welcome to Hâpy</div>
-                <div className="row">
-                    <div className="col-6 row" style={{cursor:"pointer"}} onClick={()=>navigate('/preparation')}>
+                <div className="row justify-content-center">
+                    <div className="col-5 row box-content-header" style={{cursor:"pointer"}} onClick={()=>navigate('/preparation')}>
                     <div className="col-6">
                         <h1 className="fw-6 f-32" >{getAdminProcessValues("userLogged")?.position || "Poste en Cuisine"}</h1>
                         <span className="text-orange fw-4 f-20">{getAdminProcessValues("userLogged")?.firstName || "hâpy"}</span> <span className='fw-4 f-20'>{getAdminProcessValues("userLogged")?.lastName || "HAPY"}</span>
                     </div>
-                    <div className="col-5 mt-3">
-                        {screenWidth > 1100 ? (
-                            <HapyButtonWithIcon_Little text='Se deconnecter' handleClick={handleLogout}
-                                                       iconComponent={<IconSomeoneDelete stroke='white'/>} btnClass='hapy-btn-with-icon-black max-width-248' />
-                        ) : (
-                            <HapyButtonOnlyIcon handleClick={handleLogout} iconComponent={<IconSomeoneDelete stroke={'white'}/>} isChecked={false} btnClass='hapy-btn-with-icon-black' btnWidth={66} />
-                        )}
+                    <div className="col-1 mt-3">
+                        <HapyButtonOnlyIcon handleClick={handleLogout} iconComponent={<IconSomeoneDelete styleIcon={{marginLeft:5}} stroke={'white'}/>} isChecked={false} btnClass='hapy-btn-with-icon-black' btnWidth={64} />
                     </div>
                     </div>
-                    <div className="col-3" style={{marginLeft: -5}}>
+                    <div className="col-2 d-flex flex-column align-items-center justify-content-center ticket-header">
                         <div className="f-12">Ticket</div>
-                        <div style={{marginTop:-10,marginLeft: 10}} className="d-flex align-items-center">
-                            <span className="f-48 fw-6">{preparationProcess.ticketQuantity}</span>
-                            <div className="circle-red" style={{marginLeft:18}}></div>
-                            {/* <svg className="-mt-2 ml-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="10" cy="10" r="10" fill="#FF6063"/>
-                            </svg> */}
-                            <span className="fw-5 f-16 ml-demi text-red-orange" >{couponNumber}</span>
-                        </div>
+                            <div
+                                style={{ marginTop: -10, marginLeft: 10 }}
+                                className="d-flex align-items-center"
+                            >
+                              <span className="f-48 fw-6">
+                                {preparationProcess.ticketQuantity || 0}
+                              </span>
+                                            <div className="circle-red" style={{ marginLeft: 16 }}></div>
+                                            {/* <svg className="-mt-2 ml-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <circle cx="10" cy="10" r="10" fill="#FF6063"/>
+                              </svg> */}
+                                            <span className="fw-5 f-16 ml-demi text-red-orange">
+                                {couponNumber}
+                              </span>
+                            </div>
                     </div>
-                    <div className="col d-flex justify-content-end row mt-3">
+                    <div className="col d-flex justify-content-end row mt-3 content-header-right">
                         {/*<HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-orange bg-black-btn' handleClick={()=>props.handleOpenModal(<PreparationAllOrdersModal handleCloseModal={props.handleCloseModal}/>)}
                                              btnWidth={80} marginRight={12} iconComponent={<IconOrderAdd stroke={'white'}/>}
                                              isChecked={false}/>*/}

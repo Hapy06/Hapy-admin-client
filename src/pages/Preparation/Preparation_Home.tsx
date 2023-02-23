@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Preparation_Top from "./Preparation_Top";
+import Preparation_Top, {screenHeight, screenHeightPourcent} from "./Preparation_Top";
 import IconTimer2 from "../../globals/icons-components/IconTimer2";
 import PreparationCommandBox from "./PreparationCommandBox";
 import PreparationCurrentCommandRed from "./PreparationCurrentCommandRed";
@@ -142,13 +142,7 @@ function Preparation_Home(props: PropsType) {
           <PullToRefresh onRefresh={handleLoadData}>
             <>
               <div className="text-center -mb-3 mt-4">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="16"  height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clipPath="url(#clip0_1228_18481)">
                     <path
                       d="M12.6711 15.5509L11.4503 15.8086C11.2583 15.8499 11.0625 15.871 10.8661 15.8718C10.6283 15.8734 10.392 15.835 10.167 15.7581C9.9683 15.6895 9.78241 15.5883 9.61692 15.4587C9.32376 15.2239 9.09332 14.9202 8.94622 14.5746C8.86325 14.386 8.80386 14.1879 8.76939 13.9847C8.74481 13.875 8.72876 13.7635 8.72139 13.6513C8.71192 13.525 8.7075 13.3917 8.7075 13.2452C8.7075 12.7482 8.75423 12.1324 8.79971 11.5369C8.84518 10.9413 8.89065 10.366 8.89065 9.96494C8.89065 9.92452 8.89065 9.886 8.89065 9.84937C8.58309 10.575 8.27805 11.3651 7.93575 12.1273C7.52715 13.0368 7.06738 13.9051 6.47563 14.5746C6.08154 15.0198 5.6262 15.3773 5.08623 15.585L5.05276 15.5983C4.74781 15.7132 4.42608 15.7772 4.10039 15.7878C4.0145 15.7916 3.93114 15.7935 3.84777 15.7935C3.0375 15.7935 2.36933 15.621 1.83189 15.3072C1.30827 14.996 0.884157 14.5421 0.609218 13.9986C0.416667 13.623 0.273995 13.2239 0.184821 12.8113C0.0561636 12.2107 -0.00568254 11.5978 0.000409853 10.9836C0.000409853 9.50139 0.293446 7.88906 0.673004 6.45356C1.05256 5.01806 1.51927 3.76382 1.87294 2.99839C1.95604 2.8155 2.04879 2.63715 2.15082 2.4641C2.18843 2.40148 2.23065 2.34173 2.27712 2.28537H2.28028C2.44532 2.08161 2.64165 1.90532 2.86193 1.76309C3.10198 1.60708 3.35563 1.47307 3.61979 1.36269C4.18555 1.13359 4.77084 0.956041 5.36853 0.832192C6.08476 0.675747 6.81016 0.564794 7.54041 0.500001H7.56378C7.60157 0.499946 7.63926 0.503969 7.67619 0.512C7.73752 0.523849 7.79576 0.548136 7.84734 0.583364C7.89157 0.614328 7.92915 0.653841 7.95786 0.699568C8.00186 0.772622 8.02379 0.856844 8.02101 0.942081C8.01993 1.01873 8.00716 1.09476 7.98312 1.16754L7.97365 1.19975L7.95281 1.22691C6.80719 2.71609 5.78851 4.47872 5.00223 6.24326C4.22228 7.99453 3.6722 9.74769 3.44927 11.2325C3.46724 11.313 3.49152 11.3919 3.5219 11.4686C3.56188 11.577 3.62187 11.6768 3.69873 11.7629C3.74296 11.8109 3.79825 11.8473 3.85977 11.869C3.89661 11.8814 3.93523 11.8876 3.97408 11.8874C4.05858 11.8848 4.14169 11.8652 4.21849 11.8299C4.34059 11.7741 4.45535 11.7035 4.56015 11.6196L4.56458 11.6158C4.7193 11.4724 4.91256 11.2205 5.12665 10.9059C5.34074 10.5914 5.58515 10.2049 5.8485 9.79506C6.37521 8.97405 6.98844 8.04884 7.69008 7.30614C8.15806 6.81165 8.66708 6.39672 9.226 6.1561C9.54288 6.01637 9.8851 5.94328 10.2314 5.94138C10.3554 5.94129 10.4791 5.95122 10.6015 5.97106C10.8689 6.00589 11.1244 6.10302 11.3474 6.25462C11.5474 6.39691 11.709 6.58655 11.8179 6.80659C12.0035 7.17226 12.0705 7.61497 12.0705 8.10252C12.0705 8.84395 11.912 9.6978 11.7143 10.5655C11.5166 11.4333 11.2829 12.2928 11.1181 13.0589L11.1143 13.0785C10.9924 13.6468 10.9116 14.1559 10.9122 14.5525C10.9095 14.6955 10.9233 14.8383 10.9533 14.9781C10.9734 15.0777 11.0138 15.1721 11.072 15.2554C11.1036 15.2984 11.1433 15.3349 11.1888 15.3627C11.2619 15.4053 11.3438 15.4304 11.4282 15.436L12.6711 15.5509Z"
@@ -169,7 +163,7 @@ function Preparation_Home(props: PropsType) {
               <div className="row">
                 {/*COMMAND COMMAND COL */}
                 {preparationProcess.listPausedOrders?.length > 0 && (
-                  <div className="col-lg-3 col-md-4">
+                  <div className="col-lg-3 col-md-4 justify-content-center pl-2 scroll-and-hidden" style={{marginTop:6, height:screenHeight - 150}}>
                     <div className="text-center f-20" style={{ opacity: 0.32 }}>
                       {preparationProcess.listPausedOrders?.length}{" "}
                       <IconTimer2
@@ -179,9 +173,9 @@ function Preparation_Home(props: PropsType) {
                         classIcon="mt-1"
                       />
                     </div>
-                    <hr className="-mt-1 center-force" />
-                    <br />
-                    <div style={{ marginTop: -12 }}>
+                    <hr className="-mt-1" style={{width:275}} />
+                    <br/>
+                    <div>
                       {preparationProcess.listPausedOrders?.map(
                         (order: Order, index: number) => (
                           <PreparationCommandBox
@@ -196,7 +190,7 @@ function Preparation_Home(props: PropsType) {
                   </div>
                 )}
                 {/*RED COMMAND COL */}
-                <div className="col-lg-3 col-md-4">
+                <div className="col-lg-3 col-md-4 d-flex justify-content-center px-0">
                   <br />
                   {preparationProcess.orderCooking && (
                     <PreparationCurrentCommandRed
@@ -211,11 +205,11 @@ function Preparation_Home(props: PropsType) {
                 <div
                   className={
                     preparationProcess.listPausedOrders?.length > 0
-                      ? "col-lg-6 col-md-4"
-                      : "col-lg-9 col-md-8"
-                  }
+                        ? "col-lg-6 col-md-4 px-0"
+                        : "col-lg-9 col-md-8 px-0"
+                  } style={{marginTop: 16}}
                 >
-                  <div className="col-lg-5 col-md-12 float-end  d-flex  justify-content-end">
+                  <div className="col-lg-5 col-md-12 float-end  d-flex  justify-content-end m-right">
                     <div className="" style={{ marginRight: 48 }}>
                       <div className="fw-3 mb-1" style={{ fontSize: 8 }}>
                         Couverts
@@ -351,7 +345,7 @@ function Preparation_Home(props: PropsType) {
                         (order: Order, index: number) => (
                           <div
                             key={index}
-                            style={{ width: 366, marginRight: 16 }}
+                            style={{ width: 275, marginRight: 16 }}
                           >
                             <PreparationCommandBox
                               removePauseIcon={true}

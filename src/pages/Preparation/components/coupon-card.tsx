@@ -9,7 +9,7 @@ const Index = ({ index, coupon }) => {
     return (
       <div
         key={index}
-        className={coupon.isPregnant ? "row fw-5 mb-3 mt-4" : "row fw-5 mb-3"}
+        className={coupon.isPregnant ? "row fw-5 mb-3 mt-5" : "row fw-5 mb-3"}
       >
         <span className="col-1 fw-5 f-16">
           {/*{coupon.isCouponCooked ? ICONS.checkedBlue : ICONS.closeCircle}*/}{" "}
