@@ -90,12 +90,14 @@ function PerteModal(props:PropsType) {
                         Les pertes sont notées
                     </div>
                     <br/><br/><br/><br/>
-                    <HapyButtonWithIcon text="Retour à votre interface" handleClick={()=>navigate(('/home'))}
+                    <div style={{position:'fixed', bottom:'24px', left:'24px', right:'24px'}}>
+                        <HapyButtonWithIcon text="Retour à votre interface" handleClick={()=>navigate(('/home'))}
                                         iconComponent={
                                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M20.0004 26.5599L11.3071 17.8666C10.2804 16.8399 10.2804 15.1599 11.3071 14.1333L20.0004 5.43994" stroke="#323232" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
                                         }/>
+                    </div>
                 </>
             ) : (
                 <>
@@ -120,8 +122,10 @@ function PerteModal(props:PropsType) {
                     ))}
                     <br/><br/><br/><br/>
                     {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
+                    <div style={{position:'fixed', bottom:'24px', left:'24px', right:'24px'}}>
                     <HapyButtonWithIcon text="Valider la perte" handleClick={handleValidateLose}
                                         numberAtEnd={props.totalQty + ''} numberAtEndColor={"#FF6063"} iconComponent={<IconLose/>}/>
+                    </div>
                 </>
             )}
         </>
