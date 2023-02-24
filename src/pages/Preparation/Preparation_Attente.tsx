@@ -68,9 +68,30 @@ function Preparation_Attente(props:PropsType) {
     temp.orderDetail.coupons.forEach(coupon => {
       temp.orderDetail.couponsReadyIds.push(coupon.id) ;
     }) ;
-    putRequest(API_REQUEST_ORDER + '/updateWithCouponsReadyIds' , temp.orderDetail.id, {couponsReadyIds : temp.orderDetail.couponsReadyIds},
-        ((response) => {
-          showErrorFunction("Commande validée !", "text-success") ;
+    // putRequest(API_REQUEST_ORDER + '/updateWithCouponsReadyIds' , temp.orderDetail.id, {couponsReadyIds : temp.orderDetail.couponsReadyIds},
+    //     ((response) => {
+    //       showErrorFunction("Commande validée !", "text-success") ;
+    //       let lastStatus = temp.orderDetail.status ;
+    //       temp.orderDetail.status = "finished" ;
+    //       temp.orderDetail.finishedAt = new Date() ;
+    //       temp.orderDetail.endTime = new Date().getHours() + ':' + new Date().getMinutes() ;
+    //       if (!temp.listFinishedOrders) temp.listFinishedOrders = [] ;
+    //       temp.listFinishedOrders.push(temp.orderDetail) ;
+    //       if (lastStatus == "pause") {
+    //         temp.listPausedOrders = temp.listPausedOrders.filter(elt => elt.id != temp.orderDetail.id) ;
+    //       } else {
+    //         temp.orderCooking = temp.listWaitingOrders.shift() ;
+    //       }
+    //       temp.orderCooking.status = 'cooking' ;
+    //       temp.orderDetail = temp.orderCooking ;
+    //       setPreparationProcess(temp) ;
+    //       localStorage.removeItem(`${temp.orderDetail.id}-timer`)
+    //       navigate('/home') ;
+
+    //     }), ( (error) => {
+    //       showErrorFunction("Erreur lors de la validation de la commande !", "text-danger") ;
+    //     }) ) ;
+    showErrorFunction("Commande validée !", "text-success") ;
           let lastStatus = temp.orderDetail.status ;
           temp.orderDetail.status = "finished" ;
           temp.orderDetail.finishedAt = new Date() ;
@@ -85,11 +106,8 @@ function Preparation_Attente(props:PropsType) {
           temp.orderCooking.status = 'cooking' ;
           temp.orderDetail = temp.orderCooking ;
           setPreparationProcess(temp) ;
+          localStorage.removeItem(`${temp.orderDetail.id}-timer`)
           navigate('/home') ;
-
-        }), ( (error) => {
-          showErrorFunction("Erreur lors de la validation de la commande !", "text-danger") ;
-        }) ) ;
   } ;
 
   const showErrorFunction = (errorMessage: string, color:'text-success' | 'text-danger' = "text-success" , timeout: number = 5000) => {

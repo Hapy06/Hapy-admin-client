@@ -343,7 +343,7 @@ function Preparation_Home(props: PropsType) {
                     <ScrollMenu scrollContainerClassName="scroll-and-hidden pl-2">
                       {preparationProcess?.listWaitingOrders?.map(
                         (order: Order, index: number) => (
-                          <div
+                           <div
                             key={index}
                             style={{ width: 275, marginRight: 16 }}
                           >
@@ -352,10 +352,13 @@ function Preparation_Home(props: PropsType) {
                               order={order}
                               handleClick={() => handleOrderClicked(order)}
                             />
-                          </div>
+                          </div> 
                         )
                       )}
                     </ScrollMenu>
+                    <pre>
+                      {JSON.stringify(preparationProcess.listWaitingOrders, null, 4)}
+                    </pre>
                   </div>
                   {/*<div className="list-command-container" style={{marginTop:66, marginLeft:16}}>
                             <div className="row">

@@ -20,12 +20,13 @@ type PropsType = {
 };
 
 function PreparationCommandBox(props: PropsType) {
+
   const { preparationProcess, setPreparationProcess } = useContext<{
     preparationProcess: PreparationProcessModel;
     setPreparationProcess: any;
   }>(preparationContext);
   // let order:Order = {...props.order} ;
-  /*const timer = useTimer({
+  const timer = useTimer({
         create: {
             stopwatch: {startAtMilliseconds:props.order.millisecondePastSinceStart || 0}
         },
@@ -39,12 +40,67 @@ function PreparationCommandBox(props: PropsType) {
         }
     });
 
+    const [timerText, setTimerText] = useState(timer.timerText)
+
     useEffect(() => {
-    }, [timer]) ;
+      const intervalId = setInterval(() => {
+        const storedTimerText = localStorage.getItem(`${props.order.id}-timer`) !== 'NaN:00:NaN' ? localStorage.getItem(`${props.order.id}-timer`) : '00:00:00';
+        console.log(storedTimerText)
+        if (storedTimerText) {
+          // console.log(storedTimerText)
+          // return
+          const [hours, minutes, seconds] = storedTimerText.split(':').map(Number);
+          let newSeconds = seconds + 1;
+          let newMinutes = minutes;
+          let newHours = hours;
+          if (newSeconds >= 60) {
+            newSeconds = 0;
+            newMinutes += 1;
+          }
+          if (newMinutes >= 60) {
+            newMinutes = 0;
+            newHours += 1;
+          }
+          const newTimeText = `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}:${newSeconds.toString().padStart(2, '0')}`;
+          setTimerText(newTimeText);
+          localStorage.setItem(`${props.order.id}-timer`, newTimeText);
+        } else {
+          localStorage.setItem(`${props.order.id}-timer`, timerText);
+        }
+      }, 1000);
+      return () => clearInterval(intervalId);
+    }, [timerText, props.order.id]);
+    
+
+    // useEffect(() => {
+    //   const storedTimerText = localStorage.getItem(`${props.order.id}-timer`)
+    //   console.log(storedTimerText)
+    //   if (storedTimerText) {
+    //     const prevTimeText = timer.timerText
+    //     const [hours, minutes, seconds] = prevTimeText.split(':').map(Number)
+    //     const newSeconds = seconds + 1
+    //     let newMinutes = minutes
+    //     let newHours = hours
+    //     if (newSeconds === 60) {
+    //       newMinutes += 1
+    //     }
+    //     if (newMinutes === 60) {
+    //       newHours += 1
+    //     }
+    //     const newTimeText = `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}:${newSeconds.toString().padStart(2, '0')}`;
+    //     setTimerText(newTimeText)
+    //     localStorage.setItem(`${props.order.id}-timer`, timerText)
+       
+    //   }else{
+    //     localStorage.setItem(`${props.order.id}-timer`, timer.timerText)
+    //   }
+    // }, [timer]) 
+
+   
 
     const handlePauseAndResume = () => {
 
-    } ;*/
+    } ;
 
   return (
     <>
@@ -60,11 +116,11 @@ function PreparationCommandBox(props: PropsType) {
         <div className="text-disabled row">
           <div className="f-12 col-3 mt-2">{props.order.startTime}</div>
           <div className="col-9 text-end">
-            {/*<span className="f-8">00:03’ 65”</span>*/}
-            {/*<span className="f-8">{timer.timerText}</span>*/}
-            {/*<span className="f-12">/ 00:02’ 37” {ICONS.timer16Disabled}*/}
-            <span className="f-12">
-              {/*/ 00:00:00 {ICONS.timer16Disabled}*/}
+            {/* <span className="f-8">00:03’ 65”</span> */}
+            <span className="f-8">{timerText}</span>
+            <span className="f-12">/ 00:02’ 37” {ICONS.timer16Disabled}
+            {/* <span className="f-12"> */}
+              {/* / 00:00:00 {ICONS.timer16Disabled} */}
               {/*<IconTimer width={48} height={48} styleIcon={{width:32}} classIcon="mt-3"/>*/}
             </span>
           </div>
