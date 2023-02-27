@@ -156,6 +156,11 @@ export class Order {
     millisecondePastSinceStartCooking?: number ;
     totalMillisecondesAtEndCooking?: number ;
     isPregnant?: boolean ;
+    // custom attributes
+    pendingDuration?: number;
+    pendingDurationText?: string;
+    cookingDuration?: number;
+    cookingDurationText?: string;
 }
 
 export class Coupon {

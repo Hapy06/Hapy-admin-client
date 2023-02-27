@@ -111,12 +111,12 @@ function Preparation_Home(props: PropsType) {
       });
   };
 
-  const handleOrderClicked = (order: Order) => {
+  const handleOrderClicked = (order: Order, timerProp: boolean = false) => {
     let temp = { ...preparationProcess };
     temp.orderDetail = order;
     setProcessStored("preparationProcess", temp);
     setPreparationProcess({ ...temp });
-    navigate("/preparation/order");
+    navigate("/preparation/order", {state: {timerProp}});
   };
 
   const handleOpenModal = (modalToOpen) => {
@@ -196,7 +196,7 @@ function Preparation_Home(props: PropsType) {
                     <PreparationCurrentCommandRed
                       order={preparationProcess.orderCooking}
                       handleClick={() =>
-                        handleOrderClicked(preparationProcess.orderCooking)
+                        handleOrderClicked(preparationProcess.orderCooking, true)
                       }
                     />
                   )}
@@ -356,9 +356,9 @@ function Preparation_Home(props: PropsType) {
                         )
                       )}
                     </ScrollMenu>
-                    <pre>
+                    {/* <pre>
                       {JSON.stringify(preparationProcess.listWaitingOrders, null, 4)}
-                    </pre>
+                    </pre> */}
                   </div>
                   {/*<div className="list-command-container" style={{marginTop:66, marginLeft:16}}>
                             <div className="row">
