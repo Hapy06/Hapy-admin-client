@@ -49,13 +49,19 @@ function HapyMobileTop(props:PropsType) {
 
     return (
         <div className="happy-div-top">
-            <div className="text-center welcome-word mb-3 ml-1">{props.welcomeWord1 || 'Welcome to Hâpy'}
+            <div className="text-center welcome-word">{props.welcomeWord1 || 'Welcome to Hâpy'}
+            </div>
                 {!props.hideHapyLogo && (
-                    <div className="float-end">
-                        <IconSomeoneDelete handleClick={handleLogout} width={32} height={32} styleIcon={{width:24, marginTop:10}} stroke={'white'}/>
+                    <div>
+                        <div className="float-start text-red-orange f-12 mt-3">
+                            {getAdminProcessValues("userLogged").position}
+                        </div>
+                        <div className="float-end">
+                            <IconSomeoneDelete handleClick={handleLogout} width={32} height={32}
+                                               styleIcon={{width: 24, marginTop: 10}} stroke={'white'}/>
+                        </div>
                     </div>
                 )}
-            </div>
             <div className="welcome-word2">
                 { props.showWelcome2AndMenu && (
                     <>
@@ -104,7 +110,7 @@ function HapyMobileTop(props:PropsType) {
                             </svg>
                         </button>
                     ) }
-                    <div className="text-center icon-happy" style={props.showBtnBack ? {marginRight:50} : {}}>
+                    <div className="text-center icon-happy" style={props.showBtnBack ? {marginRight:50, paddingTop:7} : {paddingTop:7}}>
                         <IconHapyLogo stroke={'#424242'} hapyLogoBtnColor={props.hapyLogoBtnColor}/>
                     </div>
                 </div>

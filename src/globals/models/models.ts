@@ -284,4 +284,5 @@ export class TicketPayed {
     isMultipleReglements: boolean ;
     uniqueReglement?: {number:number, value: string, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'} ;
     listReglement?: {number:number, value: number, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'}[] ;
+    allCommands?: SimpleCommand[] ;
 }

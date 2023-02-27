@@ -163,6 +163,7 @@ function Table_Note(props) {
         ticketPayed.uniqueReglement = reglement ;
         ticketPayed.listReglement = listReglement ;
         ticketPayed.institutionId = getAdminProcessValues("userLogged").institution.id ;
+        ticketPayed.allCommands = commandProcess.allCommands ;
         // exportData(ticketPayed) ;
         saveTicketPayedToDB(ticketPayed) ;
     } ;

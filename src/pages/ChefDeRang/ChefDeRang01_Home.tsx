@@ -36,9 +36,11 @@ function ChefDeRang01_Home(props) {
     }, []) ;
 
     useEffect(() => {
-        let arr = cdrProcess.listNotifs ;
-        arr.push(null) ;
-        setListNotifs(arr) ;
+        if (!cdrProcess.listNotifs.includes(null)) {
+            let arr = cdrProcess.listNotifs || [];
+            arr.push(null);
+            setListNotifs(arr);
+        }
     }, [cdrProcess.listNotifs]) ;
 
     const handleLoadData = () => {
