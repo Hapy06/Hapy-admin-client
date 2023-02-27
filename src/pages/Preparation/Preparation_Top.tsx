@@ -13,6 +13,7 @@ import {preparationContext} from "./PreparationContainer";
 import {getAdminProcessValues} from "../../globals/GlobalVariables";
 import PreparationAllOrdersModal from "./PreparationAllOrdersModal";
 import PreparationModalPerte from "./PreparationModalPerte";
+import PreparationModalToTrash from './PreparationModalToTrash';
 
 type PropsType = {
     classAdditional?: string ;
@@ -102,7 +103,7 @@ function Preparation_Top(props:PropsType) {
                         <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={()=>navigate('/preparation/poste')}
                                              btnWidth={80} marginRight={12} iconComponent={<IconLose stroke={'white'}/>}
                                              isChecked={false}/>
-                        <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={null}
+                        <HapyButtonOnlyIcon2 classAddtionnal='mb-2 btn-border-red bg-black-btn' handleClick={()=>props.handleOpenModal(<PreparationModalToTrash  handleCloseModal={props.handleCloseModal}/>)}
                                              btnWidth={80}  iconComponent={<IconTrash stroke={'white'}/>}
                                              isChecked={false}/>
 

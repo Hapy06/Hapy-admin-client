@@ -1,8 +1,9 @@
-import React from 'react' ;
+import React, {useEffect, useState} from 'react' ;
 import IconTimer from "../../globals/icons-components/IconTimer";
 import {ICONS} from "../../globals/Icons-svg";
 import {Coupon, Order} from "../../globals/models/models";
 import {CouponCard} from "./components";
+import { useTimer } from 'react-timer-and-stopwatch'
 
 type PropsType = {
     handleClick?:any ;
@@ -11,6 +12,56 @@ type PropsType = {
 }
 
 function PreparationCurrentCommandRed(props:PropsType) {
+
+    const timer = useTimer({
+        create: {
+            stopwatch: {startAtMilliseconds:props.order.millisecondePastSinceStart || 0}
+        },
+        includeMilliseconds: false,
+        intervalRate: 1000,
+        callbacks: {
+            onTick: () => {
+                // console.log(timer.timeElapsed) ;
+                // preparationProcess.orderWaintingMilliseconde[props.order.id] = timer.timeElapsed ;
+            }
+        }
+    });
+
+    const [timerText, setTimerText] = useState(timer.timerText)
+
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        if (localStorage.getItem(`${props.order.id}-timer2-pause`)) {
+            setTimerText(localStorage.getItem(`${props.order.id}-timer2-pause`))
+        }else{
+            const storedTimerText = localStorage.getItem(`${props.order.id}-timer2`) !== 'NaN:00:NaN' ? localStorage.getItem(`${props.order.id}-timer2`) : '00:00:00';
+            // console.log(storedTimerText)
+            if (storedTimerText) {
+              // console.log(storedTimerText)
+              // return
+              const [hours, minutes, seconds] = storedTimerText.split(':').map(Number);
+              let newSeconds = seconds + 1;
+              let newMinutes = minutes;
+              let newHours = hours;
+              if (newSeconds >= 60) {
+                newSeconds = 0;
+                newMinutes += 1;
+              }
+              if (newMinutes >= 60) {
+                newMinutes = 0;
+                newHours += 1;
+              }
+              const newTimeText = `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}:${newSeconds.toString().padStart(2, '0')}`;
+              setTimerText(newTimeText);
+              localStorage.setItem(`${props.order.id}-timer2`, newTimeText);
+            } else {
+              localStorage.setItem(`${props.order.id}-timer2`, timerText);
+            }
+        }
+      }, 1000);
+      return () => clearInterval(intervalId);
+    }, [timerText, props.order.id]);
+
     return (
         <>
             <div
@@ -28,11 +79,11 @@ function PreparationCurrentCommandRed(props:PropsType) {
                 <div className="red-command-content mt-3">
                     <div className="text-disabled row">
                         <div className="f-12 col-3 mt-2">21:17</div>
-                        {/*<div className="col-9 text-end">
-                            <span className="f-8">00:03’ 65”</span>
-                            <span className="f-12" style={{color:'#F7B927'}}>/ 00:02’ 37” {ICONS.timer16Disabled}
+                        <div className="col-9 text-end">
+                            <span className="f-8">{props.order.pendingDurationText}</span>
+                            <span className="f-12" style={{color:'#F7B927'}}>/ {timerText} {ICONS.timer16Disabled}
                          </span>
-                        </div>*/}
+                        </div>
                     </div>
                     <div className="d-flex justify-content-between mt-3">
                         <div className="">

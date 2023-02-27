@@ -17,6 +17,8 @@ type PropsType = {
 
 function Preparation_Attente(props:PropsType) {
   const navigate = useNavigate() ;
+  const location = useLocation()
+  const timerProp = location.state.timerProp
   const {preparationProcess, setPreparationProcess} =  useContext<{preparationProcess:PreparationProcessModel, setPreparationProcess: any}>(preparationContext) ;
   const [blurBG, setBlurBG] = useState<string>('');
   const [isModalOpened, setIsModalOpened] = useState<{state:boolean,modalToOpen:any}>({state:false,modalToOpen:null});
@@ -35,7 +37,18 @@ function Preparation_Attente(props:PropsType) {
   } ;
 
   const handleClickPause = () => {
-    let temp = preparationProcess ;
+    let temp = preparationProcess
+    if (localStorage.getItem(`${temp.orderDetail.id}-timer2-pause`)) {
+      const pauseTimerText = localStorage.getItem(`${temp.orderDetail.id}-timer2-pause`)
+      localStorage.setItem(`${temp.orderDetail.id}-timer2`, pauseTimerText)
+      localStorage.removeItem(`${temp.orderDetail.id}-timer2-pause`)
+    }else{
+      console.log('pause --> ',localStorage.getItem(`${temp.orderDetail.id}-timer2`))
+      const pauseTimerText = localStorage.getItem(`${temp.orderDetail.id}-timer2`)
+      localStorage.setItem(`${temp.orderDetail.id}-timer2-pause`, pauseTimerText)
+      localStorage.removeItem(`${temp.orderDetail.id}-timer2`)
+    }
+    
     if (temp.orderDetail.status == "cooking") {
       temp.orderDetail.status = 'pause' ;
       if (!temp.listPausedOrders) temp.listPausedOrders = [] ;
@@ -68,9 +81,30 @@ function Preparation_Attente(props:PropsType) {
     temp.orderDetail.coupons.forEach(coupon => {
       temp.orderDetail.couponsReadyIds.push(coupon.id) ;
     }) ;
-    putRequest(API_REQUEST_ORDER + '/updateWithCouponsReadyIds' , temp.orderDetail.id, {couponsReadyIds : temp.orderDetail.couponsReadyIds},
-        ((response) => {
-          showErrorFunction("Commande validée !", "text-success") ;
+    // putRequest(API_REQUEST_ORDER + '/updateWithCouponsReadyIds' , temp.orderDetail.id, {couponsReadyIds : temp.orderDetail.couponsReadyIds},
+    //     ((response) => {
+    //       showErrorFunction("Commande validée !", "text-success") ;
+    //       let lastStatus = temp.orderDetail.status ;
+    //       temp.orderDetail.status = "finished" ;
+    //       temp.orderDetail.finishedAt = new Date() ;
+    //       temp.orderDetail.endTime = new Date().getHours() + ':' + new Date().getMinutes() ;
+    //       if (!temp.listFinishedOrders) temp.listFinishedOrders = [] ;
+    //       temp.listFinishedOrders.push(temp.orderDetail) ;
+    //       if (lastStatus == "pause") {
+    //         temp.listPausedOrders = temp.listPausedOrders.filter(elt => elt.id != temp.orderDetail.id) ;
+    //       } else {
+    //         temp.orderCooking = temp.listWaitingOrders.shift() ;
+    //       }
+    //       temp.orderCooking.status = 'cooking' ;
+    //       temp.orderDetail = temp.orderCooking ;
+    //       setPreparationProcess(temp) ;
+    //       localStorage.removeItem(`${temp.orderDetail.id}-timer`)
+    //       navigate('/home') ;
+
+    //     }), ( (error) => {
+    //       showErrorFunction("Erreur lors de la validation de la commande !", "text-danger") ;
+    //     }) ) ;
+    showErrorFunction("Commande validée !", "text-success") ;
           let lastStatus = temp.orderDetail.status ;
           temp.orderDetail.status = "finished" ;
           temp.orderDetail.finishedAt = new Date() ;
@@ -85,11 +119,21 @@ function Preparation_Attente(props:PropsType) {
           temp.orderCooking.status = 'cooking' ;
           temp.orderDetail = temp.orderCooking ;
           setPreparationProcess(temp) ;
+          if (localStorage.getItem(`${temp.orderDetail.id}-timer1`)) {
+            temp.orderDetail.pendingDurationText = localStorage.getItem(`${temp.orderDetail.id}-timer1`)
+            const [hours, minutes, seconds] = localStorage.getItem(`${temp.orderDetail.id}-timer1`).split(":")
+            const durationInMs = ((parseInt(hours) * 60 + parseInt(minutes)) * 60 + parseInt(seconds)) * 1000;
+            temp.orderDetail.pendingDuration = durationInMs;
+            localStorage.removeItem(`${temp.orderDetail.id}-timer1`)
+          }
+          if (localStorage.getItem(`${temp.orderDetail.id}-timer2`)) {
+            temp.orderDetail.cookingDurationText = localStorage.getItem(`${temp.orderDetail.id}-timer2`)
+            const [hours, minutes, seconds] = localStorage.getItem(`${temp.orderDetail.id}-timer2`).split(":")
+            const durationInMs = ((parseInt(hours) * 60 + parseInt(minutes)) * 60 + parseInt(seconds)) * 1000;
+            temp.orderDetail.cookingDuration = durationInMs;
+            localStorage.removeItem(`${temp.orderDetail.id}-timer2`)
+          }
           navigate('/home') ;
-
-        }), ( (error) => {
-          showErrorFunction("Erreur lors de la validation de la commande !", "text-danger") ;
-        }) ) ;
   } ;
 
   const showErrorFunction = (errorMessage: string, color:'text-success' | 'text-danger' = "text-success" , timeout: number = 5000) => {
@@ -122,7 +166,7 @@ function Preparation_Attente(props:PropsType) {
             </div>
             <div className="row">
               <div className="col-lg-3 col-md-4 mt-5">
-                <PreparationCommandBox order={preparationProcess.orderDetail}
+                <PreparationCommandBox inCooking={timerProp} order={preparationProcess.orderDetail}
                                        borderOrange={true} removePauseIcon={true} handleClick={null}/>
               </div>
               <div className="col-lg-3 col-md-4"> </div>
@@ -172,8 +216,12 @@ function Preparation_Attente(props:PropsType) {
                             {preparationProcess.orderDetail.status != "waiting" && (
                                 <HapyButtonWithIcon handleClick={handleClickPause} iconComponent={<IconTimer3/>}
                                                     btnClass={preparationProcess.orderDetail.status == "pause" ? "wait-btn-removal" : null}
-                                                    text={(preparationProcess.orderDetail.status == "pause" ? "En attente" : "Mettre en attente")}
+                                                    text={localStorage.getItem(`${preparationProcess.orderDetail.id}-timer2-pause`) ? "En attente" : "Mettre en attente"}
                                                     btnWidth={366}/>
+                                // <HapyButtonWithIcon handleClick={handleClickPause} iconComponent={<IconTimer3/>}
+                                //                     btnClass={preparationProcess.orderDetail.status == "pause" ? "wait-btn-removal" : null}
+                                //                     text={(preparationProcess.orderDetail.status == "pause" ? "En attente" : "Mettre en attente")}
+                                //                     btnWidth={366}/>
 
                             )}
                         </div>
