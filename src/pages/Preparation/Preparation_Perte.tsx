@@ -68,6 +68,8 @@ function Preparation_Perte(props: PropsType) {
     setTotalQtyProductIngredientAllPoste,
   ] = useState<number>(0);
 
+  const [ingredientsVariant, setIngredientsVariant] = useState([])
+
   useEffect(() => {
     window.scrollTo(0, 0);
     handleLoadData();
@@ -134,6 +136,10 @@ function Preparation_Perte(props: PropsType) {
       });
   };
 
+  const handleIngredientsInVariant = (o) => {
+    console.log('o --->' ,o)
+  }
+
   const handleOpenModal = (modalToOpen) => {
     setBlurBG("blur-bg");
     setIsModalOpened({ state: true, modalToOpen: modalToOpen });
@@ -148,16 +154,31 @@ function Preparation_Perte(props: PropsType) {
     // console.log(variantId) ;
     let temp = { ...listVariantSelectedAllPoste };
     temp[variantId] = 0;
-    console.log(temp);
+    // console.log('selected variant ---> ', temp);
     setListVariantSelectedAllPoste({ ...temp });
+    let vPoste = {variantId, type: 'Variant'}
+    // setIngredientsVariant([...ingredientsVariant, vPoste])
+    setIngredientsVariant(prevIngredientsVariant => {
+      const newIngredientsVariant = [...prevIngredientsVariant, vPoste];
+      console.log('newIngredientsVariant --> ', newIngredientsVariant);
+      return newIngredientsVariant;
+    });
   };
 
   const handleUnselectedVariantAllPoste = (variantId: string) => {
     // console.log(variantId) ;
+    let vId = variantId;
     let temp = { ...listVariantSelectedAllPoste };
     temp[variantId] = null;
-    console.log(temp);
+    // console.log('unselected variant --> ', temp);
     setListVariantSelectedAllPoste({ ...temp });
+    // setIngredientsVariant(ingredientsVariant.filter(v => v.variantId !== vId))
+    setIngredientsVariant(prevIngredientsVariant => {
+      const newIngredientsVariant = prevIngredientsVariant.filter(v => v.variantId !== vId);
+      console.log('updated ingredientsVariant --> ', newIngredientsVariant);
+      return newIngredientsVariant;
+    });
+    
   };
 
   const handleSelectedProductIngredientAllPoste = (
@@ -166,18 +187,32 @@ function Preparation_Perte(props: PropsType) {
     // console.log(productIngredientId) ;
     let temp = { ...listProductIngredientSelectedWithQtyAllPoste };
     temp[productIngredientId] = 0;
-    console.log(temp);
+    // console.log('selected ingredient ---> ', temp);
     setListProductIngredientSelectedWithQtyAllPoste({ ...temp });
+    let iProduct = {productIngredientId, type: 'Ingredient', qty: 0}
+    setIngredientsVariant(prevIngredientsVariant => {
+      const newIngredientsVariant = [...prevIngredientsVariant, iProduct];
+      console.log('newIngredients -->', newIngredientsVariant);
+      return newIngredientsVariant;
+    });
   };
 
   const handleUnselectedProductIngredientAllPoste = (
     productIngredientId: string
   ) => {
     // console.log(productIngredientId) ;
+    let ingredienId = productIngredientId;
     let temp = { ...listProductIngredientSelectedWithQtyAllPoste };
     temp[productIngredientId] = null;
-    console.log(temp);
+    // console.log('unselected ingredient ---> ',temp);
     setListProductIngredientSelectedWithQtyAllPoste({ ...temp });
+    setIngredientsVariant( prevIngredientsVariant => {
+      const newIngredients = prevIngredientsVariant.filter(i => i.productIngredientId !== ingredienId);
+      console.log('updated ingredients ---> ', newIngredients);
+      return newIngredients;
+    }
+
+    )
   };
 
   const handleQtyChangeProductIngredient = (
@@ -199,6 +234,16 @@ function Preparation_Perte(props: PropsType) {
       }
     }
     setListProductIngredientSelectedWithQtyAllPoste({ ...temp });
+    setIngredientsVariant(prevIngredientsVariant => {
+      const updatedIngredientsVariant = prevIngredientsVariant.map(ingredient => {
+        if (ingredient.productIngredientId === ingredientId) {
+          return { ...ingredient, qty: temp[ingredientId] };
+        }
+        return ingredient;
+      });
+      console.log('update qty --> ',updatedIngredientsVariant)
+      return updatedIngredientsVariant;
+    });
   };
 
   return (
@@ -571,7 +616,7 @@ function Preparation_Perte(props: PropsType) {
                                     className="col-4 text-orange"
                                     style={{ marginLeft: 32 }}
                                   >
-                                    Produit fini
+                                    Produit fini 
                                   </span>
                                 </div>
                               )}
@@ -704,9 +749,11 @@ function Preparation_Perte(props: PropsType) {
                       <div className="horizontal-center mt-4">
                         <HapyButtonWithIcon
                           text="Valider"
+                          // handleClick={() => console.log('à jeter --> ',ingredientsVariant)}
                           handleClick={() =>
                             handleOpenModal(
                               <PreparationModalPerteIngredient
+                                ingredientsVariant={ingredientsVariant}
                                 listIngredientChoosed={
                                   listProductIngredientChoosedAllPoste
                                 }

@@ -20,6 +20,7 @@ type PropsType = {
     listIngredientChoosed: ProductIngredient[] ;
     listIngredientSelectedWithQty: any ;
     totalQty: number ;
+    ingredientsVariant?: any;
 }
 
 
@@ -87,11 +88,19 @@ function PreparationModalPerteIngredient(props:PropsType) {
                         <IconHapyLogo width={48} height={48} styleIcon={{width:22}}/>
                     </div>
                     <br/>
-                    {props.listIngredientChoosed.map(productIngredient => (
+                    {props.ingredientsVariant.map(productIngredient => (
+                        <div>
+                            {/* <pre>
+                                {JSON.stringify(productIngredient, null, 4)}
+                            </pre> */}
+                            <span className="text-red-orange ml-4 mr-4 fw-6">{productIngredient.productIngredientId ? productIngredient.productIngredientId : productIngredient.variantId}</span> {productIngredient.qty} <br/><br/>
+                        </div>
+                    ))}
+                    {/* {props.listIngredientChoosed.map(productIngredient => (
                         <div>
                             <span className="text-red-orange ml-4 mr-4 fw-6">{props.listIngredientSelectedWithQty[productIngredient.id]}</span> {productIngredient.ingredientEntitled} <br/><br/>
                         </div>
-                    ))}
+                    ))} */}
                     <br/><br/><br/><br/>
                     {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
                     <HapyButtonWithIcon text="Valider la perte" handleClick={handleValidateLose}
