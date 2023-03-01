@@ -202,7 +202,7 @@ export class Table {
     /**************************/
     zoneName: string ;
     zone: Zone ;
-    commandProcessToShare?: string ;
+    commandProcessToShare?: CommandProcessModelToShare ;
 }
 
 export default class Booking {
@@ -290,4 +290,6 @@ export class TicketPayed {
     uniqueReglement?: {number:number, value: string, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'} ;
     listReglement?: {number:number, value: number, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'}[] ;
     allCommands?: SimpleCommand[] ;
+    sendNoteEmail: string ;
+    sendNoteWithDetail: boolean ;
 }

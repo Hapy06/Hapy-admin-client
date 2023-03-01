@@ -227,7 +227,7 @@ export const updateTable = (commandProcess: CommandProcessModel, callBackSuccess
         if (commandProcess[key]) commandProcessModelToShare[key] = commandProcess[key] ;
     }
     let table = commandProcess.table ;
-    table.commandProcessToShare = JSON.stringify(commandProcessModelToShare) ;
+    table.commandProcessToShare = commandProcessModelToShare ;
     console.log(table) ;
     putRequest(API_REQUEST_TABLE + '/update-table', table.id, table, getAdminProcessValues("authToken"),
         (response)=>{if (callBackSuccess) callBackSuccess(response);},

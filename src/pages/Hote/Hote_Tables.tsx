@@ -234,9 +234,7 @@ function Hote_Tables(props:PropsType) {
                                                 <HapyHoteTableItem marginLeft={49} marginBottom={49} isChecked={checkedIfReserved(table)} status={table.status}
                                                                    handleClick={checkedIfReserved(table) ? () => handleOpenModal(<HoteModalDetailReservation
                                                                        containerStyle={{marginTop: 100}} bookingDetail={
-                                                                       listBooking.find((booking:Booking) => {
-                                                                           return booking.tableNumber == table.tableNumber ;
-                                                                       })
+                                                                       listBooking[0]
                                                                    }
                                                                        handleCloseModal={handleCloseModal}/>) : null} number={table.tableNumber}
                                                                    btnWidth={64}/>

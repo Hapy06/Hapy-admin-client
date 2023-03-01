@@ -68,10 +68,10 @@ function PreparationCommandBox(props: PropsType) {
             } else {
               localStorage.setItem(`${props.order.id}-timer1`, timerText);
             }
-        }else{
+        } else {
           if (localStorage.getItem(`${props.order.id}-timer2-pause`)) {
             setTimerText(localStorage.getItem(`${props.order.id}-timer2-pause`))
-          }else{
+          } else {
             const storedTimerText = localStorage.getItem(`${props.order.id}-timer2`) !== 'NaN:00:NaN' ? localStorage.getItem(`${props.order.id}-timer2`) : '00:00:00';
               // console.log(storedTimerText)
               if (storedTimerText) {
@@ -148,7 +148,7 @@ function PreparationCommandBox(props: PropsType) {
           <div className="col-9 text-end">
             {/* <span className="f-8">00:03’ 65”</span> */}
             <span className="f-8">{timerText}</span>
-            <span className="f-12">/ 00:02’ 37” {ICONS.timer16Disabled}
+            <span className="f-12">/ 00:00’ 00” {ICONS.timer16Disabled}
             {/* <span className="f-12"> */}
               {/* / 00:00:00 {ICONS.timer16Disabled} */}
               {/*<IconTimer width={48} height={48} styleIcon={{width:32}} classIcon="mt-3"/>*/}

@@ -43,9 +43,9 @@ function HoteModalAddReservation(props:PropsType) {
             showErrorFunction("Veuillez saisir le nombre de personne !") ;
         } else if (!newBooking.tableNumber || newBooking.tableNumber == 0 || (!props.listAllTables.some(elt => elt.tableNumber == newBooking.tableNumber) )) {
             showErrorFunction("Veuillez saisir un numéro de table valide !") ;
-        } else if (!newBooking.dateOfreservation || newBooking.dateOfreservation == '' || !newBooking.dateOfreservation.includes('/')) {
+        } /*else if (!newBooking.dateOfreservation || newBooking.dateOfreservation == '' || !newBooking.dateOfreservation.includes('/')) {
             showErrorFunction("Veuillez saisir une date valide (JJ/mm/AAAA) !") ;
-        } else {
+        }*/ else {
             newBooking.phoneNumber.includes('+33') ? null : newBooking.phoneNumber = '+33' + newBooking.phoneNumber ;
             newBooking.tableId = props.listAllTables.find(elt => elt.tableNumber == newBooking.tableNumber ).id ;
             saveAndContinue() ;
@@ -55,8 +55,9 @@ function HoteModalAddReservation(props:PropsType) {
     const saveAndContinue = () => {
         showErrorFunction(MSG_SAVING, "text-success") ;
         newBooking.timeOfreservation = new Date().getHours() + ':' + new Date().getMinutes() ;
-        let arr = newBooking.dateOfreservation.split('/') ;
-        newBooking.dateOfreservationToShow = arr[0] + ' ' + monthListFR[parseInt(arr[1])-1] + ' ' + arr[2],
+        /*let arr = newBooking.dateOfreservation.split('/') ;
+        newBooking.dateOfreservationToShow = arr[0] + ' ' + monthListFR[parseInt(arr[1])-1] + ' ' + arr[2],*/
+        newBooking.dateOfreservationToShow = newBooking.dateOfreservation ;
             newBooking.status = "En cours" ;
         console.log(newBooking) ;
         postRequest(API_REQUEST_BOOKING, newBooking,
@@ -104,9 +105,9 @@ function HoteModalAddReservation(props:PropsType) {
                                        inputValue={newBooking.numberOfPeople} handleChange={handleForm}/>
                 <br/> <br/> <HapyInput inputName='tableNumber' label='Numéro de table' inputType={"text"}
                                        inputValue={newBooking.tableNumber} handleChange={handleForm}/>
-                <br/> <br/> {/*<HapyInput inputName='dateOfreservation' label='Date de la réservation' inputType={"text"}
-                                       inputValue={newBooking.dateOfreservation} handleChange={handleForm}/>*/}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <br/> <br/> <HapyInput inputName='dateOfreservation' label='Date de la réservation' inputType={"text"}
+                                       inputValue={newBooking.dateOfreservation} handleChange={handleForm}/>
+                {/*<LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
                         renderInput={(props) => <TextField {...props} style={{width:366, borderRadius:20, border: '1px solid gray'}} />}
                         label=""
@@ -115,7 +116,7 @@ function HoteModalAddReservation(props:PropsType) {
                             setNewBooking({...newBooking, dateOfreservation: newValue});
                         }}
                     />
-                </LocalizationProvider>
+                </LocalizationProvider>*/}
                 <br/><br/><br/>
                 {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
                 <HapyButtonWithIcon text="Réserver la table" handleClick={handleSubmitBooking}
