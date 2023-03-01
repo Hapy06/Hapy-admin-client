@@ -147,12 +147,19 @@ function PreparationCommandBox(props: PropsType) {
           <div className="f-12 col-3 mt-2">{props.order.startTime}</div>
           <div className="col-9 text-end">
             {/* <span className="f-8">00:03’ 65”</span> */}
-            <span className="f-8">{timerText}</span>
-            <span className="f-12">/ 00:00’ 00” {ICONS.timer16Disabled}
+            {props.inCooking ? (
+              <>
+              <span className="f-8">{props.order.pendingDurationText}</span>
+              <span className="f-12" style={{color:'#F7B927'}}>  / {timerText} </span>
+              </> ) : (
+                  <>
+                    <span className="f-8">{timerText}</span>
+                    <span className="f-12">/ 00:00’ 00” {ICONS.timer16Disabled} </span>
+                  </>
+                ) }
             {/* <span className="f-12"> */}
               {/* / 00:00:00 {ICONS.timer16Disabled} */}
               {/*<IconTimer width={48} height={48} styleIcon={{width:32}} classIcon="mt-3"/>*/}
-            </span>
           </div>
         </div>
         <div className="row mt-3">

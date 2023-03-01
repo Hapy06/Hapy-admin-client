@@ -221,7 +221,7 @@ export class Variant {
 
 export class ProductIngredient {
     id?: string ;
-    ingredient?: Ingredient ;
+    ingredient?: any ;
     ingredientId?: string;
     ingredientEntitled?: string;
     quantity: number = 0;

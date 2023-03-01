@@ -9,7 +9,7 @@ import {HomeProcessModel} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
 import {
     API_REQUEST_INGREDIENT_LOST,
-    API_REQUEST_PRODUCT_LOST,
+    API_REQUEST_PRODUCT_LOST, getAdminProcessValues,
     MSG_ERROR,
     MSG_SAVING,
     postRequest
@@ -35,13 +35,13 @@ function PreparationModalPerteIngredient(props:PropsType) {
     const handleValidateLose = () => {
         showErrorFunction(MSG_SAVING, "text-success") ;
         let arr:{ingredientId: string, quantity:number} [] = [] ;
-        for (let key in props.listIngredientSelectedWithQty) {
-            arr.push({ingredientId:key || '63daad6c40fa587d99c2fb0a', quantity:props.listIngredientSelectedWithQty[key] || 0}) ;
-        }
+        props.ingredientsVariant.forEach(ingredient => {
+            arr.push({ingredientId:ingredient.productIngredientId, quantity:ingredient.qty}) ;
+        }) ;
         console.log(arr) ;
-        postRequest(API_REQUEST_INGREDIENT_LOST, {ingredientLost:arr},
+        /*postRequest(API_REQUEST_INGREDIENT_LOST, {ingredientLost:arr},
             ()=>{setLoseValidated(true) ;},
-            ()=>{showErrorFunction(MSG_ERROR)}) ;
+            ()=>{showErrorFunction(MSG_ERROR)}) ;*/
     } ;
 
     const showErrorFunction = (errorMessage: string, color:'text-success' | 'text-danger' = "text-danger" , timeout: number = 5000) => {
@@ -54,9 +54,9 @@ function PreparationModalPerteIngredient(props:PropsType) {
     } ;
 
     return (
-        <>
+        <div className="container_popup">
             {loseValidated ? (
-                <>
+                <div className="popup">
                     <br/><br/><br/>
                     <div className="text-center mb-5">
                         <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,26 +74,34 @@ function PreparationModalPerteIngredient(props:PropsType) {
                     <br/><br/><br/><br/>
                     <HapyButtonWithIcon text="Retour à votre interface" handleClick={()=>navigate(('/home'))}
                                         iconComponent={<IconArrowLeft/>}/>
-                </>
+                </div>
             ) : (
-                <>
+                <div className="popup">
                     <button className="back-btn-modal" style={{float: "left", marginTop:-5}}
                             onClick={props.handleCloseModal}>
                         <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 9, marginRigth:9 }} />
                     </button>
                     <br/><br/><br/>
-                    <p className="text-black"><span className="text-red-orange">Quentin</span> LELOUCHE</p>
+                    <p className="text-black">
+                        <span className="text-red-orange mr-1">
+                            {getAdminProcessValues('userLogged').firstName}
+                        </span>
+                        {getAdminProcessValues('userLogged').lastName}
+                    </p>
                     <h1 className="text-black f-32 fw-6">Noter en perte</h1>
                     <div className="text-center mt-4 mb-4">
                         <IconHapyLogo width={48} height={48} styleIcon={{width:22}}/>
                     </div>
                     <br/>
                     {props.ingredientsVariant.map(productIngredient => (
-                        <div>
-                            {/* <pre>
-                                {JSON.stringify(productIngredient, null, 4)}
-                            </pre> */}
-                            <span className="text-red-orange ml-4 mr-4 fw-6">{productIngredient.productIngredientId ? productIngredient.productIngredientId : productIngredient.variantId}</span> {productIngredient.qty} <br/><br/>
+                        <div className="row">
+                            <span className="text-red-orange col-6 fw-6">
+                                {productIngredient.productIngredientId ? productIngredient.productIngredientEntitled : productIngredient.variantName}
+                            </span>
+                            <span className="fw-6 col-6">
+                                {productIngredient.qty}
+                            </span>
+                            <br/><br/>
                         </div>
                     ))}
                     {/* {props.listIngredientChoosed.map(productIngredient => (
@@ -105,9 +113,9 @@ function PreparationModalPerteIngredient(props:PropsType) {
                     {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
                     <HapyButtonWithIcon text="Valider la perte" handleClick={handleValidateLose}
                                         numberAtEnd={props.totalQty + ''} numberAtEndColor={"#FF6063"} iconComponent={<IconLose/>}/>
-                </>
+                </div>
             )}
-        </>
+        </div>
     )
 }
 export default PreparationModalPerteIngredient

@@ -31,8 +31,6 @@ type PropsType = {
 
 function Hote_Tables(props:PropsType) {
     const [listToShow, setListToShow] = useState<'Tables' | 'Reservations'>('Tables');
-
-
     const [blurBG, setBlurBG] = useState<string>('');
     const [isModalOpened, setIsModalOpened] = useState<{state:boolean,modalToOpen:any}>({state:false,modalToOpen:null});
     const [listZones, setListZones] = useState([]) ;

@@ -150,13 +150,13 @@ function Preparation_Perte(props: PropsType) {
     setIsModalOpened({ state: false, modalToOpen: null });
   };
 
-  const handleSelectedVariantAllPoste = (variantId: string) => {
+  const handleSelectedVariantAllPoste = (variantId: string, variantName: string) => {
     // console.log(variantId) ;
     let temp = { ...listVariantSelectedAllPoste };
     temp[variantId] = 0;
     // console.log('selected variant ---> ', temp);
     setListVariantSelectedAllPoste({ ...temp });
-    let vPoste = {variantId, type: 'Variant'}
+    let vPoste = {variantId, variantName, type: 'Variant'}
     // setIngredientsVariant([...ingredientsVariant, vPoste])
     setIngredientsVariant(prevIngredientsVariant => {
       const newIngredientsVariant = [...prevIngredientsVariant, vPoste];
@@ -182,14 +182,14 @@ function Preparation_Perte(props: PropsType) {
   };
 
   const handleSelectedProductIngredientAllPoste = (
-    productIngredientId: string
+    productIngredientId: string, productIngredientEntitled: string
   ) => {
     // console.log(productIngredientId) ;
     let temp = { ...listProductIngredientSelectedWithQtyAllPoste };
     temp[productIngredientId] = 0;
     // console.log('selected ingredient ---> ', temp);
     setListProductIngredientSelectedWithQtyAllPoste({ ...temp });
-    let iProduct = {productIngredientId, type: 'Ingredient', qty: 0}
+    let iProduct = {productIngredientId, productIngredientEntitled, type: 'Ingredient', qty: 0}
     setIngredientsVariant(prevIngredientsVariant => {
       const newIngredientsVariant = [...prevIngredientsVariant, iProduct];
       console.log('newIngredients -->', newIngredientsVariant);
@@ -478,7 +478,7 @@ function Preparation_Perte(props: PropsType) {
                                 <span
                                   className="col-1"
                                   onClick={() =>
-                                    handleSelectedVariantAllPoste(variant.id)
+                                    handleSelectedVariantAllPoste(variant.id, variant.name)
                                   }
                                   style={{ cursor: "pointer" }}
                                 >
@@ -556,13 +556,12 @@ function Preparation_Perte(props: PropsType) {
                       <div>
                         {cookingStation.variants.map(
                           (variant: Variant, index: number) => (
-                            <>
-                              <h6 key={variant.id} className="mb-3 fw-5">
+                            <div className={variant.id}>
+                              <h6 className="mb-3 fw-5">
                                 {variant.name}
                               </h6>
-                              {listVariantSelectedAllPoste[variant.id] !=
-                              null ? (
-                                <div key={variant.id} className="row mb-4 fw-5">
+                              {listVariantSelectedAllPoste[variant.id] != null ? (
+                                <div className="row mb-4 fw-5">
                                   <span
                                     className="col-1"
                                     onClick={() =>
@@ -589,33 +588,15 @@ function Preparation_Perte(props: PropsType) {
                                   <span
                                     className="col-1"
                                     onClick={() =>
-                                      handleSelectedVariantAllPoste(variant.id)
+                                      handleSelectedVariantAllPoste(variant.id, variant.name)
                                     }
                                     style={{ cursor: "pointer" }}
                                   >
-                                    <svg
-                                      width="24"
-                                      height="24"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <rect
-                                        x="0.25"
-                                        y="0.25"
-                                        width="23.5"
-                                        height="23.5"
-                                        rx="11.75"
-                                        fill="white"
-                                        stroke="#C8C8C8"
-                                        strokeWidth="0.5"
-                                      />
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
                                     </svg>
                                   </span>
-                                  <span
-                                    className="col-4 text-orange"
-                                    style={{ marginLeft: 32 }}
-                                  >
+                                  <span className="col-4 text-orange" style={{ marginLeft: 32 }}>
                                     Produit fini 
                                   </span>
                                 </div>
@@ -627,17 +608,17 @@ function Preparation_Perte(props: PropsType) {
                                 ) => (
                                   <>
                                     {listProductIngredientSelectedWithQtyAllPoste[
-                                      productIngredient.id
+                                      productIngredient.ingredient
                                     ] != null ? (
                                       <div
-                                        key={variant.id}
+                                        key={productIngredient.id}
                                         className="row mb-4 fw-5"
                                       >
                                         <span
                                           className="col-1"
                                           onClick={() =>
                                             handleUnselectedProductIngredientAllPoste(
-                                              productIngredient.id
+                                              productIngredient.ingredient
                                             )
                                           }
                                           style={{ cursor: "pointer" }}
@@ -659,7 +640,7 @@ function Preparation_Perte(props: PropsType) {
                                             style={{ cursor: "pointer" }}
                                             onClick={() =>
                                               handleQtyChangeProductIngredient(
-                                                productIngredient.id,
+                                                productIngredient.ingredient,
                                                 "increase"
                                               )
                                             }
@@ -672,7 +653,7 @@ function Preparation_Perte(props: PropsType) {
                                           >
                                             {
                                               listProductIngredientSelectedWithQtyAllPoste[
-                                                productIngredient.id
+                                                productIngredient.ingredient
                                               ]
                                             }
                                           </span>
@@ -680,7 +661,7 @@ function Preparation_Perte(props: PropsType) {
                                             style={{ cursor: "pointer" }}
                                             onClick={() =>
                                               handleQtyChangeProductIngredient(
-                                                productIngredient.id,
+                                                productIngredient.ingredient,
                                                 "decrease"
                                               )
                                             }
@@ -695,28 +676,13 @@ function Preparation_Perte(props: PropsType) {
                                           className="col-1"
                                           onClick={() =>
                                             handleSelectedProductIngredientAllPoste(
-                                              productIngredient.id
+                                              productIngredient.ingredient, productIngredient.ingredientEntitled || "Ingredient inconnue"
                                             )
                                           }
                                           style={{ cursor: "pointer" }}
                                         >
-                                          <svg
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <rect
-                                              x="0.25"
-                                              y="0.25"
-                                              width="23.5"
-                                              height="23.5"
-                                              rx="11.75"
-                                              fill="white"
-                                              stroke="#C8C8C8"
-                                              strokeWidth="0.5"
-                                            />
+                                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect   x="0.25"   y="0.25"   width="23.5"   height="23.5"   rx="11.75"   fill="white"   stroke="#C8C8C8"   strokeWidth="0.5"/>
                                           </svg>
                                         </span>
                                         <span
@@ -731,7 +697,7 @@ function Preparation_Perte(props: PropsType) {
                                   </>
                                 )
                               )}
-                            </>
+                            </div>
                           )
                         )}
                       </div>

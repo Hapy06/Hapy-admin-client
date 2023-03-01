@@ -152,9 +152,6 @@ export class Order {
     createdAt?: Date ;
     finishedAt?: Date ;
     millisecondePastSinceStart?: number ;
-    totalMillisecondesAtEnd?: number ;
-    millisecondePastSinceStartCooking?: number ;
-    totalMillisecondesAtEndCooking?: number ;
     isPregnant?: boolean ;
     // custom attributes
     pendingDuration?: number;

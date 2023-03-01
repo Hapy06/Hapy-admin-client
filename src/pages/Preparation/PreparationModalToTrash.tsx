@@ -9,8 +9,15 @@ import HapySearch from "../../components/HapySearch";
 import IconOrder from "../../globals/icons-components/IconOrder";
 import IconVerify from "../../globals/icons-components/IconVerify";
 import axios from 'axios'
-import { API_REQUEST_INGREDIENT, BASE_URL, getAdminProcessValues } from '../../globals/GlobalVariables';
+import {
+    API_REQUEST_INGREDIENT, API_REQUEST_INGREDIENT_LOST,
+    BASE_URL,
+    getAdminProcessValues, MSG_ERROR,
+    MSG_SAVING,
+    postRequest
+} from '../../globals/GlobalVariables';
 import { Ingredient } from '../../globals/models/Inscription.models';
+import {string} from "prop-types";
 
 type PropsType = {
     handleCloseModal: any ;
@@ -19,15 +26,38 @@ type PropsType = {
 
 function PreparationModalToTrash(props:PropsType) {
 
-    const [commandValidated, setCommandValidated] = useState(false);
     const [listIngredients, setListIngredients] = useState<Ingredient[]>([]);
+    const [listIngredientsInitial, setListIngredientsInitial] = useState<Ingredient[]>([]);
     const [listIngredientsToTrash, setListIngredientsToTrash] = useState([])
-    const [loadMessage, setLoadMessage] = useState<string>("(Pas d'ingrédients trouvé)");
-    const navigate = useNavigate();
+    const [searchKey, setSearchKey] = useState<string>("");
+    const [showError, setShowError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
+
+    const handleSearch = (value: string) => {
+        //  Search in the list of ingredients inital and set the list of ingredients
+        let arr = listIngredientsInitial.filter((item) => {
+            return item.entitled.toLowerCase().includes(value.toLowerCase());
+        });
+        setListIngredients(arr);
+        setSearchKey(value);
+    }
 
     const handleValidate = () => {
-        console.log('handle validate button clicked --> ', listIngredientsToTrash)
-       
+        showErrorFunction(MSG_SAVING, "text-success");
+        let ingredientLost = [] ;
+        listIngredientsToTrash.forEach((item) => {
+            ingredientLost.push({ ingredientId: item, quantity: 1 }) ;
+        }) ;
+        console.log(ingredientLost)
+        postRequest(API_REQUEST_INGREDIENT_LOST, { ingredientLost: ingredientLost },
+            () => {
+                props.handleCloseModal() ;
+            },
+            (err) => {
+                showErrorFunction(MSG_ERROR, "text-danger");
+            }) ;
+
     }
 
     useEffect(() => {
@@ -43,16 +73,22 @@ function PreparationModalToTrash(props:PropsType) {
                 let arr = response.data.data.items ;
                 console.log(arr)
                 setListIngredients(arr) ;
-            } else {
-                setLoadMessage("(Pas d'ingredients trouvé)") ;
+                setListIngredientsInitial(arr) ;
             }
-            // console.log(zoneToShow) ;
             return true ;
         }) .catch(error => {
                 console.error(error);
-                setLoadMessage('(Erreur de Chargement, Veuillez ressayez...)');
                 throw error; });
     } ;
+
+    const showErrorFunction = (errorMessage: string, color: 'text-success' | 'text-danger' = "text-danger", timeout: number = 10000) => {
+        setErrorMessageColor(color);
+        setErrorMessage(errorMessage);
+        setShowError(true);
+        setTimeout(() => {
+            setShowError(false);
+        }, timeout);
+    };
 
     return (
         <>
@@ -68,48 +104,9 @@ function PreparationModalToTrash(props:PropsType) {
                     <IconHapyLogo width={48} height={48} styleIcon={{width:22}}/>
                 </div>
                 <div className="pt-4">
-                    <HapySearch inputValue={null} handleChange={null}/>
+                    <HapySearch inputValue={searchKey} handleChange={(e) => handleSearch(e.target.value)} placeholder="Rechercher un ingrédient"/>
                 </div>
                 <br/>
-                {/* <div className="row pl-1">
-                    <div className="form-check">
-                        <input className="form-check-input col -mb-4" style={{borderRadius:50, width:20, height:20,
-                            marginRight:15, backgroundColor:'#F7B927', borderColor:'#F7B927'}}
-                               type="checkbox"
-                               checked={true} onChange={()=>{}}/>
-                        <label className="form-check-label ml-2 col" style={{width:310}}>
-                            <h6>Vodka - Eristof
-                            </h6>
-                        </label>
-                    </div>
-                </div>
-                <br/> */}
-                {/* <div className="row pl-1">
-                    <div className="form-check">
-                        <input className="form-check-input col -mb-4" style={{borderRadius:50, width:20, height:20,
-                            marginRight:15}}
-                               type="checkbox"
-                               checked={false} onChange={()=>{}}/>
-                        <label className="form-check-label ml-2 col" style={{width:310}}>
-                            <h6>Vin rouge - St Emilion
-                            </h6>
-                        </label>
-                    </div>
-                </div>
-                <br/> */}
-                {/* <div className="row pl-1">
-                    <div className="form-check">
-                        <input className="form-check-input col -mb-4" style={{borderRadius:50, width:20, height:20,
-                            marginRight:15}}
-                               type="checkbox"
-                               checked={false} onChange={()=>{}}/>
-                        <label className="form-check-label ml-2 col" style={{width:310}}>
-                            <h6>Jus - Ananas
-                            </h6>
-                        </label>
-                    </div>
-                </div>
-                <br/> */}
                 {listIngredients.length && listIngredients.length > 0 && 
                     listIngredients.map((ingredient, i) => 
                         <>
@@ -139,6 +136,7 @@ function PreparationModalToTrash(props:PropsType) {
                         </>
                     )
                 }
+                {showError && (<div className={"mb-2 text-center " + errorMessageColor}>{errorMessage}</div>)}
                 <HapyButtonWithIcon text="Valider" handleClick={handleValidate}
                                     numberAtEnd={listIngredientsToTrash.length} numberAtEndColor={"#FF6063"} iconComponent={<IconVerify/>}/>
             </div>

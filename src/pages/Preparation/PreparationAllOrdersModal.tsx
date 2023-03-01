@@ -17,8 +17,8 @@ function PreparationAllOrdersModal(props:PropsType) {
 
 
     return (
-        <>
-            <div className="hapy-modal" style={{width:335}}>
+        <div className="container_popup">
+            <div className="popup" style={{width:335}}>
                 <button className="back-btn-modal text-center" style={{ marginTop: -5}}
                         onClick={props.handleCloseModal}>
                     <IconArrowLeft width={32} height={32} styleIcon={{marginLeft: 9,marginTop: 9}}/>
@@ -46,7 +46,7 @@ function PreparationAllOrdersModal(props:PropsType) {
                     </svg>
                 </div>
                 <div>
-                    {preparationProcess?.listAllOrders?.map((order:Order, index:number) => (
+                    {preparationProcess?.listFinishedOrders?.map((order:Order, index:number) => (
                         <PreparationCommandBox order={order} handleClick={null} removePauseIcon={true}/>
                     ) )}
                 </div>
@@ -55,7 +55,7 @@ function PreparationAllOrdersModal(props:PropsType) {
                     <IconArrowDown/>
                 </div>*/}
             </div>
-        </>
+        </div>
     )
 }
 export default PreparationAllOrdersModal

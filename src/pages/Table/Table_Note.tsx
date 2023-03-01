@@ -119,7 +119,7 @@ function Table_Note(props) {
         // setDivideNote(false) ;
     } ;
 
-    const showErrorFunction = (errorMessage: string, color: 'text-success' | 'text-danger' = "text-danger", timeout: number = 2000) => {
+    const showErrorFunction = (errorMessage: string, color: 'text-success' | 'text-danger' = "text-danger", timeout: number = 10000) => {
         setErrorMessageColor(color);
         setErrorMessage(errorMessage);
         setShowError(true);
