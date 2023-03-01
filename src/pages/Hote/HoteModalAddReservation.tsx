@@ -58,7 +58,8 @@ function HoteModalAddReservation(props:PropsType) {
         /*let arr = newBooking.dateOfreservation.split('/') ;
         newBooking.dateOfreservationToShow = arr[0] + ' ' + monthListFR[parseInt(arr[1])-1] + ' ' + arr[2],*/
         newBooking.dateOfreservationToShow = newBooking.dateOfreservation ;
-            newBooking.status = "En cours" ;
+        newBooking.status = "En cours" ;
+        newBooking.institutionId = getAdminProcessValues("userLogged").institution.id ;
         console.log(newBooking) ;
         postRequest(API_REQUEST_BOOKING, newBooking,
             (response)=>{
