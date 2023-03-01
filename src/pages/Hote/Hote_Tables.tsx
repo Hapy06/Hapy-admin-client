@@ -87,7 +87,7 @@ function Hote_Tables(props:PropsType) {
     const handleLoadBookings = () => {
         return axios.get(BASE_URL + API_REQUEST_BOOKING + '/byInstitutionId/' + getAdminProcessValues("userLogged").institution.id,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
-            console.log(response) ;
+            console.log('booking ---> ',response) ;
             if (response.data.data.items.length > 0) {
                 setListBooking(response.data.data.items) ;
             }
@@ -208,7 +208,7 @@ function Hote_Tables(props:PropsType) {
                                             )}
                                             <span className="float-none">{zoneToShow?.name}</span>
                                             {zoneToShowIndex != (listZones.length - 1) && (
-                                                <span onClick={nextZone} className="float-end" style={{cursor:"pointer"}}><IconArrowRight/></span>
+                                                <span onClick={nextZone} className="float-end" style={{cursor:"pointer", position:'fixed', bottom:'32px', right:'32px'}}><IconArrowRight/></span>
                                             )}
                                         </div>
                                     </>
@@ -244,9 +244,9 @@ function Hote_Tables(props:PropsType) {
                                     {zoneToShowIndex != 0 && (
                                         <span onClick={previousZone} className="float-start" style={{cursor:"pointer"}}><IconArrowLeft/></span>
                                         )}
-                                        <span className="float-none">{zoneToShow?.name}</span>
+                                        <span className="float-none" style={{position:'fixed', bottom:'32px', right:'32px', left:'32px'}}>{zoneToShow?.name}</span>
                                     {zoneToShowIndex != (listZones.length - 1) && (
-                                        <span onClick={nextZone} className="float-end" style={{cursor:"pointer"}}><IconArrowRight/></span>
+                                        <span onClick={nextZone} className="float-end" style={{cursor:"pointer", position:'fixed', bottom:'32px', right:'32px'}}><IconArrowRight/></span>
                                         )}
                                         </div>
                                     </>

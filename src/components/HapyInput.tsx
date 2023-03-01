@@ -15,7 +15,7 @@ function HapyInput(props:PropsType) {
     return (
         <>
             <label className="fw-5 mb-1" style={{width: props.inputWidth}}>
-                <span className="float-start f-16 fw-4">{props.label}</span>
+                <span className="float-start f-16 fw-4" style={{fontSize:'16px', fontWeight:500}}>{props.label}</span>
                 { props.required && (<span style={{color: '#536DFE'}} className="float-end f-12 fw-3">Obligatoire</span>) }
             </label>
             <input className="hapy-input pl-4"

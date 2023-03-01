@@ -49,10 +49,10 @@ function Hote_Top(props: PropsType) {
       /*style={{width:screenWidth+5}}*/
     >
       <div className="preparation-container-wrapper">
-        <div className="text-center welcome-word" style={{ fontWeight: 600 }}>
+        <div className="text-center welcome-word" style={{ fontSize:'8px', fontWeight: 300 }}>
           Welcome to Hâpy
         </div>
-        <div className="row">
+        <div className="row" style={{marginRight: '12px', marginLeft: '12px'}}>
           <div
             className="col-2 d-flex flex-column justify-content-center"
             style={{ maxWidth: 305 }}
@@ -80,6 +80,8 @@ function Hote_Top(props: PropsType) {
                   handleClick={handleLogout}
                   iconComponent={<IconSomeoneDelete stroke="white" />}
                   btnClass="hapy-btn-with-icon-black max-width-248"
+                  btnHeight={64}
+                  btnWidth={64}
                 />
               </div>
             ) : (
