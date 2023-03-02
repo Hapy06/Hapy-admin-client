@@ -28,7 +28,7 @@ function PreparationCommandBox(props: PropsType) {
   // let order:Order = {...props.order} ;
   const timer = useTimer({
         create: {
-            stopwatch: {startAtMilliseconds:props.order.millisecondePastSinceStart || 0}
+            stopwatch: {startAtMilliseconds:props.order?.millisecondePastSinceStart || 0}
         },
         includeMilliseconds: false,
         intervalRate: 1000,
@@ -41,6 +41,10 @@ function PreparationCommandBox(props: PropsType) {
     });
 
     const [timerText, setTimerText] = useState(timer.timerText)
+
+    useEffect(() => {
+      localStorage.setItem('prep-order', JSON.stringify(props.order))
+    },[props.order])
 
     useEffect(() => {
       const intervalId = setInterval(() => {
@@ -99,7 +103,7 @@ function PreparationCommandBox(props: PropsType) {
         }
       }, 1000);
       return () => clearInterval(intervalId);
-    }, [timerText, props.order.id]);
+    }, [timerText, props.order?.id]);
     
 
     // useEffect(() => {
@@ -144,12 +148,12 @@ function PreparationCommandBox(props: PropsType) {
           onClick={props.handleClick}
       >
         <div className="text-disabled row">
-          <div className="f-12 col-3 mt-2">{props.order.startTime}</div>
+          <div className="f-12 col-3 mt-2">{props.order?.startTime}</div>
           <div className="col-9 text-end">
             {/* <span className="f-8">00:03’ 65”</span> */}
             {props.inCooking ? (
               <>
-              <span className="f-8">{props.order.pendingDurationText}</span>
+              <span className="f-8">{props.order?.pendingDurationText}</span>
               <span className="f-12" style={{color:'#F7B927'}}>  / {timerText} </span>
               </> ) : (
                   <>
@@ -187,7 +191,7 @@ function PreparationCommandBox(props: PropsType) {
                   strokeMiterlimit="10"
               />
             </svg>
-            <span className="f-16 fw-5"> {props.order.coupons.length}</span>
+            <span className="f-16 fw-5"> {props.order?.coupons.length}</span>
           </div>
             {!props.removePauseIcon && (
               <div className="col-lg-3 col-md-3">
@@ -243,12 +247,12 @@ function PreparationCommandBox(props: PropsType) {
               style={{ marginLeft: -5 }}
           >
             <span className="f-12">Table </span>
-            <span className="fw-5">{props.order.tableNumber}</span>
+            <span className="fw-5">{props.order?.tableNumber}</span>
           </div>
         </div>
         <br />
         <br />
-        {props.order.coupons.map((coupon: Coupon, index: number) => (
+        {props.order && props.order.coupons.map((coupon: Coupon, index: number) => (
             <CouponCard coupon={coupon} index={index} />
         ))}
 

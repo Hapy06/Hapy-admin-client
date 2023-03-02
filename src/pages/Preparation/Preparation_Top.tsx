@@ -65,7 +65,7 @@ function Preparation_Top(props:PropsType) {
              /*style={{width:screenWidth+5}}*/>
             <div className="preparation-container-wrapper">
                 <div className="text-center welcome-word">Welcome to Hâpy</div>
-                <div className="row justify-content-center">
+                <div className="row justify-content-center" style={{marginLeft:'8px', marginRight:'8px'}}>
                     <div className="col-5 row box-content-header" style={{cursor:"pointer"}} onClick={()=>navigate('/preparation')}>
                     <div className="col-6">
                         <h1 className="fw-6 f-32" >{getAdminProcessValues("userLogged")?.position || "Poste en Cuisine"}</h1>

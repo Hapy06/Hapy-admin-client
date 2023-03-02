@@ -25,7 +25,18 @@ function Preparation_Attente(props:PropsType) {
   const [showError, setShowError] = useState<boolean>(false) ;
   const [errorMessage, setErrorMessage] = useState<string>('') ;
   const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
+  const [enPause, setEnPause] = useState(false)
 
+  useEffect(() => {
+    if (preparationProcess.orderDetail && localStorage.getItem(`${preparationProcess.orderDetail.id}-timer2-pause`)){
+      setEnPause(true)
+    }
+    if (preparationProcess.orderDetail) {
+      localStorage.setItem('prep-order', JSON.stringify(preparationProcess.orderDetail))
+    }else{
+      setPreparationProcess(JSON.parse(localStorage.getItem('preparationProcess')))
+    }
+  },[preparationProcess.orderDetail])
   const handleOpenModal = (modalToOpen) => {
     setBlurBG('blur-bg') ;
     setIsModalOpened({state:true,modalToOpen:modalToOpen}) ;
@@ -42,11 +53,13 @@ function Preparation_Attente(props:PropsType) {
       const pauseTimerText = localStorage.getItem(`${temp.orderDetail.id}-timer2-pause`)
       localStorage.setItem(`${temp.orderDetail.id}-timer2`, pauseTimerText)
       localStorage.removeItem(`${temp.orderDetail.id}-timer2-pause`)
+      setEnPause(false)
     }else{
       console.log('pause --> ',localStorage.getItem(`${temp.orderDetail.id}-timer2`))
       const pauseTimerText = localStorage.getItem(`${temp.orderDetail.id}-timer2`)
       localStorage.setItem(`${temp.orderDetail.id}-timer2-pause`, pauseTimerText)
       localStorage.removeItem(`${temp.orderDetail.id}-timer2`)
+      setEnPause(true)
     }
     
     if (temp.orderDetail.status == "cooking") {
@@ -196,10 +209,11 @@ function Preparation_Attente(props:PropsType) {
                         <div className="float-end" style={{marginTop:-32}}>
                             {showError && (
                                 <div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
-                            {preparationProcess.orderDetail.status != "waiting" && (
+                            {preparationProcess.orderDetail && preparationProcess.orderDetail.status != "waiting" && (
                                 <HapyButtonWithIcon handleClick={handleClickPause} iconComponent={<IconTimer3/>}
-                                                    btnClass={preparationProcess.orderDetail.status == "pause" ? "wait-btn-removal" : null}
-                                                    text={localStorage.getItem(`${preparationProcess.orderDetail.id}-timer2-pause`) ? "En attente" : "Mettre en attente"}
+                                                    btnClass={preparationProcess.orderDetail && preparationProcess.orderDetail.status == "pause" ? "wait-btn-removal" : null}
+                                                    text={enPause ? "En attente" : "Mettre en attente"}
+                                                    // text={localStorage.getItem(`${preparationProcess.orderDetail.id}-timer2-pause`) ? "En attente" : "Mettre en attente"}
                                                     btnWidth={366}/>
                                 // <HapyButtonWithIcon handleClick={handleClickPause} iconComponent={<IconTimer3/>}
                                 //                     btnClass={preparationProcess.orderDetail.status == "pause" ? "wait-btn-removal" : null}
