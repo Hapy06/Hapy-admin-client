@@ -35,10 +35,19 @@ function PreparationModalPerteIngredient(props:PropsType) {
     const handleValidateLose = () => {
         showErrorFunction(MSG_SAVING, "text-success") ;
         let arr:{ingredientId: string, quantity:number} [] = [] ;
-        props.ingredientsVariant.forEach(ingredient => {
-            arr.push({ingredientId:ingredient.productIngredientId, quantity:ingredient.qty}) ;
-        }) ;
-        console.log(arr) ;
+        // if props.ingredientsVariant is empty,show error
+        if( props.ingredientsVariant === undefined || props.ingredientsVariant.length === 0) {
+            showErrorFunction("Veuillez sélectionner au moins un ingrédient") ;
+            return ;
+        } else {
+            props.ingredientsVariant.forEach(ingredient => {
+                arr.push({ingredientId:ingredient.productIngredientId, quantity:ingredient.qty}) ;
+            }) ;
+            console.log(arr) ;
+            setTimeout(()=>{
+                setLoseValidated(true) ;
+            }, 2000) ;
+        }
         /*postRequest(API_REQUEST_INGREDIENT_LOST, {ingredientLost:arr},
             ()=>{setLoseValidated(true) ;},
             ()=>{showErrorFunction(MSG_ERROR)}) ;*/

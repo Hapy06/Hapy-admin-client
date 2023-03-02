@@ -98,7 +98,7 @@ function Hote_Top(props: PropsType) {
             <div className="f-12" style={{ marginLeft: "15px" }}>
               Libres
             </div>
-            <div style={{ marginTop: -10 }}>
+            <div style={{ marginTop: -10, marginLeft:15 }}>
               <span className="f-48 fw-6 text-green">
                 {props?.numberOfCloseTable || 0}
               </span>

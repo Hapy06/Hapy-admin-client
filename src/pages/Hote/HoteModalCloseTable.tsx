@@ -46,9 +46,9 @@ function HoteModalCloseTable(props:PropsType) {
     } ;
 
     return (
-        <>
+        <div className="container_popup">
             {showCloseTableValidated ? (
-                <div className="hapy-modal" style={props.containerStyle}>
+                <div className="popup" style={props.containerStyle}>
                     <button className="back-btn-modal" style={{float: "left", marginTop: -5}}
                             onClick={()=>setShowCloseTableValidated(false)}>
                         <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 5}}/>
@@ -65,7 +65,7 @@ function HoteModalCloseTable(props:PropsType) {
                                         iconComponent={<IconArrowLeft/>}/>
                 </div>
             ) : (
-                <div className="hapy-modal" style={props.containerStyle}>
+                <div className="popup" style={props.containerStyle}>
                     <button className="back-btn-modal" style={{float: "left", marginTop: -5}}
                             onClick={props.handleCloseModal}>
                         <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 5}}/>
@@ -92,7 +92,7 @@ function HoteModalCloseTable(props:PropsType) {
                 className="text-center fixed-bottom">
                 <IconArrowDown/>
             </div>*/}
-        </>
+        </div>
     )
 }
 export default HoteModalCloseTable

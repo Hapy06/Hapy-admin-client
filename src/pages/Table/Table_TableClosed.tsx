@@ -15,7 +15,7 @@ function Table_TableClosed(props) {
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
 
     const handleCloseTable = () => {
-        putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'close'},
+        putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'close', statusForNewClient: 'close'},
             ()=> {navigate('/home')},
             ()=>{showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")}) ;
     } ;

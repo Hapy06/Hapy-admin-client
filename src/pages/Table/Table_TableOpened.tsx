@@ -41,7 +41,7 @@ function Table_TableOpened(props) {
             console.log(homeProcess) ;
             let temp: CommandProcessModel = {...commandProcess};
             if (homeProcess.tableDetail.commandProcessToShare) {
-                let commandProcessModelToShare: CommandProcessModelToShare = JSON.parse(homeProcess.tableDetail.commandProcessToShare);
+                let commandProcessModelToShare: CommandProcessModelToShare = homeProcess.tableDetail.commandProcessToShare ;
                 for (let key in commandProcessModelToShare) {
                     temp[key] = commandProcessModelToShare[key]
                 }

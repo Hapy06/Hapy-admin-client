@@ -98,7 +98,7 @@ function PreparationModalToTrash(props:PropsType) {
                     <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 9, marginRigth:9 }} />
                 </button>
                 <br/><br/><br/>
-                <span className="text-black"><span className="text-red-orange">Axel</span> BONSIGNOR</span>
+                <span className="text-black"><span className="text-red-orange">{getAdminProcessValues('userLogged').firstName}</span> {getAdminProcessValues('userLogged').lastName}</span>
                 <h1 className="text-black f-32 fw-6">Jeter une bouteille</h1>
                 <div className="text-center mt-4 mb-4">
                     <IconHapyLogo width={48} height={48} styleIcon={{width:22}}/>

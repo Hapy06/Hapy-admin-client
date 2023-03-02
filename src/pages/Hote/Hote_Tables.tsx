@@ -150,7 +150,7 @@ function Hote_Tables(props:PropsType) {
                       showLeftBtn={listToShow == 'Reservations'} leftBtnComponent={
                         <div style={{display:'flex', justifyContent:'center', marginLeft:'-105px'}}>
                             <HapyButtonWithIcon text='Ajouter une réservation'
-                                                                                   handleClick={()=>handleOpenModal(<HoteModalAddReservation listAllTables={listAllTables} containerStyle={{marginTop:150}} handleCloseModal={handleCloseModal}/>)}
+                                                                                   handleClick={()=>handleOpenModal(<HoteModalAddReservation listAllTables={listAllTables} handleCloseModal={handleCloseModal}/>)}
                                                                                    btnWidth={350} iconComponent={<IconReservationAdd stroke='white'/>} btnClass='hapy-btn-with-icon-black' />
                         </div>
                       }/>
@@ -178,43 +178,34 @@ function Hote_Tables(props:PropsType) {
                             <>
                                 {listToShow == 'Tables' ? (
                                     <>
-                                        <div className="row">
-                                            {/*{listTables.map((item, index) => (
+                                        {/*{listTables.map((item, index) => (
                                                 <HapyHoteTableItem marginLeft={49} marginBottom={49} state={item.state}
                                                                    handleClick={() => handleOpenModal(<HoteModalOpenTable
                                                                        containerStyle={{marginTop: 50}}
                                                                        handleCloseModal={handleCloseModal}/>)} number={item.number}
                                                                    btnWidth={64}/>
                                             ))}*/}
-                                            <div className="row table-item-container mt-3 scroll-and-hidden">
-                                                { zoneToShow?.tableIds?.map((table, index) => (
-                                                    <HapyHoteTableItem marginLeft={49} marginBottom={49} status={table.status}
-                                                    handleClick={() => table.status != 'unavailable' ? handleOpenModal(
-                                                        table.status == 'close' ? <HoteModalOpenTable tableDetail={table}
-                                                                                                      containerStyle={{marginTop: 50}}
-                                                                                                      handleCloseModal={handleCloseModal}/> :
-                                                            <HoteModalCloseTable tableDetail={table}
-                                                                                containerStyle={{marginTop: 50}}
-                                                                                handleCloseModal={handleCloseModal}/>
-                                                    ) : null } number={table.tableNumber}
-                                                    btnWidth={64}/>
-                                                ))
-                                                }
-                                            </div>
+                                        <div className="row mt-3">
+                                            { zoneToShow?.tableIds?.map((table, index) => (
+                                                <HapyHoteTableItem marginLeft={49} marginBottom={49} status={table.status} key={index}
+                                                                   handleClick={() => table.status != 'unavailable' ? handleOpenModal(
+                                                                       table.status == 'close' ? <HoteModalOpenTable tableDetail={table}
+                                                                                                                     handleCloseModal={handleCloseModal}/> :
+                                                                           <HoteModalCloseTable tableDetail={table}
+                                                                                                handleCloseModal={handleCloseModal}/>
+                                                                   ) : null } number={table.tableNumber}
+                                                                   btnWidth={64}/>
+                                            ))
+                                            }
                                         </div>
-                                        <div className="text-center" style={{ position: "fixed", bottom: "32px", left: "32px", right: "32px" }}>
-                                            {zoneToShowIndex != 0 && (
-                                                <span onClick={previousZone} className="float-start" style={{cursor:"pointer"}}><IconArrowLeft/></span>
-                                            )}
-                                            <span className="float-none">{zoneToShow?.name}</span>
-                                            {zoneToShowIndex != (listZones.length - 1) && (
-                                                <span onClick={nextZone} className="float-end" style={{cursor:"pointer", position:'fixed', bottom:'32px', right:'32px'}}><IconArrowRight/></span>
-                                            )}
+                                        <div className="text-center fixed-bottom mb-5">
+                                            <span onClick={previousZone} className="float-start ml-3" style={{cursor:"pointer"}}><IconArrowLeft/></span>
+                                            <span>{zoneToShow?.name}</span>
+                                            <span onClick={nextZone} className="float-end mr-3" style={{cursor:"pointer"}}><IconArrowRight/></span>
                                         </div>
                                     </>
                                 ) : (
                                     <>
-                                    <div className="row">
                                         {/*{listAllTables.map((table, index) => (
                                             <HapyHoteTableItem marginLeft={49} marginBottom={49} isChecked={checkedIfReserved(table)} status={table.status}
                                                                handleClick={checkedIfReserved(table) ? () => handleOpenModal(<HoteModalDetailReservation
@@ -227,27 +218,20 @@ function Hote_Tables(props:PropsType) {
                                                                btnWidth={64}/>
                                         ))}*/}
 
-                                        <div className="row table-item-container mt-3 scroll-and-hidden">
+                                        <div className="row mt-3">
                                             { zoneToShow?.tableIds?.map((table, index) => (
-                                                <HapyHoteTableItem marginLeft={49} marginBottom={49} isChecked={checkedIfReserved(table)} status={table.status}
-                                                                   handleClick={checkedIfReserved(table) ? () => handleOpenModal(<HoteModalDetailReservation
-                                                                       containerStyle={{marginTop: 100}} bookingDetail={
-                                                                       listBooking[0]
-                                                                   }
+                                                <HapyHoteTableItem marginLeft={49} marginBottom={49} isChecked={checkedIfReserved(table)} status={table.status} key={index}
+                                                                   handleClick={checkedIfReserved(table) ? () => handleOpenModal
+                                                                   (<HoteModalDetailReservation bookingDetail={ listBooking.find((booking:Booking) => { return booking.tableNumber == table.tableNumber ; })}
                                                                        handleCloseModal={handleCloseModal}/>) : null} number={table.tableNumber}
                                                                    btnWidth={64}/>
                                             ))
                                             }
                                         </div>
-                                    </div>
-                                        <div className="text-center left-right-button">
-                                    {zoneToShowIndex != 0 && (
-                                        <span onClick={previousZone} className="float-start" style={{cursor:"pointer"}}><IconArrowLeft/></span>
-                                        )}
-                                        <span className="float-none" style={{position:'fixed', bottom:'32px', right:'32px', left:'32px'}}>{zoneToShow?.name}</span>
-                                    {zoneToShowIndex != (listZones.length - 1) && (
-                                        <span onClick={nextZone} className="float-end" style={{cursor:"pointer", position:'fixed', bottom:'32px', right:'32px'}}><IconArrowRight/></span>
-                                        )}
+                                        <div className="text-center fixed-bottom mb-5">
+                                            <span onClick={previousZone} className="float-start ml-3" style={{cursor:"pointer"}}><IconArrowLeft/></span>
+                                            <span>{zoneToShow?.name}</span>
+                                            <span onClick={nextZone} className="float-end mr-3" style={{cursor:"pointer"}}><IconArrowRight/></span>
                                         </div>
                                     </>
                                 )}

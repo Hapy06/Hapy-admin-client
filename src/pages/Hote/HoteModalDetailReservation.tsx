@@ -47,8 +47,8 @@ function HoteModalDetailReservation(props:PropsType) {
     } ;
 
     return (
-        <>
-            <div className="hapy-modal" style={props.containerStyle}>
+        <div className="container_popup">
+            <div className="popup" style={props.containerStyle}>
                 <button className="back-btn-modal" style={{float: "left", marginTop: -5}}
                         onClick={props.handleCloseModal}>
                     <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 5}}/>
@@ -59,6 +59,7 @@ function HoteModalDetailReservation(props:PropsType) {
                 <div className="text-center mt-4 mb-4">
                     <IconHapyLogo width={48} height={48} styleIcon={{width: 22}}/>
                 </div>
+                <span> {props.bookingDetail?.dateOfreservationToShow || 'Date Inconnue'}</span> <br/><br/>
                 <span><IconClock/> {props.bookingDetail?.timeOfreservation || '14:55'}</span> <br/><br/>
                 <div className="row f-20">
                     <span className="col-6">{props.bookingDetail?.clientName || 'Nom du Client'}</span>
@@ -69,14 +70,14 @@ function HoteModalDetailReservation(props:PropsType) {
                 <br/>
                 <span><IconPeople/> {props.bookingDetail?.numberOfPeople} p.</span>
                 <br/><br/><br/><br/><br/><br/>
-                {showError && (<div className={"mb-3 " + errorMessageColor}>{errorMessage}</div>)}
-                <div className="horizontal-center inner-button-container-validate-btn mt-4">
+                {showError && (<div className={"text-center mb-3 " + errorMessageColor}>{errorMessage}</div>)}
+                <div className="horizontal-center mt-4">
                     <HapyButtonWithIcon text="Il sont arrivés" handleClick={validateBooking}
                                         btnWidth={350}
                                         iconComponent={<IconVerify/>}/>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 export default HoteModalDetailReservation
