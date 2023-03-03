@@ -4,15 +4,15 @@ import axios from "axios";
 const imagePathModeDev = '/src/assets/' ;
 const imagePathModeProd = '/' ;             /*le / indique le folder du index.html dans dist */
 export const IMG_PATH = imagePathModeProd ;
-export const IMG_PATH_ONLINE = 'http://localhost:4000/upload/images/' ;
+/*export const IMG_PATH_ONLINE = 'http://localhost:4000/upload/images/' ;
 export const BASE_URL = 'http://localhost:4000/';
 export const BASE_URL_SOCKET = 'http://localhost:3000/';
-export const BASE_URL_CLIENT = 'http://localhost:5175/inscription/id=';
+export const BASE_URL_CLIENT = 'http://localhost:5175/inscription/id=';*/
 
-/*export const BASE_URL = 'https://api.dear-hapy.com/' ;
+export const BASE_URL = 'https://api.dear-hapy.com/' ;
 export const IMG_PATH_ONLINE = 'http://api.dear-hapy.com/upload/images/' ;
 export const BASE_URL_CLIENT = 'https://api.dear-hapy.com/inscription/id=';
-export const BASE_URL_SOCKET = 'https://api-socket.dear-hapy.com/';*/
+export const BASE_URL_SOCKET = 'https://api-socket.dear-hapy.com/';
 export const dayListFR = [null,'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] ;
 export const monthListFR = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'] ;
 
