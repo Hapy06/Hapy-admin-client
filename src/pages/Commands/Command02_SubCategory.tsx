@@ -52,9 +52,7 @@ function Command02_SubCategory(props) {
 
             />
             <div className="happy-div-bottom">
-                <div className="pt-4">
-                    <HapySearch inputValue={searchKey} handleChange={handleSearchForm} placeholder={"Rechercher un produit"}/>
-                </div>
+                <HapySearch inputValue={searchKey} handleChange={handleSearchForm} placeholder={"Rechercher un produit"}/>
                 {(searchKey && searchKey != '') ? (
                     listProductsSearched.map((product: Product, index: number) => (
                         <div key={index}>
@@ -63,7 +61,7 @@ function Command02_SubCategory(props) {
                         </div>
                     ))
                 ) : (
-                    commandProcess.categoryOfProductChoosed.products.map((product, indexProduct) => (
+                    commandProcess.categoryOfProductChoosed?.products.map((product, indexProduct) => (
                         <div key={indexProduct}>
                             <br/>
                             <HapyButtonWithoutIcon text={product.name}
@@ -71,13 +69,6 @@ function Command02_SubCategory(props) {
                         </div>
                     ))
                 )}
-                {/*<HapyButtonWithoutIcon text="Fish and chips" handleClick={()=>{navigate('/command/product')}}/>
-                <br/> <br/>
-                <HapyButtonWithoutIcon text="Truite" handleClick={()=>{}}/>
-                <br/> <br/>
-                <HapyButtonWithoutIcon text="Carpe" handleClick={()=>{}}/>
-                <br/> <br/>
-                <HapyButtonWithoutIcon text="Poisson rouge" handleClick={()=>{}}/>*/}
             </div>
         </>
     )

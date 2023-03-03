@@ -24,11 +24,12 @@ function Command03_Product(props) {
     const {commandProcess, setCommandProcess} = useContext<{commandProcess:CommandProcessModel,setCommandProcess:any}>(homeProcessContext) ;
     const [productVariantChoosed, setProductVariantChoosed] = useState<Variant>(commandProcess.productChoosed.variants[0]);
     const [cookingSelected, setCookingSelected] = useState(commandProcess.productChoosed.variants[0]?.cooking || null);
-    const [listIngredient, setListIngredient] = useState<ProductIngredient[]>(commandProcess.productChoosed.variants[0]?.productIngredients?.filter(elt => elt.isIngredientModifiable));
+    const [listIngredient, setListIngredient] = useState<ProductIngredient[]>([]);
     const [isPregnant, setIsPregnant] = useState<boolean>(false);
     const [optionListVariants, setOptionListVariants] = useState([]);
     const [optionListCuissons, setOptionListCuissons] = useState([]);
     const [optionListIngredient, setOptionListIngredient] = useState([]);
+    const timeNow = new Date().getHours() + ":" + new Date().getMinutes() ;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,15 +38,15 @@ function Command03_Product(props) {
             commandProcess.allCommands = [] ;
         }
         let arr = [] ;
-        commandProcess.variants?.forEach(variant => {
+        commandProcess.productChoosed.variants?.forEach(variant => {
             arr.push({text:variant.name, value: variant}) ;
         }) ;
         setOptionListVariants([...arr]) ;
-        /*arr = [] ;
-        commandProcess.institution?.cookings?.forEach(cooking => {
-            arr.push({text:cooking.name, value: cooking}) ;
+        arr = [] ;
+        commandProcess.productChoosed.variants[0]?.productIngredients?.filter(elt => elt.isIngredientModifiable).forEach((ingredient:ProductIngredient) => {
+            arr.push({text:ingredient?.ingredient?.entitled, value: ingredient}) ;
         }) ;
-        setOptionListCuissons([...arr]) ;*/
+        setOptionListIngredient([...arr]) ;
     }, []);
 
     const handleChangeVariant = (variant:Variant) => {
@@ -53,7 +54,7 @@ function Command03_Product(props) {
         setProductVariantChoosed(variant) ;
         let arr = [] ;
         variant.productIngredients?.filter(elt => elt.isIngredientModifiable).forEach((ingredient:ProductIngredient) => {
-            arr.push({text:ingredient.ingredient.entitled, value: ingredient}) ;
+            arr.push({text:ingredient?.ingredient?.entitled, value: ingredient}) ;
         }) ;
         setOptionListIngredient([...arr]) ;
         console.log(variant?.productIngredients?.filter(elt => elt.isIngredientModifiable)) ;
@@ -67,6 +68,7 @@ function Command03_Product(props) {
     } ;
 
     const handleChangelistIngredient = (productIngredients:ProductIngredient[]) => {
+        console.log("ingredient choosed: ", productIngredients) ;
         setListIngredient(productIngredients) ;
     } ;
 
@@ -79,22 +81,33 @@ function Command03_Product(props) {
         newSimpleCommand.isValidated = !takeLater ;
         newSimpleCommand.status = takeLater ? "takeLater" : "choosed" ;
         newSimpleCommand.ingredientsModifiablesStates = [] ;
-        commandProcess.productChoosed.variants[0]?.productIngredients?.filter(elt => elt.isIngredientModifiable).forEach((ingredient:ProductIngredient) => {
+        productVariantChoosed?.productIngredients?.filter(elt => elt.isIngredientModifiable).forEach((ingredient:ProductIngredient) => {
             listIngredient.includes(ingredient) ?
-                newSimpleCommand.ingredientsModifiablesStates.push('avec ' + ingredient.ingredient.entitled) :
-                newSimpleCommand.ingredientsModifiablesStates.push('sans ' + ingredient.ingredient.entitled)
+                /*newSimpleCommand.ingredientsModifiablesStates.push('avec ' + ingredient.ingredient?.entitled)*/ null :
+                newSimpleCommand.ingredientsModifiablesStates.push('sans ' + ingredient.ingredient?.entitled)
         }) ;
-        let temp = commandProcess ;
+        let temp = {...commandProcess} ;
         temp.productVariantChoosed = null ;
         temp.categoryOfProductChoosed = null ;
         temp.allCommands.push(newSimpleCommand) ;
         setCommandProcess(temp) ;
         setProcessStored('commandProcess', temp) ;
-        updateTable(temp) ;
         navigate('/command') ;
     } ;
 
     const divideNumber = (value:number) => { return value.toLocaleString()} ;
+
+    const calculateNewPriceIfProductIsHapyHour = (price:number) => {
+        let newPrice = price ;
+        // Check if product is hapy hour and its happy hour time in commandProcess.institution
+        const hapyHourStartTime = commandProcess?.institution?.hapyHourStartTime ;
+        const hapyHourEndTime = commandProcess?.institution?.hapyHourEndTime ;
+        if (commandProcess?.productChoosed?.hapyHour && timeNow >= hapyHourStartTime && timeNow <= hapyHourEndTime) {
+            newPrice = price - (price * (commandProcess?.institution?.hapyHourReducePourcent || 0) / 100) ;
+        }
+        return newPrice ;
+    }
+
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
@@ -109,18 +122,28 @@ function Command03_Product(props) {
 
             />
             <div className="happy-div-bottom">
-                <img src={ (productVariantChoosed.picture && productVariantChoosed.picture.length > 0) ?
-                    IMG_PATH_ONLINE + productVariantChoosed.picture : IMG_PATH + 'bg-gray.png'  } alt="product" /*le / indique le folder du index.html dans dist */
-                     className="product-image" style={{width:screenWidth, marginTop:-20, marginLeft:-24}}/>
-                 <br/> <br/>
-                 <div>
-                     <span className="f-20"> {divideNumber(productVariantChoosed.sellingPrice)} € </span>
-                     {productVariantChoosed.crossedOutPrice && (
-                        <span className="old-price fw-5 f-16 -mt-2">{divideNumber(productVariantChoosed.crossedOutPrice)} €</span>
-                     )}
-                 </div>
+                <img src={ (productVariantChoosed?.picture && productVariantChoosed?.picture?.length > 0) ?
+                    IMG_PATH_ONLINE + productVariantChoosed?.picture : IMG_PATH + 'bg-gray.png' } alt="product" /*le / indique le folder du index.html dans dist */
+                     className="product-image" style={{width:screenWidth, marginTop:-24, marginLeft:-24}}/>
+                <br/> <br/>
+                {(commandProcess.productChoosed.hapyHour
+                    && timeNow >= commandProcess?.institution?.hapyHourStartTime
+                    && timeNow <= commandProcess?.institution?.hapyHourEndTime ) ? (
+                    <div>
+                        <span className="f-20"> {divideNumber( calculateNewPriceIfProductIsHapyHour(productVariantChoosed?.sellingPrice) || 0)} € </span>
+                        <span className="old-price fw-5 f-16">{divideNumber(productVariantChoosed.sellingPrice)} €</span>
+                        <span> (Hapy-Hour : {commandProcess.institution.hapyHourReducePourcent})</span>
+                    </div>
+                ) : (
+                    <div>
+                        <span className="f-20"> {divideNumber(productVariantChoosed?.sellingPrice || 0)} € </span>
+                        { productVariantChoosed.crossedOutPrice !== 0 && (
+                            <span className="old-price fw-5 f-16">{divideNumber(productVariantChoosed.crossedOutPrice)} €</span>
+                        )}
+                    </div>
+                )}
                 <br/>
-                <HapySelect defaultBtnText={"Recette"} selectValue={productVariantChoosed} setSelectValue={(value)=>handleChangeVariant(value)} optionList={optionListVariants} />
+                <HapySelect defaultBtnText={"Une autre recette ?"} selectValue={productVariantChoosed} setSelectValue={(value)=>handleChangeVariant(value)} optionList={optionListVariants} />
                 {productVariantChoosed.cooking && (
                     <>
                         <br/>
@@ -128,27 +151,25 @@ function Command03_Product(props) {
                     </>
                 )}
                 <br/> <br/>
-                <div>
-                    <span><IconAlarm width={24} height={24} stroke={'#323232'}/></span>
-                    <span className="f-20" style={{marginLeft:20}}>Une information ?</span>
-                    <br/> <br/>
-                    <p>{productVariantChoosed.description}</p>
+                <div className="mb-3">
+                    {/*<span><IconAlarm width={24} height={24} stroke={'#323232'}/></span>*/}
+                    <span className="f-20 fw-6">La recette du chef</span>
+                    <div className="fw-6" style={{marginTop:24}}>{productVariantChoosed.description}</div>
                 </div>
-                <div>
+                <div style={{marginTop:32}}>
                     <span><IconInfoCircle width={24} height={24} stroke={'#323232'}/></span>
-                    <span className="f-20" style={{marginLeft:20}}>Allergènes</span>
-                    <br/> <br/>
-                    <p className="fw-5">
+                    <span className="f-20 fw-5 f-16 fw-6" style={{marginLeft:8}}>Les allergènes</span>
+                    <div className="fw-4 f-16 fw-6" style={{marginTop:24}}>
                         {productVariantChoosed.allergene}
-                    </p>
+                    </div>
                 </div>
                 <br/>
                 {productVariantChoosed?.productIngredients?.filter(elt => elt.isIngredientModifiable).length > 0 && (
-                <>
-                    <HapyMultiSelect selectValues={listIngredient} setSelectValues={(value) => handleChangelistIngredient(value)}
-                                     labelText={'Modifier les Ingredients'} labelTextEdited={'Ingredients Modifiés'}
-                                     optionList={optionListIngredient} />
-                </>
+                    <>
+                        <HapyMultiSelect selectValues={listIngredient} setSelectValues={(value) => handleChangelistIngredient(value)}
+                                         labelText={'Modifier les Ingredients'} labelTextEdited={'Ingredients Modifiés'}
+                                         optionList={optionListIngredient} />
+                    </>
                 )}
                 <br/>
                 {/*<div style={{marginLeft:32}}>
@@ -179,9 +200,9 @@ function Command03_Product(props) {
                     </div>
                 </div>
                 <br/> <br/>
-                <HapyButtonWithIcon btnClass={"text-red-orange"} text="Commander" handleClick={()=>handleValidateCommand(false)} iconComponent={ <IconChecked width={32} height={32} stroke={'#323232'} /> } />
-                <br/>
                 <HapyButtonWithIcon text="Pour plus tard" handleClick={()=>handleValidateCommand(true)} iconComponent={ <IconTimer opacity={1}/> } />
+                <br/>
+                <HapyButtonWithIcon textColor={"#FF6063"} text="Commander" handleClick={()=>handleValidateCommand(false)} iconComponent={ <IconChecked width={32} height={32} stroke={'#FF6063'} /> } />
                 <br/>
             </div>
         </>

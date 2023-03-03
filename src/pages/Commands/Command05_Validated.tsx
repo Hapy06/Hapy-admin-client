@@ -13,15 +13,6 @@ function Command05_Validated(props) {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        let totalPrice = 0 ;
-        commandProcess.allCommands.filter(elt => elt.isValidated).forEach(elt => {
-            totalPrice += elt.price;
-        });
-        let temp = commandProcess;
-        temp.totalPrice = totalPrice;
-        setCommandProcess(temp) ;
-        setProcessStored('commandProcess', temp);
-        updateTable(temp);
     }, []);
 
     return (
@@ -51,7 +42,7 @@ function Command05_Validated(props) {
                     <div className="validated-btn-container mt-4">
                         <HapyButtonWithIcon text="Retour à votre table" handleClick={()=>{navigate('/home')}}
                             btnWidth={350}
-                            iconComponent={<IconArrowLeft/>}
+                            iconComponent={<IconArrowLeft styleIcon={{marginTop:5}}/>}
                         />
                     </div>
                 </div>
@@ -60,3 +51,4 @@ function Command05_Validated(props) {
     )
 }
 export default Command05_Validated
+

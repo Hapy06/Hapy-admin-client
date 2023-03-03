@@ -16,7 +16,7 @@ type PropsType = {
 
 function Table_AddPersonTableModal(props:PropsType) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
-    const [numberOfPerson, setNumberOfPerson] = useState<number>(1);
+    const [numberOfPerson, setNumberOfPerson] = useState<number>(homeProcess.tableDetail.numberOfPerson || 0);
     const [showError, setShowError] = useState<boolean>(false) ;
     const [errorMessage, setErrorMessage] = useState<string>('') ;
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
@@ -24,9 +24,11 @@ function Table_AddPersonTableModal(props:PropsType) {
 
     const handleChangeNumberOfPerson = () => {
        showErrorFunction("Validation en cours...", "text-success", 10000) ;
-       /*putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'waiting-to-join', statusForNewClient: 'waiting-to-join'},
-           ()=> {navigate('/table-opened')},
-           ()=>{showErrorFunction("Echec de l'ouverture, Veuillez ressayer !")}) ;*/
+       putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {numberOfPerson: numberOfPerson},
+           ()=> {
+               homeProcess.tableDetail.numberOfPerson = numberOfPerson ;
+               props.handleCloseModal},
+           ()=>{showErrorFunction("Echec de l'ouverture, Veuillez ressayer !")}) ;
     } ;
 
     const showErrorFunction = (errorMessage: string, color:'text-success' | 'text-danger' = "text-danger" , timeout: number = 2000) => {

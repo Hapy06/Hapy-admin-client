@@ -78,7 +78,7 @@ function PreparationCurrentCommandRed(props:PropsType) {
                 </div>*/}
                 <div className="red-command-content mt-3">
                     <div className="text-disabled row">
-                        <div className="f-12 col-3 mt-2">21:17</div>
+                        <div className="f-12 col-3 mt-2">{props.order?.startTime}</div>
                         <div className="col-9 text-end">
                             <span className="f-8">{props.order.pendingDurationText}</span>
                             <span className="f-12" style={{color:'#F7B927'}}>  / {timerText} {ICONS.timer16Disabled}

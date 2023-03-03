@@ -29,30 +29,42 @@ import Table_AddPersonTableModal from "./Table_AddPersonTableModal";
 function Table_TableOpened(props) {
     const {homeProcess, setHomeProcess} = useContext<{ homeProcess: HomeProcessModel, setHomeProcess: any }>(homeProcessContext);
     const {commandProcess, setCommandProcess} = useContext<{ commandProcess: CommandProcessModel, setCommandProcess: any }>(homeProcessContext);
-    const [numberOfPerson, setNumberOfPerson] = useState<number>(1);
+    // const [numberOfPerson, setNumberOfPerson] = useState<number>(1);
     const navigate = useNavigate();
     const [showError, setShowError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
-
         useEffect(() => {
             console.log(homeProcess) ;
             let temp: CommandProcessModel = {...commandProcess};
-            if (homeProcess.tableDetail.commandProcessToShare) {
+            if (homeProcess.tableDetail?.commandProcessToShare &&
+                ( homeProcess.tableDetail?.commandProcessToShare.allCommands.length != commandProcess.allCommands.length
+                    || homeProcess.tableDetail?.commandProcessToShare.tips != commandProcess.tips )) {
                 let commandProcessModelToShare: CommandProcessModelToShare = homeProcess.tableDetail.commandProcessToShare ;
+                if (commandProcessModelToShare.allCommands && commandProcessModelToShare.allCommands.length > 0) {
+                    commandProcessModelToShare?.allCommands?.forEach(command => {
+                        // Check if product and productVariant are stringified
+                        if (typeof command.product == 'string') {
+                            command.product = JSON.parse(command.product);
+                        }
+                        if (typeof command.productVariant == 'string') {
+                            command.productVariant = JSON.parse(command.productVariant);
+                        }
+                    }) ;
+                }
                 for (let key in commandProcessModelToShare) {
                     temp[key] = commandProcessModelToShare[key]
                 }
             }
-                temp.table = homeProcess.tableDetail;
-                temp.table.institution = getAdminProcessValues("userLogged").institution;
-                temp.institution = getAdminProcessValues("userLogged").institution;
-                console.log(temp);
-                setNumberOfPerson(temp.numberOfPerson);
-                setCommandProcess({...temp});
-                setProcessStored("commandProcess", temp) ;
+            temp.table = homeProcess.tableDetail;
+            temp.table.institution = getAdminProcessValues("userLogged").institution;
+            temp.institution = getAdminProcessValues("userLogged").institution;
+            console.log(temp);
+            // setNumberOfPerson(temp.numberOfPerson);
+            setCommandProcess({...temp});
+            setProcessStored("commandProcess", temp) ;
         }, []);
 
         const handleCommandClick = () => {
@@ -133,14 +145,14 @@ function Table_TableOpened(props) {
                 <div className="happy-div-bottom">
                     <div className="row">
                         <span className="col-9 f-32 fw-5">Table {homeProcess.tableDetail.tableNumber}</span>
-                        {/*<div className="col-3 text-center" style={{marginTop: -20}}>
+                        <div className="col-3 text-center" style={{marginTop: -20}}>
                             <IconUser width={16} height={16} styleIcon={{width: 16}}/>
                             <div className="f-16" style={{marginTop: -10}}>
-                                <span onClick={()=>setNumberOfPerson(numberOfPerson+1)}>+</span>
-                                <span className="text-red-orange ml-2 mr-2 fw-6">{numberOfPerson}</span>
-                                <span onClick={()=>{numberOfPerson > 1 ? setNumberOfPerson(numberOfPerson-1) : null}}>-</span>
+                                {/*<span onClick={()=>setNumberOfPerson(numberOfPerson+1)}>+</span>*/}
+                                <span className="text-red-orange ml-2 mr-2 fw-6">{homeProcess.tableDetail?.numberOfPerson || 0}</span>
+                                {/*<span onClick={()=>{numberOfPerson > 1 ? setNumberOfPerson(numberOfPerson-1) : null}}>-</span>*/}
                             </div>
-                        </div>*/}
+                        </div>
                     </div>
                     <span className="f-20 fw-4">{homeProcess.tableDetail?.zoneName || 'Zone Inconnue'}</span>
                     <br/><br/>

@@ -186,7 +186,6 @@ function Table_Note(props) {
         link.click();
     };
 
-
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}

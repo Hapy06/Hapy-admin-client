@@ -108,7 +108,7 @@ function ChefDeRangContainer() {
         setCDRProcess({...temp}) ;
         addNotification({
             title: "Nouvelle Commande à valider",
-            subtitle: 'Table ' +  notification.tableNumber + ' - ' + ( notification.tableZoneName || 'Terrasse Gauche'),
+            subtitle: 'Table ' +  notification.tableNumber + ' - ' + ( notification.tableZoneName || 'Zone Inconnue'),
             message: 'Veuillez Confirmez !',
             theme: 'light',
             backgroundTop: '#536DFE',

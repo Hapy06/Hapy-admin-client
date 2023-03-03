@@ -86,8 +86,8 @@ export class Demand {
 
 export class SimpleCommand {
     id?: string ;
-    product: Product ;
-    productVariant: Variant ;
+    product: any ;
+    productVariant: any ;
     isPregnant: boolean;
     isValidated: boolean;
     status: 'choosed' | 'takeLater' | 'sendToCDR' | 'sendToCuisine' | 'foodReady' ;
@@ -158,6 +158,7 @@ export class Order {
     pendingDurationText?: string;
     cookingDuration?: number;
     cookingDurationText?: string;
+    savingDate: string ;
 }
 
 export class Coupon {
@@ -200,6 +201,7 @@ export class Table {
     zoneName: string ;
     zone: Zone ;
     commandProcessToShare?: CommandProcessModelToShare ;
+    numberOfPerson?: number ;
 }
 
 export default class Booking {

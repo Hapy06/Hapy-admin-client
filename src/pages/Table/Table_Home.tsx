@@ -1,15 +1,9 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {useNavigate} from "react-router";
 import HapyMobileTop from "../../components/HapyMobileTop";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import IconChecked from "../../globals/icons-components/IconChecked";
-import IconNote from "../../globals/icons-components/IconNote";
-import {
-    CommandProcessModel,
-    CommandProcessModelToShare,
-    customStyles,
-    HomeProcessModel
-} from "../../globals/models/models";
+import {CommandProcessModel, customStyles, HomeProcessModel} from "../../globals/models/models";
 import Modal from 'react-modal';
 import Table_OpenTableModal from "./Table_OpenTableModal";
 import {homeProcessContext} from "../HomeContainer";

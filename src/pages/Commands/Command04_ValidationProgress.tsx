@@ -5,7 +5,12 @@ import IconVerify from "../../globals/icons-components/IconVerify";
 import IconArrowDown from "../../globals/icons-components/IconArrowDown";
 import HapyMobileTop from "../../components/HapyMobileTop";
 import {CommandProcessModel, SimpleCommand} from "../../globals/models/models";
-import {getAdminProcessValues, handleSendNotification, setProcessStored} from "../../globals/GlobalVariables";
+import {
+    getAdminProcessValues,
+    handleSendNotification,
+    setProcessStored,
+    updateTable
+} from "../../globals/GlobalVariables";
 import addNotification from "react-push-notification";
 import {homeProcessContext} from "../HomeContainer";
 
@@ -33,25 +38,27 @@ function Command04_ValidationProgress(props) {
         // console.log(temp.allCommands) ;
         // Send to socket and DB here, and after success =>
         handleSendNotification('commandToValidate',
-                temp.institution?.id || '63c8822d7d3a52696de7ac30',
-                temp.table.id,
-                temp.table.tableNumber,
-                temp.table?.zoneName || 'Zone Inconnue',
-                JSON.stringify(temp.allCommands.filter(command => command.isValidated && command.status == "choosed")),
-                getAdminProcessValues("authToken"),
-                (response)=>{
-                    temp.totalPrice = 0 ;
-                    temp.allCommands.forEach(command => {
-                        if (command.isValidated) {
-                            command.status = "sendToCDR" ;
-                            temp.totalPrice += command.price ;
-                        }
-                    }) ;
-                    temp.totalPrice += temp.tips ;
-                    setCommandProcess(temp) ;
-                    setProcessStored('commandProcess', temp) ;
-                    navigate('/command/validated') ;
-                },
+            temp.institution?.id || '63d93d76c39535d0734a01e7',
+            temp.table.id,
+            temp.table.tableNumber,
+            temp.table.zoneName || 'Zone Inconnue',
+            JSON.stringify(temp.allCommands.filter(command => command.isValidated && command.status == "choosed")),
+            getAdminProcessValues("authToken"),
+            (response)=>{
+                let temp = {...commandProcess} ;
+                temp.totalPrice = 0 ;
+                temp.allCommands.forEach(command => {
+                    if (command.isValidated) {
+                        command.status = "sendToCDR" ;
+                        temp.totalPrice += command.price ;
+                    }
+                }) ;
+                temp.totalPrice += temp?.tips || 0 ;
+                setCommandProcess(temp) ;
+                updateTable(temp) ;
+                setProcessStored('commandProcess', temp) ;
+                navigate('/command/validated') ;
+            },
             (error)=>{
                 addNotification({
                     title: 'Erreur lors de la validation de la Commande',
@@ -62,8 +69,7 @@ function Command04_ValidationProgress(props) {
                 });
             },
 
-            ) ;
-        // createOrder() ;
+        ) ;
     } ;
 
     const exportData = (data) => {
@@ -93,25 +99,25 @@ function Command04_ValidationProgress(props) {
             <div className="happy-div-bottom">
                 <br/>
                 {commandList?.filter(command => command.isValidated).map((command:SimpleCommand, index) => (
-                    <>
-                        {/*<p className="f-20">{command.productVariant}</p>*/}
-                        <div className="row pl-1" key={index}>
-                            <div className="form-check col-1">
-                                <input className="form-check-input" style={{borderRadius:50, width:20, height:20, marginTop:command.isPregnant ? 25 : 3}} type="checkbox"
-                                       checked={command.isValidated} onChange={()=>handleSelectCommand(commandList.findIndex((elt)=>elt == command))}/>
-                            </div>
-                            <label className="form-check-label col ml-2" style={{width:290}}>
-                                {command.isPregnant && (<> <span style={{fontSize:12}} className="text-red-orange">Enceinte</span> <br/> </>)}
-                                {command?.product?.name || "Product 1"} - {command?.productVariant?.name} <br/>
-                                <span style={{fontSize:12}}>
+                        <>
+                            {/*<p className="f-20">{command.productVariant}</p>*/}
+                            <div className="row pl-1" key={index}>
+                                <div className="form-check col-1">
+                                    <input className="form-check-input" style={{borderRadius:50, width:20, height:20, marginTop:command.isPregnant ? 25 : 3}} type="checkbox"
+                                           checked={command.isValidated} onChange={()=>handleSelectCommand(commandList.findIndex((elt)=>elt == command))}/>
+                                </div>
+                                <label className="form-check-label col ml-2" style={{width:290}}>
+                                    {command.isPregnant && (<> <span style={{fontSize:12}} className="text-blue">Enceinte</span> <br/> </>)}
+                                    {command?.product?.name || "Product 1"} - {command?.productVariant?.name} <br/>
+                                    <span style={{fontSize:12}}>
                                     {command.ingredientsModifiablesStates.map(ingredient => (
                                         <>{ingredient} <br/></>
                                     ))}
                                 </span>
-                            </label>
-                        </div>
-                        <br/>
-                    </>
+                                </label>
+                            </div>
+                            <br/>
+                        </>
                     )
                 )}
                 <hr className="mt-4 mb-4"/>
@@ -123,8 +129,8 @@ function Command04_ValidationProgress(props) {
                                     <input className="form-check-input" style={{borderRadius:50, width:20, height:20, marginRight:15, marginTop:command.isPregnant ? 25 : 3}} type="checkbox"
                                            checked={command.isValidated} onChange={()=>{handleSelectCommand(commandList.findIndex((elt)=>elt == command))}}/>
                                 </div>
-                                <label className="form-check-label col ml-2" style={{width:290}}>
-                                    {command.isPregnant && (<> <span style={{fontSize:12}} className="text-red-orange">Enceinte</span> <br/> </>)}
+                                <label className="form-check-label col" style={{width:290, marginLeft:32 }}>
+                                    {command.isPregnant && (<> <span style={{fontSize:12}} className="text-blue">Enceinte</span> <br/> </>)}
                                     {command?.product?.name || "Product 1"} - {command?.productVariant?.name} <br/>
                                     <span style={{fontSize:12}}>
                                         {command.ingredientsModifiablesStates.map(ingredient => (

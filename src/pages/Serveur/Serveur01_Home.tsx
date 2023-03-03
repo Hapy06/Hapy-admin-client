@@ -40,24 +40,24 @@ function Serveur01_Home(props) {
     }, []) ;
 
     useEffect(() => {
-        /*let temp: any = {} ;
-        serveurProcess.listNotificationDemands?.forEach(notif => {
-            if (!temp[notif.source]) {
-                temp[notif.source] = notif ;
-            } else {
-                temp[notif.source].content = temp[notif.source].content + '-' + notif.content ;
-                serveurProcess.listNotificationDemands = serveurProcess.listNotificationDemands.filter(item => item.id != notif.id) ;
-                deleteRequest(API_REQUEST_NOTIFICATION + '/delete', notif.id, ()=>{}, ()=>{})
-            }
-        }) ;*/
-        let arr = serveurProcess.listNotificationDemands ;
-        arr.push(null) ;
-        setListNotifsDemands(arr) ;
+        if (!serveurProcess.listNotificationDemands) {
+            serveurProcess.listNotificationDemands = [] ;
+        }
+        if (!serveurProcess.listNotificationFoodReady) {
+            serveurProcess.listNotificationFoodReady = [] ;
+        }
+        if (!serveurProcess.listNotificationDemands.includes(null)) {
+            let arr = serveurProcess.listNotificationDemands;
+            arr.push(null);
+            setListNotifsDemands(arr);
+        }
+        if (!serveurProcess.listNotificationFoodReady.includes(null)) {
+            let arr = serveurProcess.listNotificationFoodReady;
+            arr.push(null);
+            setListNotifsFoodReady(arr);
+        }
     }, [serveurProcess.listNotificationDemands]) ;
 
-    /*useEffect(() => {
-        setListNotifsFoodReady(serveurProcess.listNotificationFoodReady)
-    }, [serveurProcess.listNotificationFoodReady]) ;*/
 
     const handleLoadData = () => {
         return axios.get(BASE_URL + API_REQUEST_NOTIFICATION + '/intitution-id?intitutionID=' + getAdminProcessValues("userLogged").institutionId,
@@ -82,6 +82,7 @@ function Serveur01_Home(props) {
                 arrNotifdemands.push(null) ;
                 setListNotifsDemands(arrNotifdemands) ;
             }
+            // remove the last element who's null to set it at the end of the list
             serveurProcess.listNotificationDemands = arrNotifdemands.slice(0, arrNotifdemands.length - 1) ;
             if (response.data.data.items.filter((elt:NotificationHapy) => elt.nature == "foodReady" || elt.nature == "commandToValidate")?.length == 0) {
                 setLoadMessageFoodReady("(Pas de plats prêts pour l'instant)") ;
@@ -111,6 +112,7 @@ function Serveur01_Home(props) {
     } ;
 
     const handleNotifClicked = (notif: NotificationHapy) => {
+        console.log(notif)
         serveurProcess.notifDetail = notif ;
         setServeurProcess(serveurProcess) ;
         setProcessStored("serveurProcess", serveurProcess) ;
@@ -118,6 +120,7 @@ function Serveur01_Home(props) {
     } ;
 
     const handleNotifFoodClicked = (notif: NotificationHapy) => {
+        console.log(notif)
         serveurProcess.notifDetail = notif ;
         setServeurProcess(serveurProcess) ;
         setProcessStored("serveurProcess", serveurProcess) ;
@@ -175,17 +178,8 @@ function Serveur01_Home(props) {
                 <PullToRefresh onRefresh={handleLoadData}>
                 <>
                 <div>
-                    <span className="f-20">Vos demandes ({listNotifsDemands?.length-1})</span> <br/><br/>
+                    <span className="f-20">Vos demandes ({listNotifsDemands?.length > 0 ? listNotifsDemands?.length-1: 0})</span> <br/><br/>
                     {listNotifsDemands?.length > 0 ? (
-                        /*<ScrollMenu scrollContainerClassName="scroll-and-hidden pl-2" itemClassName="mr-4" >
-                            {listNotifsDemands?.map((elt:NotificationHapy, index:number) => (
-                                <HapyButtonIconNumber key={elt.id} btnWidth={110} text={(elt.tableNumber || index) + ''}
-                                                      handleClick={()=>{handleNotifClicked(elt)}}
-                                                      iconComponent={elt.nature == "demand" ? (ICONS.demande) : (
-                                                          elt.nature == "payment" ? (<IconCalculator/>) :(<IconCall/>)
-                                                      )}/>
-                            ))}
-                        </ScrollMenu>*/
                         renderNotifMenu()
                     ) : (
                         <div className="vertical-center"
@@ -198,15 +192,8 @@ function Serveur01_Home(props) {
                 </div>
                 <br/>
                 <div>
-                    <span className="f-20">Les plats prèts ({listNotifsFoodReady?.length-1})</span> <br/><br/>
+                    <span className="f-20">Les plats prèts ({listNotifsFoodReady?.length > 0 ? listNotifsFoodReady.length - 1 : 0})</span> <br/><br/>
                     {listNotifsFoodReady?.length > 0 ? (
-                        /*<ScrollMenu scrollContainerClassName="scroll-and-hidden pl-2" itemClassName="mr-4" >
-                            {listNotifsFoodReady?.map((elt:NotificationHapy, index:number) => (
-                                <HapyButtonIconNumber key={elt.id || index} btnWidth={110} text={(elt.tableNumber || index) + ''}
-                                                      handleClick={()=>{handleNotifClicked(elt)}}
-                                                      iconComponent={<IconPlat/>}/>
-                            ))}
-                        </ScrollMenu>*/
                         renderFoodMenu()
                     ) : (
                         <div className="vertical-center"
@@ -216,11 +203,6 @@ function Serveur01_Home(props) {
                             </div>
                         </div>
                     )}
-                    {/*<div className="row pl-1">
-                        <div className="col-4"><HapyButtonIconNumber text='14' handleClick={()=>navigate('/food-ready')} iconComponent={<IconPlat/>}/></div>
-                        <div className="col-4"><HapyButtonIconNumber text='245' handleClick={()=>navigate('/food-ready')} iconComponent={<IconBoisson/>}/></div>
-                        <div className="col-4"><HapyButtonIconNumber text='14' handleClick={()=>navigate('/food-ready')} iconComponent={<IconBoisson/>}/></div>
-                    </div>*/}
                 </div>
                 <br/>
                 <HapyButtonWithIcon text="Accéder à la table" handleClick={()=>{navigate('/list-tables')}} iconComponent={<IconSomeoneTable width={32} height={32}/>} />

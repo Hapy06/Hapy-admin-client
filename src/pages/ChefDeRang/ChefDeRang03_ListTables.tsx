@@ -11,14 +11,16 @@ import {
     getAdminProcessValues,
     reloadToken
 } from "../../globals/GlobalVariables";
-import {HomeProcessModel, Table} from "../../globals/models/models";
+import {CDRProcessModel, HomeProcessModel, NotificationHapy, Table} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
 import axios from "axios";
 import PullToRefresh from "react-simple-pull-to-refresh";
+import {cdrProcessContext} from "./ChefDeRangContainer";
 
 function ChefDeRang03_ListTables(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
-    const [listZones, setListZones] = useState(/*getAdminProcessValues("userLogged").institution.zones || */[]) ;
+    const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess: any}>(cdrProcessContext) ;
+    const [listZones, setListZones] = useState([]) ;
     const [zoneToShow, setZoneToShow] = useState(null);
     const [zoneToShowIndex, setZoneToShowIndex] = useState(0);
     const navigate = useNavigate();
@@ -39,6 +41,14 @@ function ChefDeRang03_ListTables(props) {
                 let arr = response.data.data.items.sort((a,b) => a.tableNumStart < b.tableNumStart ? -1 : 1 ) ;
                 arr.forEach((zone, index) => {
                     zone.tableIds = zone.tableIds.sort((a,b) => a.tableNumber < b.tableNumber ? -1 : 1 ) ;
+                        zone.tableIds.forEach((table:Table) => {
+                            if (table.status == "ask-to-open" && !cdrProcess.listNotifs.some((notif:NotificationHapy) => notif?.tableID == table?.id)) {
+                                table.status = "close" ;
+                            }
+                            if (table.status == "command-waiting-validation" && !cdrProcess.listNotifs.some((notif:NotificationHapy) => notif?.tableID == table?.id)) {
+                                table.status = "close" ;
+                            }
+                        }) ;
                 }) ;
                 setListZones(arr) ;
                 setZoneToShow(arr[0]) ;

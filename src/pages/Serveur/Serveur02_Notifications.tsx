@@ -37,8 +37,6 @@ function Serveur02_Notifications(props) {
                     theme: 'light',
                     native: true // when using native, your OS will handle theming.
                 });
-                // temp.listNotificationDemands = temp.listNotificationDemands.filter(elt => elt.id != temp.notifDetail.id) ;
-                // setServeurProcess(temp) ;
                 navigate('/home') ;
             },
             ()=> {
@@ -50,18 +48,6 @@ function Serveur02_Notifications(props) {
                     native: true // when using native, your OS will handle theming.
                 });
             })
-        /*temp.listNotificationDemands =
-            temp.listNotificationDemands.filter(elt => elt.id != serveurProcess.notifDetail.id) ;
-        setProcessStored("serveurProcess", temp) ;
-        setServeurProcess(temp) ;
-        addNotification({
-            title: 'Envoyé avec succèss',
-            subtitle: getAdminProcessValues("userLogged")?.fullName || "serveur Hâpy",
-            message: 'Demande Validée',
-            theme: 'light',
-            native: true // when using native, your OS will handle theming.
-        });
-        navigate('/home') ;*/
     } ;
 
     /*const handleDeleteNotif = () => {

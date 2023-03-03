@@ -7,7 +7,7 @@ import IconVerify from "../../globals/icons-components/IconVerify";
 import IconKey from "../../globals/icons-components/IconKey";
 import {HomeProcessModel} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
-import {API_REQUEST_TABLE, putRequest} from "../../globals/GlobalVariables";
+import {API_REQUEST_TABLE, getAdminProcessValues, putRequest} from "../../globals/GlobalVariables";
 import {useNavigate} from "react-router";
 
 type PropsType = {
@@ -24,8 +24,12 @@ function Table_OpenTableModal(props:PropsType) {
 
     const handleOpenTable = () => {
        showErrorFunction("Ouverture de la table...", "text-success", 10000) ;
-       putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'waiting-to-join', statusForNewClient: 'waiting-to-join'},
-           ()=> {navigate('/table-opened')},
+       putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id,
+           {status: 'waiting-to-join', statusForNewClient: 'waiting-to-join', numberOfPerson: numberOfPerson},
+           ()=> {
+                homeProcess.tableDetail.numberOfPerson = numberOfPerson ;
+                navigate('/table-opened') ;
+           },
            ()=>{showErrorFunction("Echec de l'ouverture, Veuillez ressayer !")}) ;
     } ;
 
@@ -45,7 +49,7 @@ function Table_OpenTableModal(props:PropsType) {
                         <IconArrowLeft width={24} height={24} styleIcon={{marginLeft:5}} />
                     </button>
                     <br/><br/><br/>
-                    <p className="text-black"><span className="text-red-orange">Quentin</span> LELOUCHE</p>
+                    <p className="text-black"><span className="text-red-orange">{getAdminProcessValues('userLogged').firstName}</span> {getAdminProcessValues('userLogged').lastName}</p>
                     <h1 className="text-black f-32 fw-6">Ouvrir la table</h1>
                     <div className="text-center mt-4 mb-4">
                         <IconHapyLogo width={48} height={48} styleIcon={{width:22}}/>

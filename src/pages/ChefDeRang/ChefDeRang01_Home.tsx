@@ -7,22 +7,19 @@ import IconSomeoneTable from "../../globals/icons-components/IconSomeoneTable";
 import IconReservationSearch from "../../globals/icons-components/IconReservationSearch";
 import IconLose from "../../globals/icons-components/IconLose";
 import HapyMobileTop from "../../components/HapyMobileTop";
-import useLocalStorage from "../../components/hooks/useLocalStorage";
-import HapyButtonWithoutIcon from "../../components/HapyButtonWithoutIcon";
 import {cdrProcessContext} from "./ChefDeRangContainer";
 import {ScrollMenu} from "react-horizontal-scrolling-menu";
-import {CDRProcessModel, NotificationHapy, OpenTableDemand} from "../../globals/models/models";
+import {CDRProcessModel, NotificationHapy} from "../../globals/models/models";
 import {
     API_REQUEST_NOTIFICATION,
     BASE_URL,
-    getAdminProcessValues, removeAdminProcessValues,
+    getAdminProcessValues,
+    removeAdminProcessValues,
     setProcessStored
 } from "../../globals/GlobalVariables";
 import axios from "axios";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import {Simulate} from "react-dom/test-utils";
-import loadedData = Simulate.loadedData;
-import IconVerify from "../../globals/icons-components/IconVerify";
 import IconVerifyFilled from "../../globals/icons-components/IconVerifyFilled";
 
 function ChefDeRang01_Home(props) {
@@ -36,6 +33,9 @@ function ChefDeRang01_Home(props) {
     }, []) ;
 
     useEffect(() => {
+        if (!cdrProcess.listNotifs) {
+            cdrProcess.listNotifs = [] ;
+        }
         if (!cdrProcess.listNotifs.includes(null)) {
             let arr = cdrProcess.listNotifs || [];
             arr.push(null);
@@ -74,10 +74,11 @@ function ChefDeRang01_Home(props) {
     } ;
 
     const handleNotifClicked = (notif: NotificationHapy) => {
-        let temp = cdrProcess ;
+        let temp = {...cdrProcess} ;
         temp.notifDetail = notif ;
         setProcessStored("cdrProcess", temp) ;
         setCDRProcess(temp) ;
+        // setTimeout to avoid react error trying to read undefined variable
         setTimeout(()=>{
             if (notif.nature == "openTable") {
                 navigate('/open-table') ;
@@ -107,42 +108,6 @@ function ChefDeRang01_Home(props) {
     }
     return (
         <>
-            {/*<div className="happy-div-top" style={{width:screenWidth, height:screenHeightPourcent(37)}}>
-                <div className="text-center welcome-word mb-3">Welcome to Hâpy</div>
-                <div className="text-center welcome-word2">
-                   <div style={{marginTop:-20}}>
-                        <button className="back-btn" style={{float: "left", marginTop:-5}}
-                                onClick={() => {navigate('/')}}>
-                            <IconArrowLeft width={24} height={24} stoke={'white'} styleIcon={{marginLeft:5}} />
-                        </button>
-                        <div className="mt-5 mb-5" style={{overflow:"visible"}}>
-                            <svg width="414" height="8" viewBox="0 0 414 8" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginLeft:-60, marginBottom:-50}}>
-                                <path d="M0 4C0 1.79086 1.79086 0 4 0H171C173.209 0 175 1.79086 175 4C175 6.20914 173.209 8 171 8H4C1.79086 8 0 6.20914 0 4Z" fill="url(#paint0_radial_1242_23095)"/>
-                                <defs>
-                                    <radialGradient id="paint0_radial_1242_23095" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="rotate(1.10703) scale(414.077 21428.5)">
-                                        <stop stopColor="#F50057"/>
-                                        <stop offset="0.5" stopColor="#FF6063"/>
-                                        <stop offset="1" stopColor="#F50057"/>
-                                    </radialGradient>
-                                </defs>
-                            </svg>
-                            {ICONS.hapyLogo32GrayOrange}
-                            <svg width="414" height="8" viewBox="0 0 414 8" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginTop:-50}}>
-                                <path d="M239 4C239 1.79086 240.791 0 243 0H410C412.209 0 414 1.79086 414 4C414 6.20914 412.209 8 410 8H243C240.791 8 239 6.20914 239 4Z" fill="url(#paint1_radial_1242_23095)"/>
-                                <defs>
-                                    <radialGradient id="paint1_radial_1242_23095" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="rotate(1.10703) scale(414.077 21428.5)">
-                                        <stop stopColor="#F50057"/>
-                                        <stop offset="0.5" stopColor="#FF6063"/>
-                                        <stop offset="1" stopColor="#F50057"/>
-                                    </radialGradient>
-                                </defs>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <p className="text-white"><span className="text-red-orange"></span> </p>
-                <h1 className="text-white">Gérer votre service</h1>
-            </div>*/}
             <HapyMobileTop showWelcome2AndMenu={false}
                            subtitleStart={getAdminProcessValues("userLogged")?.firstName || "chef de rang"}
                            subtitleStartClassName="text-red-orange"
@@ -157,20 +122,7 @@ function ChefDeRang01_Home(props) {
             <div className="happy-div-bottom border-red-orange">
                 <PullToRefresh onRefresh={handleLoadData}>
                 <>
-                {listNotifs?.length > 0 ? 
-                // (
-                //     <ScrollMenu scrollContainerClassName="scroll-and-hidden" itemClassName="service-item" >
-                //             {listNotifs?.map((elt:NotificationHapy, index:number) => (
-                //                 <div key={index} onClick={()=>handleNotifClicked(elt)}>
-                //                     <div>{elt.nature == "openTable" ? (<IconKey/>) : (<IconOrder/>)}</div>
-                //                     <div className="text-center">
-                //                         <span style={{fontSize: 12}}>Table </span>
-                //                         <span className="text-red-orange">{elt.tableNumber}</span>
-                //                     </div>
-                //                 </div>
-                //             ))}
-                //     </ScrollMenu>
-                // ) 
+                {listNotifs?.length > 0 ?
                     renderNotifMenu()
                 : (
                     <div className="vertical-center"

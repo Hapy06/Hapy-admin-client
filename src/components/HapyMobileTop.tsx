@@ -111,7 +111,7 @@ function HapyMobileTop(props:PropsType) {
                         </button>
                     ) }
                     <div className="text-center icon-happy" style={props.showBtnBack ? {marginRight:50, paddingTop:7} : {paddingTop:7}}>
-                        <IconHapyLogo stroke={'#424242'} hapyLogoBtnColor={props.hapyLogoBtnColor}/>
+                        <IconHapyLogo hapyLogoBtnColor={props.hapyLogoBtnColor}/>
                     </div>
                 </div>
             </div>

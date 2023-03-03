@@ -51,9 +51,7 @@ function Command01_Category(props) {
                 hapyLogoBtnColor={"#FF6063"}
             />
             <div className="happy-div-bottom">
-                <div className="pt-4">
-                    <HapySearch inputValue={searchKey} handleChange={handleSearchForm} placeholder={"Rechercher une Categorie"}/>
-                </div>
+                <HapySearch inputValue={searchKey} handleChange={handleSearchForm} placeholder={"Rechercher une Categorie"}/>
                 { ( searchKey && searchKey != '') ? (
                     listCategoryProductsSearched.map( (category:CategoryOfProduct, index:number) => (
                         <div key={index}>
@@ -63,30 +61,30 @@ function Command01_Category(props) {
                     ) )
                 ) : (
                     commandProcess.categoriesOnMenu?.map((categoryOnMenu, indexOnMenu) => (
-                                <div key={categoryOnMenu.id}>
+                        <div key={categoryOnMenu.id}>
+                            <br/>
+                            <h5>{categoryOnMenu.name}</h5>
+                            {categoryOnMenu.productCategories?.map( (categoryOfProduct, index) => (
+                                <div key={categoryOfProduct.id}>
                                     <br/>
-                                    <h5>{categoryOnMenu.name}</h5>
-                                    {categoryOnMenu.productCategories?.map( (categoryOfProduct, index) => (
-                                        <div key={categoryOfProduct.id}>
-                                            <br/>
-                                            <HapyButtonWithoutIcon text={categoryOfProduct.name} handleClick={()=>handleCategoryOfProductChoosed(categoryOfProduct)}/>
-                                        </div>
-                                    ) ) }
+                                    <HapyButtonWithoutIcon text={categoryOfProduct.name} handleClick={()=>handleCategoryOfProductChoosed(categoryOfProduct)}/>
                                 </div>
+                            ) ) }
+                        </div>
 
                     ))
-                    )}
-                <br/> <br/> <br/>
-            <div className={showValidateBtn ? "text-center inner-button-container-validate-btn" : "text-center inner-button-container"}>
-                <IconArrowDown width={32} height={32} stroke={'black'} styleIcon={showValidateBtn ? {marginTop:-30} : {marginTop:30}} />
-                {showValidateBtn && (
-                    <div className="horizontal-center">
-                        <HapyButtonWithIcon text="Valider votre commande" handleClick={()=>{navigate('/command/validationProgress')}}
-                                                  btnWidth={350}
-                                                  iconComponent={<IconVerify width={32} height={32} stroke={'black'}/>}/>
-                    </div>
                 )}
-            </div>
+                <br/> <br/> <br/>
+                <div className={showValidateBtn ? "text-center inner-button-container-validate-btn" : "text-center inner-button-container"}>
+                    <IconArrowDown width={32} height={32} stroke={'black'} styleIcon={showValidateBtn ? {marginTop:-30} : {marginTop:30}} />
+                    {showValidateBtn && (
+                        <div className="horizontal-center">
+                            <HapyButtonWithIcon text="Valider votre commande" handleClick={()=>{navigate('/command/validationProgress')}}
+                                                btnWidth={350}
+                                                iconComponent={<IconVerify width={32} height={32} stroke={'black'}/>}/>
+                        </div>
+                    )}
+                </div>
             </div>
 
         </>

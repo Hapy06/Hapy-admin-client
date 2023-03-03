@@ -1,4 +1,4 @@
-import React, {useState} from 'react' ;
+import React, {useEffect, useState} from 'react' ;
 import IconArrowRight from "../globals/icons-components/IconArrowRight";
 import IconArrowDown from "../globals/icons-components/IconArrowDown";
 import IconChecked from "../globals/icons-components/IconChecked";
@@ -24,6 +24,12 @@ function HapyMultiSelect(props:PropsType) {
 
     const [isDropdowned, setIsDropdowned] = useState<boolean>(false);
     const [optionSelectedList, setOptionSelectedList] = useState<any[]>(props.selectValues || []);
+    const [initialOptionList, setInitialOptionList] = useState<Option[]>(props.optionList || []) ;
+
+    useEffect(() => {
+        setInitialOptionList(props.optionList) ;
+        console.log(props.optionList)
+    }, [isDropdowned]) ;
 
     const handleChangeOption = (option: Option) => {
         let temp = [...optionSelectedList] ;
@@ -47,15 +53,15 @@ function HapyMultiSelect(props:PropsType) {
             )}
 
             {isDropdowned ? (
-                <div className="hapy-select-dropdown">
+                <div className="hapy-select-dropdown f-16 fw-5">
                     <div onClick={()=>setIsDropdowned(false)} style={{cursor:"pointer"}}>
                         <span className="mr-32"><IconArrowDown/></span>
                         <span>{props.labelText}</span>
                     </div>
-                    {props.optionList.map( (option, index) => (
+                    {initialOptionList.map( (option, index) => (
                         <div key={index} className="hapy-select-option" style={{cursor:"pointer"}}>
                             {optionSelectedList.includes(option.value) ? (
-                                <span className="mr-32"><IconChecked stroke="#536DFE"/></span>
+                                <span className="mr-32"><IconChecked stroke="white" fill="#536DFE" /></span>
                             ) : (
                                 <span className="mr-64"></span>
                             )}
@@ -66,7 +72,7 @@ function HapyMultiSelect(props:PropsType) {
                 </div>
 
             ) : (
-                <div style={{cursor:"pointer"}} className="hapy-btn-with-icon hapy-select-default" onClick={()=>setIsDropdowned(true)}>
+                <div style={{cursor:"pointer"}} className="hapy-btn-with-icon hapy-select-default f-16 fw-5" onClick={()=>setIsDropdowned(true)}>
                     <span className="mr-32"><IconArrowRight/></span>
                     {optionSelectedList.length > 0 ? (
                         <span className="text-blue">{props.labelTextEdited}</span>

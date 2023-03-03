@@ -107,9 +107,9 @@ function Preparation_Attente(props:PropsType) {
                 temp.listPausedOrders = temp.listPausedOrders.filter(elt => elt.id != temp.orderDetail.id) ;
             } else {
                 temp.orderCooking = temp.listWaitingOrders.shift() ;
+                temp.orderCooking.status = 'cooking' ;
+                temp.orderDetail = temp.orderCooking ;
             }
-            temp.orderCooking.status = 'cooking' ;
-            temp.orderDetail = temp.orderCooking ;
             setPreparationProcess(temp) ;
             if (localStorage.getItem(`${temp.orderDetail.id}-timer1`)) {
                 temp.orderDetail.pendingDurationText = localStorage.getItem(`${temp.orderDetail.id}-timer1`)

@@ -18,18 +18,18 @@ import {format} from "date-fns";
 
 function ChefDeRang02_TableListCommand(props) {
     const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess: any}>(cdrProcessContext) ;
-    const [listCommand, setListCommand] = useState<SimpleCommand[]>(JSON.parse(cdrProcess.notifDetail.content));
+    const [listCommand, setListCommand] = useState<SimpleCommand[]>(JSON?.parse(cdrProcess?.notifDetail?.content) || []);
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(cdrProcess) ;
+        console.log(cdrProcess.notifDetail) ;
         window.scrollTo(0, 0);
     }, []);
 
     const handleValidateCommand = () => {
         let temp = {...cdrProcess} ;
         let order: Order = new Order() ;
-        order.tableNumberOfPerson = 5 ;
+        order.tableNumberOfPerson = 1 ;
         order.notificationID = temp.notifDetail.id ;
         order.institutionId = temp.notifDetail.institutionID ;
         order.tableId = temp.notifDetail.tableID ;
@@ -41,6 +41,7 @@ function ChefDeRang02_TableListCommand(props) {
         order.status = "waiting" ;
         order.isPregnant = false ;
         order.totalCost = 0 ;
+        order.savingDate = new Date().toLocaleDateString("en-CA") ;
         order.coupons = [] ;
         listCommand.forEach((command:SimpleCommand) => {
             let coupon:Coupon = new Coupon() ;
@@ -48,12 +49,12 @@ function ChefDeRang02_TableListCommand(props) {
             coupon.tableID = temp.notifDetail.tableID ;
             coupon.tableNumber = temp.notifDetail.tableNumber ;
             coupon.tableZoneName = temp.notifDetail.tableZoneName ;
-            coupon.productId = command.product.id ;
-            coupon.productVariantId = command.productVariant.id ;
-            coupon.cookingStation = command.product.cookingStation ;
-            coupon.isPregnant = command.isPregnant ;
-            coupon.price = command.price ;
-            coupon.ingredientsModifiablesStates = command.ingredientsModifiablesStates ;
+            coupon.productId = command?.product.id ;
+            coupon.productVariantId = command?.productVariant.id ;
+            coupon.cookingStation = command?.product.cookingStation ;
+            coupon.isPregnant = command?.isPregnant ;
+            coupon.price = command?.price ;
+            coupon.ingredientsModifiablesStates = command?.ingredientsModifiablesStates ;
             order.totalCost += coupon.price ;
             order.coupons.push(coupon) ;
         }) ;
@@ -91,13 +92,13 @@ function ChefDeRang02_TableListCommand(props) {
 
     const handleDeleteNotif = () => {
         deleteRequest(API_REQUEST_NOTIFICATION + '/delete', cdrProcess.notifDetail.id,
-            ()=>{
+            (response)=>{
                 cdrProcess.validationMessage = "La Commande est supprimée !" ;
-                cdrProcess.listNotifs = cdrProcess.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
+                // cdrProcess.listNotifs = cdrProcess.listNotifs.filter(elt => elt.id != cdrProcess.notifDetail.id) ;
                 setProcessStored("cdrProcess", cdrProcess) ;
                 navigate('/command-canceled') ;
             },
-            ()=>{
+            (error)=>{
                 addNotification({
                     title: 'Erreur lors de la suppression',
                     subtitle: "Commande de la Table " + cdrProcess.notifDetail.tableNumber,
@@ -139,16 +140,16 @@ function ChefDeRang02_TableListCommand(props) {
                 <p className="f-20">{cdrProcess.notifDetail.tableZoneName}</p>
                 <div className="text-center">{format(new Date(cdrProcess.notifDetail.askTime), 'HH : mm') }</div>
                 <br/>
-                {listCommand.map((command:SimpleCommand, index:number) => (
-                    <div key={command.id || index} className="row fw-6 command-box">
+                {listCommand?.map((command:SimpleCommand, index:number) => (
+                    <div key={command?.id || index} className="row fw-6 command-box">
                         <span className="col-2">{index + 1}</span>
                         <span className="col-10" style={{marginTop:-24}}>
-                            {command.isPregnant && (<span className="text-red-orange" style={{fontSize:12, paddingTop:-50}}>Enceinte</span>)}
+                            {command?.isPregnant && (<span className="text-red-orange" style={{fontSize:12, paddingTop:-50}}>Enceinte</span>)}
                             <br/>
-                            <span>{command.product.name} - {command.productVariant.name}</span>
+                            <span>{command?.product.name} - {command?.productVariant.name}</span>
                             <br/>
                             <div style={{fontSize:12}}>
-                                {command.ingredientsModifiablesStates.map(ingredient => (
+                                {command?.ingredientsModifiablesStates.map(ingredient => (
                                     <span>{ingredient} <br/></span>
                                 ))}
                             </div>
