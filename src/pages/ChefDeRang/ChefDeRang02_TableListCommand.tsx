@@ -14,7 +14,6 @@ import {
     setProcessStored
 } from "../../globals/GlobalVariables";
 import addNotification from "react-push-notification";
-import {format} from "date-fns";
 
 function ChefDeRang02_TableListCommand(props) {
     const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess: any}>(cdrProcessContext) ;
@@ -41,7 +40,7 @@ function ChefDeRang02_TableListCommand(props) {
         order.status = "waiting" ;
         order.isPregnant = false ;
         order.totalCost = 0 ;
-        order.savingDate = new Date().toLocaleDateString("en-CA") ;
+        // order.savingDate = new Date().toLocaleDateString("en-CA") ;
         order.coupons = [] ;
         listCommand.forEach((command:SimpleCommand) => {
             let coupon:Coupon = new Coupon() ;
