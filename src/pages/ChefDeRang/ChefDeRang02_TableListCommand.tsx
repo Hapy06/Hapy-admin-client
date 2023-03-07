@@ -138,7 +138,7 @@ function ChefDeRang02_TableListCommand(props) {
                 <br/>
                 <h1 className="f-32 fw-6">Table {cdrProcess.notifDetail.tableNumber}</h1>
                 <p className="f-20">{cdrProcess.notifDetail.tableZoneName}</p>
-                <div className="text-center">{format(new Date(cdrProcess.notifDetail.askTime), 'HH : mm') }</div>
+                {/*<div className="text-center">{format(new Date(cdrProcess.notifDetail.askTime), 'HH : mm') }</div>*/}
                 <br/>
                 {listCommand?.map((command:SimpleCommand, index:number) => (
                     <div key={command?.id || index} className="row fw-6 command-box">
