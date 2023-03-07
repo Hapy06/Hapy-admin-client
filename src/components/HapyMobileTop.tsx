@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ICONS} from "../globals/Icons-svg";
 import IconArrowLeft from "../globals/icons-components/IconArrowLeft";
 import IconHapyLogo from "../globals/icons-components/IconHapyLogo";
-import {getAdminProcessValues, removeAdminProcessValues} from "../globals/GlobalVariables";
+import {getAdminProcessValues, removeAdminProcessValues, removeProcessStored} from "../globals/GlobalVariables";
 import IconSomeoneDelete from "../globals/icons-components/IconSomeoneDelete";
 import HapyButtonWithIcon_Little from "./HapyButtonWithIcon_Little";
 import HapyButtonOnlyIcon from "./HapyButtonOnlyIcon";
@@ -42,6 +42,13 @@ function HapyMobileTop(props:PropsType) {
         localStorage.removeItem('isLoggedin') ;
         removeAdminProcessValues("authToken") ;
         removeAdminProcessValues("userLogged") ;
+        removeAdminProcessValues("payloadBase") ;
+        removeAdminProcessValues("userRole") ;
+        removeProcessStored("commandProcess") ;
+        removeProcessStored("cdrProcess") ;
+        removeProcessStored("preparationProcess") ;
+        removeProcessStored("adminProcess") ;
+        removeProcessStored("homeProcess") ;
         setTimeout(()=>{
             location.reload() ;
         }, 500) ;

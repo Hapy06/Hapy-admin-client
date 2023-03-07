@@ -69,7 +69,7 @@ function Table_TableOpened(props) {
 
         const handleCommandClick = () => {
             // console.log(commandProcess) ;
-            if (!commandProcess.categoriesOnMenu || commandProcess.categoriesOnMenu?.length == 0) {
+            // if (!commandProcess.categoriesOnMenu || commandProcess.categoriesOnMenu?.length == 0) {
                 showErrorFunction("Chargement des commandes...", "text-success", 10000);
                 getRequest(API_REQUEST_CATEGORY_ON_MENU + '/instittion-id/list?institutionId=' + commandProcess.institution.id,
                     (res) => {
@@ -108,9 +108,9 @@ function Table_TableOpened(props) {
                     (err) => {
                         showErrorFunction(MSG_ERROR_LOADING)
                     });
-            } else {
+            /*} else {
                 navigate('/command');
-            }
+            }*/
         };
 
         const showErrorFunction = (errorMessage: string, color: 'text-success' | 'text-danger' = "text-danger", timeout: number = 2000) => {
