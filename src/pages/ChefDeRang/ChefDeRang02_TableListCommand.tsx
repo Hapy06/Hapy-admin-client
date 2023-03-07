@@ -14,6 +14,7 @@ import {
     setProcessStored
 } from "../../globals/GlobalVariables";
 import addNotification from "react-push-notification";
+import {format} from "date-fns";
 
 function ChefDeRang02_TableListCommand(props) {
     const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess: any}>(cdrProcessContext) ;
@@ -35,8 +36,8 @@ function ChefDeRang02_TableListCommand(props) {
         order.tableNumber = temp.notifDetail.tableNumber ;
         order.tableZoneName = temp.notifDetail.tableZoneName ;
         order.isFoodReady = false ;
-        order.createdAt = new Date() ;
-        order.startTime = new Date().getHours() + ':' + new Date().getMinutes() ;
+        // order.createdAt = new Date() ;
+        // order.startTime = new Date().getHours() + ':' + new Date().getMinutes() ;
         order.status = "waiting" ;
         order.isPregnant = false ;
         order.totalCost = 0 ;
