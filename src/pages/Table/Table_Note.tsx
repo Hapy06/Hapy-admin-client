@@ -171,6 +171,15 @@ function Table_Note(props) {
         ticketPayed.listReglement = listReglement ;
         ticketPayed.institutionId = getAdminProcessValues("userLogged").institution.id ;
         ticketPayed.allCommands = commandProcess.allCommands ;
+        ticketPayed.allCommands.forEach((command) => {
+            // check if the command.product and variant is not stringified and stringify it
+            if (typeof command.product != 'string') {
+                command.product = JSON.stringify(command.product) ;
+            }
+            if (typeof command.productVariant != 'string') {
+                command.productVariant = JSON.stringify(command.productVariant) ;
+            }
+        }) ;
         // exportData(ticketPayed) ;
         saveTicketPayedToDB(ticketPayed) ;
     } ;
