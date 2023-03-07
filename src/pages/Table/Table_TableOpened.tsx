@@ -40,10 +40,10 @@ function Table_TableOpened(props) {
             console.log(homeProcess) ;
             let temp: CommandProcessModel = {...commandProcess};
             if (homeProcess.tableDetail?.commandProcessToShare &&
-                ( homeProcess.tableDetail?.commandProcessToShare.allCommands.length != commandProcess.allCommands.length
+                ( homeProcess.tableDetail?.commandProcessToShare.allCommands?.length != commandProcess.allCommands?.length
                     || homeProcess.tableDetail?.commandProcessToShare.tips != commandProcess.tips )) {
                 let commandProcessModelToShare: CommandProcessModelToShare = homeProcess.tableDetail.commandProcessToShare ;
-                if (commandProcessModelToShare.allCommands && commandProcessModelToShare.allCommands.length > 0) {
+                if (commandProcessModelToShare.allCommands && commandProcessModelToShare.allCommands?.length > 0) {
                     commandProcessModelToShare?.allCommands?.forEach(command => {
                         // Check if product and productVariant are stringified
                         if (typeof command.product == 'string') {
@@ -78,15 +78,15 @@ function Table_TableOpened(props) {
                         temp.products = [];
                         temp.variants = [];
                         let listCM = res.data.data.items.filter((elt => {
-                            return elt.productCategories.length > 0
+                            return elt.productCategories?.length > 0
                         }));
                         listCM.forEach(categoryOnMenu => {
                             categoryOnMenu.productCategories.forEach(productCategory => {
-                                if (productCategory.products.length == 0) {
+                                if (productCategory.products?.length == 0) {
                                     listCM = listCM.filter(elt => elt.id != categoryOnMenu.id);
                                 } else {
                                     productCategory.products.forEach(product => {
-                                        if (product.variants.length == 0) { // no variant present, so remove
+                                        if (product.variants?.length == 0) { // no variant present, so remove
                                             // listCM = listCM.filter(elt => elt.id != categoryOnMenu.id);
                                         } else { // minimum 1 variant present, so keep
                                             temp.products.push(product);
