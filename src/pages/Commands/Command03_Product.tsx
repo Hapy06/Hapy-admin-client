@@ -29,7 +29,8 @@ function Command03_Product(props) {
     const [optionListVariants, setOptionListVariants] = useState([]);
     const [optionListCuissons, setOptionListCuissons] = useState([]);
     const [optionListIngredient, setOptionListIngredient] = useState([]);
-    const timeNow = new Date().getHours() + ":" + new Date().getMinutes() ;
+    let timeNow = new Date().getHours() + ":" + new Date().getMinutes() ;
+    if (timeNow.length == 4) timeNow = "0" + timeNow ;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -76,7 +77,7 @@ function Command03_Product(props) {
         let newSimpleCommand: SimpleCommand = new SimpleCommand() ;
         newSimpleCommand.productVariant = productVariantChoosed ;
         newSimpleCommand.product = commandProcess.productChoosed ;
-        newSimpleCommand.price = productVariantChoosed.sellingPrice ;
+        newSimpleCommand.price = calculateNewPriceIfProductIsHapyHour(productVariantChoosed.sellingPrice) ;
         newSimpleCommand.isPregnant = isPregnant ;
         newSimpleCommand.isValidated = !takeLater ;
         newSimpleCommand.status = takeLater ? "takeLater" : "choosed" ;
@@ -137,8 +138,8 @@ function Command03_Product(props) {
                 ) : (
                     <div>
                         <span className="f-20"> {divideNumber(productVariantChoosed?.sellingPrice || 0)} € </span>
-                        { productVariantChoosed.crossedOutPrice !== 0 && (
-                            <span className="old-price fw-5 f-16">{divideNumber(productVariantChoosed.crossedOutPrice)} €</span>
+                        { productVariantChoosed?.crossedOutPrice !== 0 && (
+                            <span className="old-price fw-5 f-16">{divideNumber(productVariantChoosed?.crossedOutPrice)} €</span>
                         )}
                     </div>
                 )}

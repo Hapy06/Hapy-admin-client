@@ -37,6 +37,16 @@ function Command04_ValidationProgress(props) {
         temp.allCommands = commandList.concat(allCommands.filter(elt => elt.status != "choosed")) ;
         // console.log(temp.allCommands) ;
         // Send to socket and DB here, and after success =>
+        // Send to socket and DB here, and after success =>
+        allCommands.forEach( command => {
+            // Check if product and productVariant are stringified
+            if (typeof command.product == "string") {
+                command.product = JSON.parse(command.product) ;
+            }
+            if (typeof command.productVariant == "string") {
+                command.productVariant = JSON.parse(command.productVariant) ;
+            }
+        })
         handleSendNotification('commandToValidate',
             temp.institution?.id || '63d93d76c39535d0734a01e7',
             temp.table.id,

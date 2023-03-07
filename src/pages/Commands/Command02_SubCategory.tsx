@@ -57,7 +57,7 @@ function Command02_SubCategory(props) {
                     listProductsSearched.map((product: Product, index: number) => (
                         <div key={index}>
                             <br/>
-                            <HapyButtonWithoutIcon text={product.name} handleClick={() => null}/>
+                            <HapyButtonWithoutIcon text={product.name} handleClick={() => handleProductChoosed(product)}/>
                         </div>
                     ))
                 ) : (

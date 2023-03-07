@@ -130,7 +130,23 @@ function Table_TableOpened(props) {
         setIsOpen(false);
     }
 
-        return (
+    const handleTicketClick = () => {
+        let temp = {...commandProcess} ;
+        temp.allCommands?.forEach(command => {
+            // Check if product and productVariant are stringified
+            if (typeof command.product == "string") {
+                command.product = JSON.parse(command.product) ;
+            }
+            if (typeof command.productVariant == "string") {
+                command.productVariant = JSON.parse(command.productVariant) ;
+            }
+        }) ;
+        setCommandProcess({...temp}) ;
+        navigate('/table-note') ;
+    }
+
+
+    return (
             <>
                 <HapyMobileTop showWelcome2AndMenu={false}
                                subtitleStart={getAdminProcessValues("userLogged").firstName}
@@ -163,9 +179,7 @@ function Table_TableOpened(props) {
                     <br/> <HapyButtonWithIcon text="Commander" handleClick={handleCommandClick}
                                               iconComponent={<IconOrder/>}/>
                     <br/>
-                    <HapyButtonWithIcon text="Voir le ticket" handleClick={() => {
-                        navigate('/table-note')
-                    }} iconComponent={<IconNote/>}/>
+                    <HapyButtonWithIcon text="Voir le ticket" handleClick={handleTicketClick} iconComponent={<IconNote/>}/>
                     <br/>
                     <HapyButtonWithIcon text="Reserver la table" handleClick={() => navigate('/reservation/new')}
                                         iconComponent={<IconReservationAdd/>}/>

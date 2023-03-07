@@ -44,7 +44,7 @@ function ChefDeRang01_Home(props) {
     }, [cdrProcess.listNotifs]) ;
 
     const handleLoadData = () => {
-        return axios.get(BASE_URL + API_REQUEST_NOTIFICATION + '/intitution-id?intitutionID=' + getAdminProcessValues("userLogged").institutionId,
+        return axios.get(BASE_URL + API_REQUEST_NOTIFICATION + '/intitution-id?institutionID=' + getAdminProcessValues("userLogged").institutionId,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken").authToken}`} }).then((response) => {
             console.log(response) ;
             let arr = response.data.data.items.filter((elt:NotificationHapy) =>
@@ -83,6 +83,11 @@ function ChefDeRang01_Home(props) {
             if (notif.nature == "openTable") {
                 navigate('/open-table') ;
             } else if (notif.nature == "commandToValidate") {
+                // check if notif.content is stringified json
+                if (typeof notif.content != "string") {
+                    // if not, stringify it
+                    notif.content = JSON.stringify(notif.content) ;
+                }
                 navigate('/table-list-commands') ;
             }
         }, 500) ;

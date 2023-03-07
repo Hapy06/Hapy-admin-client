@@ -61,6 +61,13 @@ function Table_Note(props) {
             if (command.status == "sendToCDR") {
                 temp.totalPrice += command.price ;
             }
+            // Check if product and productVariant are stringified
+            if (typeof command.product == "string") {
+                command.product = JSON.parse(command.product) ;
+            }
+            if (typeof command.productVariant == "string") {
+                command.productVariant = JSON.parse(command.productVariant) ;
+            }
         }) ;
         temp.totalPrice += temp.tips || 0 ;
         setCommandProcess(temp) ;

@@ -60,7 +60,7 @@ function Serveur01_Home(props) {
 
 
     const handleLoadData = () => {
-        return axios.get(BASE_URL + API_REQUEST_NOTIFICATION + '/intitution-id?intitutionID=' + getAdminProcessValues("userLogged").institutionId,
+        return axios.get(BASE_URL + API_REQUEST_NOTIFICATION + '/intitution-id?institutionID=' + getAdminProcessValues("userLogged").institutionId,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
             console.log(response) ;
             let arrNotifdemands: NotificationHapy[] = response.data.data.items.filter((elt:NotificationHapy) => elt.nature != "foodReady"
@@ -120,6 +120,11 @@ function Serveur01_Home(props) {
     } ;
 
     const handleNotifFoodClicked = (notif: NotificationHapy) => {
+        // check if notif.content is stringified json
+        if (typeof notif.content != "string") {
+            // if not, stringify it
+            notif.content = JSON.stringify(notif.content) ;
+        }
         console.log(notif)
         serveurProcess.notifDetail = notif ;
         setServeurProcess(serveurProcess) ;
