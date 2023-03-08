@@ -17,6 +17,7 @@ import {
 import addNotification from "react-push-notification";
 import {CDRProcessModel, PayloadType} from "../../globals/models/models";
 // import {format} from "date-fns";
+// import Moment from 'moment';
 
 function ChefDeRang02_OpenTable(props) {
     const socketOpenTable = io(BASE_URL_SOCKET, {
@@ -26,6 +27,7 @@ function ChefDeRang02_OpenTable(props) {
     const [isSocketConnected, setIsSocketConnected] = useState<boolean>(socketOpenTable.connected);
     const navigate = useNavigate();
     let payloadBase:PayloadType = getAdminProcessValues("payloadBase") ;
+    // const formatDate = Moment().format('HH:mm')
 
     useEffect(()=> {
         // console.log(cdrProcess) ;
@@ -116,6 +118,9 @@ function ChefDeRang02_OpenTable(props) {
                 <h5>{cdrProcess.notifDetail?.tableZoneName}</h5>
                 {/*{ cdrProcess.notifDetail?.askTime && (
                     <div className="text-center">{format(new Date(cdrProcess.notifDetail?.askTime), 'HH : mm') }</div>
+                )}*/}
+                {/*{ cdrProcess.notifDetail?.askTime && (
+                    <div className="text-center">{formatDate(new Date(cdrProcess.notifDetail?.askTime)) }</div>
                 )}*/}
                 <br/>
                 <div className="text-center" style={{paddingTop:50, paddingBottom:50}}>
