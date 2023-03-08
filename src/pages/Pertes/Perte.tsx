@@ -16,10 +16,23 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 function Perte(props) {
     const [loadMessage, setLoadMessage] = useState<string>("(Pas de produits trouvé)");
     const [listProducts, setListProducts] = useState<Product[]>([]);
+    const [listProductsInitial, setListProductsInitial] = useState<Product[]>([]);
     const [listVariantChoosed, setListVariantChoosed] = useState<Variant[]>([]);
     const [listVariantSelectedWithQty, setListVariantSelectedWithQty] = useState({});
     const [totalQty, setTotalQty] = useState<number>(0);
     const navigate = useNavigate();
+    const [searchValue, setSearchValue] = useState<string>("");
+
+    const handleSearch = (value) => {
+        let arr:Product[] = [] ;
+        listProductsInitial.forEach(product => {
+            if (product.name.toLowerCase().includes(value.toLowerCase())) {
+                arr.push(product) ;
+            }
+        }) ;
+        setListProducts([...arr]) ;
+        setSearchValue(value) ;
+    }
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -51,7 +64,8 @@ function Perte(props) {
             console.log(response)
             if (response.data.data.items.length > 0) {
                 let arr = response.data.data.items.sort((a,b) => a.name.localeCompare(b.name)) ;
-                setListProducts(arr) ;
+                setListProducts([...arr]) ;
+                setListProductsInitial([...arr]) ;
             } else {
                 setLoadMessage("(Pas de produits trouvé)") ;
             }
@@ -107,7 +121,7 @@ function Perte(props) {
 
             />
             <div className="happy-div-bottom">
-             <HapySearch inputValue={null} handleChange={null} />
+             <HapySearch inputValue={searchValue} handleChange={(e) => handleSearch(e.target.value)} placeholder="Rechercher un produit" />
             <br/><br/>
             <PullToRefresh onRefresh={handleLoadData}>
                 <>
