@@ -80,7 +80,7 @@ function Table_TableOpened(props) {
                         let listCM = res.data.data.items.filter((elt => {
                             return elt.productCategories?.length > 0
                         }));
-                        listCM.forEach(categoryOnMenu => {
+                        /*listCM.forEach(categoryOnMenu => {
                             categoryOnMenu.productCategories.forEach(productCategory => {
                                 if (productCategory.products?.length == 0) {
                                     listCM = listCM.filter(elt => elt.id != categoryOnMenu.id);
@@ -95,7 +95,7 @@ function Table_TableOpened(props) {
                                     })
                                 }
                             })
-                        });
+                        });*/
                         listCM.forEach(CM => {
                             temp.productCategories = temp.productCategories.concat(CM.productCategories)
                         });

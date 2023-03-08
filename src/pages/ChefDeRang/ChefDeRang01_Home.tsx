@@ -117,7 +117,7 @@ function ChefDeRang01_Home(props) {
                            subtitleStart={getAdminProcessValues("userLogged")?.firstName || "chef de rang"}
                            subtitleStartClassName="text-red-orange"
                            subtitleEnd={getAdminProcessValues("userLogged")?.firstName || "Hâpy"}
-                           title="Gerer votre service 2"
+                           title="Gerer votre service"
                            showBtnBack={false}
                            showRightSideBtn={false}
                            hapyLogoBtnColor={"#FF6063"}

@@ -36,12 +36,12 @@ function ChefDeRang02_TableListCommand(props) {
         order.tableNumber = temp.notifDetail.tableNumber ;
         order.tableZoneName = temp.notifDetail.tableZoneName ;
         order.isFoodReady = false ;
-        // order.createdAt = new Date() ;
-        // order.startTime = new Date().getHours() + ':' + new Date().getMinutes() ;
+        order.createdAt = new Date() ;
+        order.startTime = new Date().getHours() + ':' + new Date().getMinutes() ;
         order.status = "waiting" ;
         order.isPregnant = false ;
         order.totalCost = 0 ;
-        // order.savingDate = new Date().toLocaleDateString("en-CA") ;
+        order.savingDate = new Date().toLocaleDateString("en-CA") ;
         order.coupons = [] ;
         listCommand.forEach((command:SimpleCommand) => {
             let coupon:Coupon = new Coupon() ;
@@ -138,7 +138,7 @@ function ChefDeRang02_TableListCommand(props) {
                 <br/>
                 <h1 className="f-32 fw-6">Table {cdrProcess.notifDetail.tableNumber}</h1>
                 <p className="f-20">{cdrProcess.notifDetail.tableZoneName}</p>
-                {/*<div className="text-center">{format(new Date(cdrProcess.notifDetail.askTime), 'HH : mm') }</div>*/}
+                <div className="text-center">{format(new Date(cdrProcess.notifDetail.askTime), 'HH : mm') }</div>
                 <br/>
                 {listCommand?.map((command:SimpleCommand, index:number) => (
                     <div key={command?.id || index} className="row fw-6 command-box">
