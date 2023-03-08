@@ -46,10 +46,11 @@ function Perte(props) {
     }, []) ;
 
     const handleLoadData = () => {
-        return axios.get(BASE_URL + API_REQUEST_PRODUCT + '/byInstitutionId/' + getAdminProcessValues("userLogged").institution.id,
+        return axios.get(BASE_URL + API_REQUEST_PRODUCT + '/byInstitutionId/' + getAdminProcessValues("userLogged").institution.id + '?page=0 &size=1000',
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken")}`} }).then((response) => {
+            console.log(response)
             if (response.data.data.items.length > 0) {
-                let arr = response.data.data.items ;
+                let arr = response.data.data.items.sort((a,b) => a.name.localeCompare(b.name)) ;
                 setListProducts(arr) ;
             } else {
                 setLoadMessage("(Pas de produits trouvé)") ;

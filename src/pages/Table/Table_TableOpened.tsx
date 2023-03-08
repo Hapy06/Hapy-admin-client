@@ -77,6 +77,7 @@ function Table_TableOpened(props) {
                         temp.productCategories = [];
                         temp.products = [];
                         temp.variants = [];
+                        // let listCM = res.data.data.items ;
                         let listCM = res.data.data.items.filter((elt => {
                             return elt.productCategories?.length > 0
                         }));
