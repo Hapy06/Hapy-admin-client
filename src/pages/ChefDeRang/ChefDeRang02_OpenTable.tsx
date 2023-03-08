@@ -19,7 +19,9 @@ import {CDRProcessModel, PayloadType} from "../../globals/models/models";
 import {format} from "date-fns";
 
 function ChefDeRang02_OpenTable(props) {
-    const socketOpenTable = io(BASE_URL_SOCKET);
+    const socketOpenTable = io(BASE_URL_SOCKET, {
+        transports: ['websocket'],
+    });
     const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess:any}>(cdrProcessContext) ;
     const [isSocketConnected, setIsSocketConnected] = useState<boolean>(socketOpenTable.connected);
     const navigate = useNavigate();
