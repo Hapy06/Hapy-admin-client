@@ -2,7 +2,6 @@ import { useState } from 'react'
 import './App.css'
 import {isMobile, isTablet} from 'react-device-detect';
 import HomeContainer from "./pages/HomeContainer";
-import {ICONS} from "./globals/Icons-svg";
 import "@fontsource/poppins";
 
 // Import the functions you need from the SDKs you need
@@ -11,7 +10,7 @@ import {Notifications} from "react-push-notification";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+
 const firebaseConfig = {
     apiKey: "AIzaSyBqLnrO9O4tsCDXeflOIH1qjpSOUHUGIbo",
     authDomain: "test-dear-hapy.firebaseapp.com",
