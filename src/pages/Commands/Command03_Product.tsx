@@ -115,7 +115,7 @@ function Command03_Product(props) {
                            subtitleStart={getAdminProcessValues("userLogged")?.firstName || "serveur"}
                            subtitleStartClassName="text-red-orange"
                            subtitleEnd={getAdminProcessValues("userLogged")?.lastName || "Hâpy"}
-                           title={productVariantChoosed?.name}
+                           title={<span>{commandProcess.categoryOfProductChoosed?.name} <br/> {productVariantChoosed?.name}</span>}
                            showBtnBack={true}
                            handleClickBtnBack={()=>navigate('/command/sub-category')}
                            showRightSideBtn={false}

@@ -17,7 +17,7 @@ type PropsType = {
     subtitleStart: string ;
     subtitleStartClassName: string ;
     subtitleEnd: any ;
-    title: string ;
+    title: any;
     showRightSideBtn: boolean ;
     rightSideBtnIconComponent?: any ;
     rightSideBtnHandleClick?: any ;
