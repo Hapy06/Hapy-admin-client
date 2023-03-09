@@ -83,9 +83,9 @@ function Command03_Product(props) {
         newSimpleCommand.status = takeLater ? "takeLater" : "choosed" ;
         newSimpleCommand.ingredientsModifiablesStates = [] ;
         productVariantChoosed?.productIngredients?.filter(elt => elt.isIngredientModifiable).forEach((ingredient:ProductIngredient) => {
-            listIngredient.includes(ingredient) ?
-                /*newSimpleCommand.ingredientsModifiablesStates.push('avec ' + ingredient.ingredient?.entitled)*/ null :
+            if (listIngredient.includes(ingredient)) {
                 newSimpleCommand.ingredientsModifiablesStates.push('sans ' + ingredient.ingredient?.entitled)
+            }
         }) ;
         let temp = {...commandProcess} ;
         temp.productVariantChoosed = null ;
@@ -115,7 +115,7 @@ function Command03_Product(props) {
                            subtitleStart={getAdminProcessValues("userLogged")?.firstName || "serveur"}
                            subtitleStartClassName="text-red-orange"
                            subtitleEnd={getAdminProcessValues("userLogged")?.lastName || "Hâpy"}
-                           title={commandProcess?.productVariantChoosed?.name}
+                           title={productVariantChoosed?.name}
                            showBtnBack={true}
                            handleClickBtnBack={()=>navigate('/command/sub-category')}
                            showRightSideBtn={false}
@@ -152,18 +152,22 @@ function Command03_Product(props) {
                     </>
                 )}
                 <br/> <br/>
-                <div className="mb-3">
-                    {/*<span><IconAlarm width={24} height={24} stroke={'#323232'}/></span>*/}
-                    <span className="f-20 fw-6">La recette du chef</span>
-                    <div className="fw-6" style={{marginTop:24}}>{productVariantChoosed.description}</div>
-                </div>
-                <div style={{marginTop:32}}>
-                    <span><IconInfoCircle width={24} height={24} stroke={'#323232'}/></span>
-                    <span className="f-20 fw-5 f-16 fw-6" style={{marginLeft:8}}>Les allergènes</span>
-                    <div className="fw-4 f-16 fw-6" style={{marginTop:24}}>
-                        {productVariantChoosed.allergene}
+                {productVariantChoosed.description && productVariantChoosed.description.length > 0 && (
+                    <div className="mb-3">
+                        {/*<span><IconAlarm width={24} height={24} stroke={'#323232'}/></span>*/}
+                        <span className="f-20">La recette du chef</span>
+                        <div style={{marginTop:24}}>{productVariantChoosed.description}</div>
                     </div>
-                </div>
+                )}
+                {productVariantChoosed.allergene && productVariantChoosed.allergene.length > 0 && (
+                    <div style={{marginTop:32}}>
+                        <span><IconInfoCircle width={24} height={24} stroke={'#323232'}/></span>
+                        <span className="f-20 fw-5 f-16 fw-6" style={{marginLeft:8}}>Les allergènes</span>
+                        <div className="fw-4 f-16" style={{marginTop:24}}>
+                            {productVariantChoosed.allergene}
+                        </div>
+                    </div>
+                )}
                 <br/>
                 {productVariantChoosed?.productIngredients?.filter(elt => elt.isIngredientModifiable).length > 0 && (
                     <>
