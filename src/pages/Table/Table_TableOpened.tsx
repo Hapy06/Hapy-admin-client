@@ -74,6 +74,7 @@ function Table_TableOpened(props) {
                 getRequest(API_REQUEST_CATEGORY_ON_MENU + '/instittion-id/list?institutionId=' + commandProcess.institution.id,
                     (res) => {
                         let temp = {...commandProcess};
+                        temp.allCommands = []
                         temp.productCategories = [];
                         temp.products = [];
                         temp.variants = [];

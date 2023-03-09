@@ -19,12 +19,13 @@ import {
 import {CommandProcessModel, SimpleCommand} from "../../globals/models/models";
 import {Cooking, ProductIngredient, Variant} from "../../globals/models/Inscription.models";
 import {homeProcessContext} from "../HomeContainer";
+import {width} from "@mui/system";
 
 function Command03_Product(props) {
     const {commandProcess, setCommandProcess} = useContext<{commandProcess:CommandProcessModel,setCommandProcess:any}>(homeProcessContext) ;
     const [productVariantChoosed, setProductVariantChoosed] = useState<Variant>(commandProcess.productChoosed.variants[0]);
     const [cookingSelected, setCookingSelected] = useState(commandProcess.productChoosed.variants[0]?.cooking || null);
-    const [listIngredient, setListIngredient] = useState<ProductIngredient[]>([]);
+    const [listIngredient, setListIngredient] = useState<ProductIngredient[]>(productVariantChoosed?.productIngredients.filter(elt => elt.isIngredientModifiable) || []);
     const [isPregnant, setIsPregnant] = useState<boolean>(false);
     const [optionListVariants, setOptionListVariants] = useState([]);
     const [optionListCuissons, setOptionListCuissons] = useState([]);
@@ -83,7 +84,7 @@ function Command03_Product(props) {
         newSimpleCommand.status = takeLater ? "takeLater" : "choosed" ;
         newSimpleCommand.ingredientsModifiablesStates = [] ;
         productVariantChoosed?.productIngredients?.filter(elt => elt.isIngredientModifiable).forEach((ingredient:ProductIngredient) => {
-            if (listIngredient.includes(ingredient)) {
+            if (!listIngredient.includes(ingredient)) {
                 newSimpleCommand.ingredientsModifiablesStates.push('sans ' + ingredient.ingredient?.entitled)
             }
         }) ;
@@ -205,7 +206,7 @@ function Command03_Product(props) {
                     </div>
                 </div>
                 <br/> <br/>
-                <HapyButtonWithIcon text="Pour plus tard" handleClick={()=>handleValidateCommand(true)} iconComponent={ <IconTimer opacity={1}/> } />
+                <HapyButtonWithIcon text="Pour plus tard" handleClick={()=>handleValidateCommand(true)} iconComponent={ <IconTimer styleIcon={{width:32}} opacity={1}/> } />
                 <br/>
                 <HapyButtonWithIcon textColor={"#FF6063"} text="Commander" handleClick={()=>handleValidateCommand(false)} iconComponent={ <IconChecked width={32} height={32} stroke={'#FF6063'} /> } />
                 <br/>

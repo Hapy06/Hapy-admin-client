@@ -46,7 +46,9 @@ function Perte(props) {
             })
         }) ;
         setListVariantChoosed(arr) ;
-        setIsOpen(true);
+        if (arr.length > 0) {
+            setIsOpen(true);
+        }
     }
 
     function closeModal() {

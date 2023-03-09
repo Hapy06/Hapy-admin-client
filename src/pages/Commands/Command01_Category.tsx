@@ -15,7 +15,10 @@ function Command01_Category(props) {
     const {commandProcess, setCommandProcess} = useContext<{commandProcess:CommandProcessModel,setCommandProcess:any}>(homeProcessContext) ;
     const [listCategoryProductsSearched, setListCategoryProductsSearched] = useState<CategoryOfProduct[]>([]);
     const [searchKey, setSearchKey] = useState<string>('');
-    const [showValidateBtn, setShowValidateBtn] = useState<boolean>((commandProcess.allCommands && commandProcess.allCommands.length > 0 ));
+    const [showValidateBtn, setShowValidateBtn] = useState<boolean>( (commandProcess.allCommands
+        && commandProcess.allCommands.length > 0
+        && commandProcess.allCommands.filter((command) => command.status == 'choosed').length > 0
+    ) );
     const navigate = useNavigate();
 
     const handleSearchForm = (e) => {

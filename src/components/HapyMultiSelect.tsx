@@ -23,8 +23,8 @@ type PropsType = {
 function HapyMultiSelect(props:PropsType) {
 
     const [isDropdowned, setIsDropdowned] = useState<boolean>(false);
-    const [optionSelectedList, setOptionSelectedList] = useState<any[]>(props.selectValues || []);
-    const [initialOptionList, setInitialOptionList] = useState<Option[]>(props.optionList || []) ;
+    const [optionSelectedList, setOptionSelectedList] = useState<any[]>(props?.selectValues);
+    const [initialOptionList, setInitialOptionList] = useState<Option[]>(props?.optionList) ;
 
     useEffect(() => {
         setInitialOptionList(props.optionList) ;
@@ -58,14 +58,14 @@ function HapyMultiSelect(props:PropsType) {
                         <span className="mr-32"><IconArrowDown/></span>
                         <span>{props.labelText}</span>
                     </div>
-                    {initialOptionList.map( (option, index) => (
+                    {props?.optionList.map( (option, index) => (
                         <div key={index} className="hapy-select-option" style={{cursor:"pointer"}}>
                             {optionSelectedList.includes(option.value) ? (
-                                <span className="mr-32"><IconChecked stroke="white" fill="#536DFE" /></span>
+                                <span className="mr-32"><IconChecked stroke="white" fill="#FF6063" /></span>
                             ) : (
                                 <span className="mr-64"></span>
                             )}
-                            <span className={optionSelectedList.includes(option.value) ? 'text-blue' : ''}
+                            <span className={optionSelectedList.includes(option.value) ? 'text-red-orange' : 'text-disabled'}
                                   onClick={()=>handleChangeOption(option)}>{option.text}</span>
                         </div>
                     ) )}
@@ -74,8 +74,8 @@ function HapyMultiSelect(props:PropsType) {
             ) : (
                 <div style={{cursor:"pointer"}} className="hapy-btn-with-icon hapy-select-default f-16 fw-5" onClick={()=>setIsDropdowned(true)}>
                     <span className="mr-32"><IconArrowRight/></span>
-                    {optionSelectedList.length > 0 ? (
-                        <span className="text-blue">{props.labelTextEdited}</span>
+                    {optionSelectedList.length != props?.optionList.length ? (
+                        <span className="text-red-orange">{props.labelTextEdited}</span>
                     ) : (
                         <span>{props.labelText}</span>
                     )}
