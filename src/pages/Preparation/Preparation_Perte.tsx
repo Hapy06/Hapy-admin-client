@@ -189,7 +189,7 @@ function Preparation_Perte(props: PropsType) {
     temp[productIngredientId] = 0;
     // console.log('selected ingredient ---> ', temp);
     setListProductIngredientSelectedWithQtyAllPoste({ ...temp });
-    let iProduct = {productIngredientId, productIngredientEntitled, type: 'Ingredient', qty: 0}
+    let iProduct = {productIngredientId, productIngredientEntitled, type: 'Ingredient', qty: 1}
     setIngredientsVariant(prevIngredientsVariant => {
       const newIngredientsVariant = [...prevIngredientsVariant, iProduct];
       console.log('newIngredients -->', newIngredientsVariant);
@@ -424,8 +424,7 @@ function Preparation_Perte(props: PropsType) {
           <div className="row mt-4">
             {/*FIRST COL */}
             <div
-              className="col-5 overflow-auto px-0"
-              style={{ height: heigthValue }}
+              className="col-5 overflow-auto px-0 column-height"
             >
               <br />
               <br />
@@ -436,6 +435,7 @@ function Preparation_Perte(props: PropsType) {
                 {/*<span className="f-20">Salade César</span>*/}
                 {/*<br/><br/>*/}
                 {listProductsOfTheTeamMember.length > 0 ? (
+
                   listProductsOfTheTeamMember.map(
                     (product: Product, index: number) => (
                       <>
@@ -537,12 +537,11 @@ function Preparation_Perte(props: PropsType) {
                             )}*/}
             </div>
             {/*2ND COL */}
-            <div className="col-2 d-flex justify-content-center px-0">
-              <div style={{borderLeft: "1px solid #C8C8C8", height: heigthValue}}></div>
+            <div className="col-2 d-flex justify-content-center px-0 column-height">
+              <div style={{borderLeft: "1px solid #C8C8C8"}} className="column-height"></div>
             </div>
             <div
-              className="col-5 overflow-auto px-0"
-              style={{ height: heigthValue }}
+              className="col-5 overflow-auto px-0 column-height"
             >
               <div>
                 {/*<div className="text-end -mt-15">
