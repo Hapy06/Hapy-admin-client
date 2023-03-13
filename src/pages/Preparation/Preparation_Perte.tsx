@@ -838,7 +838,7 @@ function Preparation_Perte(props: PropsType) {
                   ))}
                   <div
                     className="text-center"
-                    style={{ position: "sticky", bottom: -10, display: isSticky ? '' : 'none' }}
+                    style={{ position: "sticky", bottom: -10, display: isSticky ? '' : 'none'}}
                   >
                     <IconArrowDown />
                   </div>
