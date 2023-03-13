@@ -72,9 +72,9 @@ function PerteModal(props:PropsType) {
     } ;
 
     return (
-        <>
+        <div className="container_popup">
         {loseValidated ? (
-                <>
+                <div className="popup" style={{width:'90%'}}>
                     <br/><br/><br/>
                     <div className="text-center mb-5">
                     <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -98,9 +98,9 @@ function PerteModal(props:PropsType) {
                                             </svg>
                                         }/>
                     </div>
-                </>
+                </div>
             ) : (
-                <>
+                <div className="popup" style={{width:'90%'}}>
                     <button className="back-btn-modal" style={{float: "left", marginTop:-5}}
                             onClick={props.handleCloseModal}>
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -126,9 +126,9 @@ function PerteModal(props:PropsType) {
                     <HapyButtonWithIcon text="Valider la perte" handleClick={handleValidateLose}
                                         numberAtEnd={props.totalQty + ''} numberAtEndColor={"#FF6063"} iconComponent={<IconLose/>}/>
                     </div>
-                </>
+                </div>
             )}
-        </>
+        </div>
     )
 }
 export default PerteModal

@@ -8,6 +8,7 @@ import IconPeople from "../../globals/icons-components/IconPeople";
 import IconPhoneCall from "../../globals/icons-components/IconPhoneCall";
 import {HomeProcessModel} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
+import {getAdminProcessValues} from "../../globals/GlobalVariables";
 
 function ReservationValidated(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
@@ -16,9 +17,9 @@ function ReservationValidated(props) {
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
-                           subtitleStart="Hugo"
+                       subtitleStart={getAdminProcessValues('userLogged').firstName}
                            subtitleStartClassName="text-red-orange"
-                           subtitleEnd="LEVOIR"
+                           subtitleEnd={getAdminProcessValues('userLogged').lastName}
                            title="C’est noté"
                            showBtnBack={false}
                            showRightSideBtn={false}

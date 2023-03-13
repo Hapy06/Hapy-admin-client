@@ -23,6 +23,11 @@ function ReservationNew(props) {
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (location.pathname.includes('tableNumber')) {
+            setNewBooking({...newBooking, tableNumber: location.pathname.split('tableNumber/')[1]}) ;
+        }
+    }, []) ;
 
     const handleForm = (e) => {
         const { name, value } = e.target;
@@ -98,9 +103,9 @@ function ReservationNew(props) {
                              inputValue={newBooking.phoneNumber} handleChange={handleForm}/>
             <br/> <br/> <HapyInput inputName='numberOfPeople' label='Nombre de personne' inputType={"text"}
                              inputValue={newBooking.numberOfPeople} handleChange={handleForm}/>
-            <br/> <br/> <HapyInput inputName='tableNumber' label='Numéro de table' inputType={"text"}
+            <br/> <br/> <HapyInput inputName='tableNumber' label='Numéro de table' inputType={"text"} placeholder={"16"}
                              inputValue={newBooking.tableNumber} handleChange={handleForm}/>
-            <br/> <br/> <HapyInput inputName='dateOfreservation' label='Date de la réservation' inputType={"text"}
+            <br/> <br/> <HapyInput inputName='dateOfreservation' label='Date de la réservation' inputType={"text"} placeholder="JJ/mm/AAAA"
                              inputValue={newBooking.dateOfreservation} handleChange={handleForm}/>
             <br/><br/><br/>
             {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}

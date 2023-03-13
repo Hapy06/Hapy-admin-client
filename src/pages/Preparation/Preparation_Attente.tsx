@@ -18,7 +18,7 @@ type PropsType = {
 function Preparation_Attente(props:PropsType) {
   const navigate = useNavigate() ;
   const location = useLocation()
-  const timerProp = location.state.timerProp
+  const timerProp = location?.state?.timerProp
   const {preparationProcess, setPreparationProcess} =  useContext<{preparationProcess:PreparationProcessModel, setPreparationProcess: any}>(preparationContext) ;
   const [blurBG, setBlurBG] = useState<string>('');
   const [isModalOpened, setIsModalOpened] = useState<{state:boolean,modalToOpen:any}>({state:false,modalToOpen:null});
@@ -36,7 +36,7 @@ function Preparation_Attente(props:PropsType) {
     }else{
       setPreparationProcess(JSON.parse(localStorage.getItem('preparationProcess')))
     }
-  },[preparationProcess.orderDetail])
+  },[preparationProcess?.orderDetail])
   const handleOpenModal = (modalToOpen) => {
     setBlurBG('blur-bg') ;
     setIsModalOpened({state:true,modalToOpen:modalToOpen}) ;
@@ -162,7 +162,7 @@ function Preparation_Attente(props:PropsType) {
             </div>
             <div className="row">
               <div className="col-lg-3 col-md-4 mt-5">
-                <PreparationCommandBox inCooking={timerProp} order={preparationProcess.orderDetail}
+                <PreparationCommandBox inCooking={timerProp} order={preparationProcess?.orderDetail}
                                        borderOrange={true} removePauseIcon={true} handleClick={null}/>
               </div>
               <div className="col-lg-3 col-md-4"> </div>
@@ -209,7 +209,7 @@ function Preparation_Attente(props:PropsType) {
                         <div className="float-end" style={{marginTop:-32}}>
                             {showError && (
                                 <div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
-                            {preparationProcess.orderDetail && preparationProcess.orderDetail.status != "waiting" && (
+                            {preparationProcess?.orderDetail && preparationProcess.orderDetail.status != "waiting" && (
                                 <HapyButtonWithIcon handleClick={handleClickPause} iconComponent={<IconTimer3/>}
                                                     btnClass={preparationProcess.orderDetail && preparationProcess.orderDetail.status == "pause" ? "wait-btn-removal" : null}
                                                     text={enPause ? "En attente" : "Mettre en attente"}

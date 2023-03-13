@@ -4,14 +4,10 @@ import IconReservationAdd from "../../globals/icons-components/IconReservationAd
 import HapyMobileTop from "../../components/HapyMobileTop";
 import HapyButtonWithIcon from "../../components/HapyButtonWithIcon";
 import {API_REQUEST_BOOKING, BASE_URL, getAdminProcessValues, setProcessStored} from "../../globals/GlobalVariables";
-import Booking, {HomeProcessModel, Table} from "../../globals/models/models";
+import Booking, {HomeProcessModel} from "../../globals/models/models";
 import axios from "axios";
 import {homeProcessContext} from "../HomeContainer";
 import PullToRefresh from "react-simple-pull-to-refresh";
-import {TeamMember} from "../../globals/models/Inscription.models";
-import HapyTableItemCDR from "../../components/HapyTableItemCDR";
-import IconArrowLeft from "../../globals/icons-components/IconArrowLeft";
-import IconArrowRight from "../../globals/icons-components/IconArrowRight";
 
 function ReservationList(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;

@@ -10,7 +10,7 @@ import IconPhoneCall from "../../globals/icons-components/IconPhoneCall";
 import {HomeProcessModel} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
 import {
-    API_REQUEST_BOOKING,
+    API_REQUEST_BOOKING, getAdminProcessValues,
     MSG_ERROR_DELETE,
     MSG_ERROR_UPDATE, MSG_SAVING,
     putRequest,
@@ -66,9 +66,9 @@ function ReservationDetail(props) {
     return (
         <>
             <HapyMobileTop showWelcome2AndMenu={false}
-                           subtitleStart="Hugo"
+                           subtitleStart={getAdminProcessValues('userLogged').firstName}
                            subtitleStartClassName="text-red-orange"
-                           subtitleEnd="LEVOIR"
+                           subtitleEnd={getAdminProcessValues('userLogged').lastName}
                            title={homeProcess.bookingDetail.dateOfreservationToShow || "20 Aout. 2023"}
                            showBtnBack={true}
                            handleClickBtnBack={()=>navigate('/reservation/list')}

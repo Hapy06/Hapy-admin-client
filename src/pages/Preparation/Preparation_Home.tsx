@@ -46,7 +46,7 @@ function Preparation_Home(props: PropsType) {
 
   useEffect(() => {
     if (
-      !preparationProcess.listAllOrders ||
+      !preparationProcess?.listAllOrders ||
       preparationProcess.listAllOrders?.length == 0
     )
       handleLoadData();
@@ -162,7 +162,7 @@ function Preparation_Home(props: PropsType) {
               </div>
               <div className="row">
                 {/*COMMAND COMMAND COL */}
-                {preparationProcess.listPausedOrders?.length > 0 && (
+                {preparationProcess?.listPausedOrders?.length > 0 && (
                   <div className="col-lg-3 col-md-4 justify-content-center pl-2 scroll-and-hidden" style={{marginTop:6, height:screenHeight - 150}}>
                     <div className="text-center f-20" style={{ opacity: 0.32 }}>
                       {preparationProcess.listPausedOrders?.length}{" "}
@@ -192,7 +192,7 @@ function Preparation_Home(props: PropsType) {
                 {/*RED COMMAND COL */}
                 <div className="col-lg-3 col-md-4 d-flex justify-content-center px-0">
                   <br />
-                  {preparationProcess.orderCooking && (
+                  {preparationProcess?.orderCooking && (
                     <PreparationCurrentCommandRed
                       order={preparationProcess.orderCooking}
                       handleClick={() =>
@@ -204,7 +204,7 @@ function Preparation_Home(props: PropsType) {
                 {/*All COMMAND LIST COL */}
                 <div
                   className={
-                    preparationProcess.listPausedOrders?.length > 0
+                    preparationProcess?.listPausedOrders?.length > 0
                         ? "col-lg-6 col-md-4 px-0"
                         : "col-lg-9 col-md-8 px-0"
                   } style={{marginTop: 16}}
@@ -303,7 +303,7 @@ function Preparation_Home(props: PropsType) {
                         Envoyé
                       </div>
                       <span className="fw-8">
-                        {preparationProcess.listFinishedOrders?.length || 0}
+                        {preparationProcess?.listFinishedOrders?.length || 0}
                       </span>
                       <span style={{ marginLeft: 4 }}>
                         <svg

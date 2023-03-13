@@ -22,6 +22,10 @@ function Perte(props) {
     const [totalQty, setTotalQty] = useState<number>(0);
     const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState<string>("");
+    const [modalState, setModalState] = useState<{
+        blur: string,
+        modalToOpen: any
+    }>({blur: '', modalToOpen: null});
 
     const handleSearch = (value) => {
         let arr:Product[] = [] ;
@@ -34,9 +38,8 @@ function Perte(props) {
         setSearchValue(value) ;
     }
 
-    const [modalIsOpen, setIsOpen] = React.useState(false);
 
-    function openModal() {
+    const handleOpenModal = (modalToOpen) => {
         let arr:Variant[] = [] ;
         listProducts.forEach(product => {
             product.variants.forEach(variant => {
@@ -45,15 +48,22 @@ function Perte(props) {
                 }
             })
         }) ;
-        setListVariantChoosed(arr) ;
         if (arr.length > 0) {
-            setIsOpen(true);
+            // setListVariantChoosed(arr) ;
+            if (modalToOpen == "PerteModal") {
+                setModalState({blur :'blur-bg', modalToOpen:
+                        <PerteModal listVariantChoosed={arr} listVariantSelectedWithQty={listVariantSelectedWithQty}
+                                    totalQty={totalQty} handleCloseModal={handleCloseModal}/>
+                }) ;
+            } else {
+                setModalState({blur: 'blur-bg', modalToOpen: modalToOpen});
+            }
         }
-    }
+    } ;
 
-    function closeModal() {
-        setIsOpen(false);
-    }
+    const handleCloseModal = () => {
+        setModalState({blur :'', modalToOpen:null}) ;
+    } ;
 
     useEffect(()=>{
         window.scrollTo(0, 0);
@@ -111,66 +121,79 @@ function Perte(props) {
 
     return (
         <>
-            <HapyMobileTop showWelcome2AndMenu={false}
-                           subtitleStart={getAdminProcessValues("userLogged").firstName}
-                           subtitleStartClassName="text-red-orange"
-                           subtitleEnd={getAdminProcessValues("userLogged").lastName}
-                           title="Noter une perte"
-                           showBtnBack={true}
-                           handleClickBtnBack={()=>navigate('/home')}
-                           showRightSideBtn={false}
-                           hapyLogoBtnColor={"#FF6063"}
+            <div className={modalState.blur}>
+                <HapyMobileTop showWelcome2AndMenu={false}
+                              subtitleStart={getAdminProcessValues("userLogged").firstName}
+                              subtitleStartClassName="text-red-orange"
+                              subtitleEnd={getAdminProcessValues("userLogged").lastName}
+                              title="Noter une perte"
+                              showBtnBack={true}
+                              handleClickBtnBack={() => navigate('/home')}
+                              showRightSideBtn={false}
+                              hapyLogoBtnColor={"#FF6063"}
 
             />
-            <div className="happy-div-bottom">
-             <HapySearch inputValue={searchValue} handleChange={(e) => handleSearch(e.target.value)} placeholder="Rechercher un produit" />
-            <br/><br/>
-            <PullToRefresh onRefresh={handleLoadData}>
-                <>
+                <div className="happy-div-bottom">
+                    <HapySearch inputValue={searchValue} handleChange={(e) => handleSearch(e.target.value)}
+                                placeholder="Rechercher un produit"/>
+                    <br/><br/>
+                    <PullToRefresh onRefresh={handleLoadData}>
+                        <>
 
-                    { listProducts.length > 0 ? (
-                        listProducts.map((product:Product, index) => (
-                            <div key={product.id}>
-                                <span className="f-20">{product.name}</span>
-                                <br/><br/>
-                                {product.variants.map((variant:Variant, index:number) => (
-                                    listVariantSelectedWithQty[variant.id] != null ? (
-                                        <div key={variant.id} className="row mb-3 fw-5">
-                                            <span className="col-2" onClick={()=>handleUnselectedVariant(variant.id)}><IconChecked fill={'#FF6063'} stroke={'white'}/></span>
-                                            <span className="col-6 mt-1">{variant.name}</span>
-                                            <span className="col-4 mt-1">
-                                                        <span style={{cursor:"pointer"}} onClick={()=>handleQtyChange(variant.id, "increase")}>+</span>
-                                                        <span className="text-red-orange ml-2 mr-2 fw-6">{listVariantSelectedWithQty[variant.id]}</span>
-                                                        <span style={{cursor:"pointer"}} onClick={()=>handleQtyChange(variant.id, "decrease")}>-</span>
+                            {listProducts.length > 0 ? (
+                                listProducts.map((product: Product, index) => (
+                                    <div key={product.id}>
+                                        <span className="f-20">{product.name}</span>
+                                        <br/><br/>
+                                        {product.variants.map((variant: Variant, index: number) => (
+                                            listVariantSelectedWithQty[variant.id] != null ? (
+                                                <div key={variant.id} className="row mb-3 fw-5">
+                                                    <span className="col-2"
+                                                          onClick={() => handleUnselectedVariant(variant.id)}><IconChecked
+                                                        fill={'#FF6063'} stroke={'white'}/></span>
+                                                    <span className="col-6 mt-1">{variant.name}</span>
+                                                    <span className="col-4 mt-1">
+                                                        <span style={{cursor: "pointer"}}
+                                                              onClick={() => handleQtyChange(variant.id, "increase")}>+</span>
+                                                        <span
+                                                            className="text-red-orange ml-2 mr-2 fw-6">{listVariantSelectedWithQty[variant.id]}</span>
+                                                        <span style={{cursor: "pointer"}}
+                                                              onClick={() => handleQtyChange(variant.id, "decrease")}>-</span>
                                             </span>
-                                        </div>
-                                    ) : (
-                                        <div key={variant.id} className="row mb-3 fw-5">
-                                            <span className="col-2" onClick={()=>handleSelectedVariant(variant.id)}>
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
+                                                </div>
+                                            ) : (
+                                                <div key={variant.id} className="row mb-3 fw-5">
+                                            <span className="col-2" onClick={() => handleSelectedVariant(variant.id)}>
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75"
+                                                      fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
                                                 </svg>
                                             </span>
-                                            <span className="col-6 mt-1">{variant.name}</span>
-                                        </div>
-                                    )
-                                ))}
+                                                    <span className="col-6 mt-1">{variant.name}</span>
+                                                </div>
+                                            )
+                                        ))}
 
-                            </div>
-                        ))
-                    ) : (
-                        <div className="text-center">{loadMessage} <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
-                    )}
-            </>
-            </PullToRefresh>
-            <br/><br/><br/>
-            <div className="horizontal-center inner-button-container-validate-btn mt-4">
-                <HapyButtonWithIcon text="Noter comme perte" handleClick={()=>{openModal()}}
-                                    btnWidth={350} numberAtEnd={totalQty + ''} numberAtEndColor={"#FF6063"}
-                                    iconComponent={<IconLose/>}/>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-center">{loadMessage} <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                                </div>
+                            )}
+                        </>
+                    </PullToRefresh>
+                    <br/><br/><br/>
+                    <div className="horizontal-center inner-button-container-validate-btn mt-4">
+                        <HapyButtonWithIcon text="Noter comme perte" handleClick={() => {
+                            handleOpenModal( "PerteModal")
+                        }}
+                                            btnWidth={350} numberAtEnd={totalQty + ''} numberAtEndColor={"#FF6063"}
+                                            iconComponent={<IconLose/>}/>
+                    </div>
+                </div>
             </div>
-            </div>
-            <div>
+            {/*<div>
                 <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
@@ -179,7 +202,8 @@ function Perte(props) {
                     <PerteModal listVariantChoosed={listVariantChoosed} listVariantSelectedWithQty={listVariantSelectedWithQty}
                                 totalQty={totalQty} handleCloseModal={closeModal}/>
                 </Modal>
-            </div>
+            </div>*/}
+            {modalState.modalToOpen && (modalState.modalToOpen)}
         </>
     )
 }

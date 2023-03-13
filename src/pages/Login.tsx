@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import HapyMobileTop from "../components/HapyMobileTop";
 import HapyButtonWithIcon from "../components/HapyButtonWithIcon";
 import IconChecked from "../globals/icons-components/IconChecked";
@@ -31,11 +31,11 @@ function Login(props:PropType) {
         setAuthBody({...authBody, [name]: value}) ;
     } ;
 
-    /*useEffect(() => {
-        if (!location.pathname.includes('login')) {
-            location.pathname = 'login' ;
+    useEffect(() => {
+        if (!location.pathname.includes('home')) {
+            location.pathname = 'home' ;
         }
-    }, []) ;*/
+    }, []) ;
 
     const handleLogin = () => {
         showErrorFunction("Connexion en cours...", 'text-success') ;

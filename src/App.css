@@ -186,7 +186,7 @@
   width: 100%;
   /*height: 150px;*/
   left: 0px;
-  bottom: 0px;
+  bottom: 64px;
   /*top: 85%;*/
   /* background: linear-gradient(180deg, rgba(250, 250, 250, 0) -200%, #FAFAFA 40.63%); */
 }
@@ -575,7 +575,7 @@
 .ticket-container {
   border: 0.5px solid #c8c8c8;
   border-radius: 20px;
-  height: 430px;
+  min-height: 430px;
   padding: 29px 24px 7px 24px;
 }
 

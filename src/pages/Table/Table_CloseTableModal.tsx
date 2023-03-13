@@ -45,27 +45,30 @@ function Table_CloseTableModal(props:PropsType) {
     } ;
 
     return (
-                <>
-                    <button className="back-btn-modal" style={{float: "left", marginTop:-5}}
-                            onClick={props.handleCloseModal}>
-                        <IconArrowLeft width={24} height={24} styleIcon={{marginLeft:5}} />
-                    </button>
-                    <br/><br/><br/>
-                    <p className="text-black"><span className="text-red-orange">{getAdminProcessValues("userLogged").firstName}</span> {getAdminProcessValues("userLogged").lastName}</p>
-                    <h1 className="text-black f-32 fw-6">Fermer la table</h1>
-                    <div className="text-center mt-4 mb-4">
-                        <IconHapyLogo width={48} height={48} styleIcon={{width:22}}/>
-                    </div>
-                    <div className="text-center mt-4 mb-4">
-                        La table sera fermée mais non payée !
-                    </div>
-                    <br/> <br/>
-                    {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
-                    <HapyButtonWithIcon text="Oui Fermer la table" handleClick={handleJustCloseTable}
-                                        iconComponent={<IconKey/>}/>
-                    {/*<HapyButtonWithIcon text="Declarer comme payée et Fermer la table" handleClick={handleSetPayedTable}
-                                        iconComponent={<IconKey/>}/>*/}
-                </>
+                <div className="container_popup">
+                    <div className="popup" style={{width: '90%'}}>
+                        <button className="back-btn-modal" style={{float: "left", marginTop: -5}}
+                                onClick={props.handleCloseModal}>
+                            <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 5}}/>
+                        </button>
+                        <br/><br/><br/>
+                        <p className="text-black"><span
+                            className="text-red-orange">{getAdminProcessValues("userLogged").firstName}</span> {getAdminProcessValues("userLogged").lastName}
+                        </p>
+                        <h1 className="text-black f-32 fw-6">Fermer la table</h1>
+                        <div className="text-center mt-4 mb-4">
+                            <IconHapyLogo width={48} height={48} styleIcon={{width: 22}}/>
+                        </div>
+                        <div className="text-center mt-4 mb-4">
+                            La table sera fermée mais non payée !
+                        </div>
+                        <br/> <br/>
+                        {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
+                        <HapyButtonWithIcon text="Oui Fermer la table" handleClick={handleJustCloseTable}
+                                            iconComponent={<IconKey/>}/>
+                        {/*<HapyButtonWithIcon text="Declarer comme payée et Fermer la table" handleClick={handleSetPayedTable}
+                                        iconComponent={<IconKey/>}/>*/}</div>
+                </div>
     )
 }
 export default Table_CloseTableModal
