@@ -605,11 +605,10 @@ function Preparation_Perte(props: PropsType) {
               </div>
               <div
                 className="text-center"
-                style={{ position: "sticky", bottom: -10 }}
+                style={{ position: "sticky", bottom: -10, display: isStickyLeft ? '' : 'none'  }}
               >
                 <IconArrowDown />
               </div>
-              {/* display: isStickyLeft ? '' : 'none' */}
               {/*{totalQtyVariant > 0 && (
                                 <div className="horizontal-center mt-4">
                                     <HapyButtonWithIcon text="Valider" handleClick={()=>handleOpenModal(<PreparationModalPerte
@@ -839,9 +838,8 @@ function Preparation_Perte(props: PropsType) {
                   ))}
                   <div
                     className="text-center"
-                    style={{ position: "sticky", bottom: -10 }}
+                    style={{ position: "sticky", bottom: -10, display: isSticky ? '' : 'none' }}
                   >
-                    {/* display: isSticky ? '' : 'none' */}
                     <IconArrowDown />
                   </div>
                   {(totalQtyProductIngredientAllPoste > 0 ||
