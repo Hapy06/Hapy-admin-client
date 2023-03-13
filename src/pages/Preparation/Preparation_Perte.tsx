@@ -594,7 +594,7 @@ function Preparation_Perte(props: PropsType) {
                                     }
                                     style={{ cursor: "pointer" }}
                                   >
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
                                     </svg>
                                   </span>
@@ -683,7 +683,7 @@ function Preparation_Perte(props: PropsType) {
                                           }
                                           style={{ cursor: "pointer" }}
                                         >
-                                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect   x="0.25"   y="0.25"   width="23.5"   height="23.5"   rx="11.75"   fill="white"   stroke="#C8C8C8"   strokeWidth="0.5"/>
                                           </svg>
                                         </span>
