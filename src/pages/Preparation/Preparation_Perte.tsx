@@ -54,7 +54,9 @@ function Preparation_Perte(props: PropsType) {
 
   const [listVariantSelectedAllPoste, setListVariantSelectedAllPoste] =
     useState({});
-  const [heigthValue, setheigthValue] = useState(window.innerHeight -window.innerHeight/2);
+  const [heigthValue, setheigthValue] = useState(
+    window.innerHeight - window.innerHeight / 2
+  );
   const [
     listProductIngredientChoosedAllPoste,
     setListProductIngredientChoosedAllPoste,
@@ -68,14 +70,14 @@ function Preparation_Perte(props: PropsType) {
     setTotalQtyProductIngredientAllPoste,
   ] = useState<number>(1);
 
-  const [ingredientsVariant, setIngredientsVariant] = useState([])
+  const [ingredientsVariant, setIngredientsVariant] = useState([]);
 
   const [isSticky, setIsSticky] = useState(false);
   const [isStickyLeft, setIsStickyLeft] = useState(false);
   const scrollRef = useRef(null);
   const scrollRefLeft = useRef(null);
   useEffect(() => {
-    const scrollBar = scrollRef.current
+    const scrollBar = scrollRef.current.focus()
     const handleScroll = () => {
       if (Math.round(scrollBar.scrollTop+scrollBar.clientHeight) === scrollBar.scrollHeight) {
         setIsSticky(false);
@@ -135,19 +137,31 @@ function Preparation_Perte(props: PropsType) {
         }
       )
       .then((response) => {
-        console.log(response);
+        console.log("response data: ", response);
         if (response.data.data.items.length > 0) {
           let arr = response.data.data.items.filter(
             (product: Product) => product.variants.length > 0
           );
+          console.log("arr: ", arr);
+
           setListProducts(arr);
-          setListProductsOfTheTeamMember(
-            arr.filter(
-              (product: Product) =>
-                product.cookingStation ==
-                getAdminProcessValues("userLogged").position
-            )
+          setListProductsOfTheTeamMember(arr);
+          /**
+           * TO DO
+           * Review this code
+           */
+          // setListProductsOfTheTeamMember(
+          //   arr.filter(
+          //     (product: Product) =>
+          //       product.cookingStation ==
+          //       getAdminProcessValues("userLogged").position
+          //   )
+          // );
+          console.log(
+            "list product of team member data: ",
+            listProductsOfTheTeamMember
           );
+
           // get product by cooking station
           let arrCookingStation: {
             cookingPosition: string;
@@ -183,8 +197,8 @@ function Preparation_Perte(props: PropsType) {
   };
 
   const handleIngredientsInVariant = (o) => {
-    console.log('o --->' ,o)
-  }
+    console.log("o --->", o);
+  };
 
   const handleOpenModal = (modalToOpen) => {
     setBlurBG("blur-bg");
@@ -196,17 +210,20 @@ function Preparation_Perte(props: PropsType) {
     setIsModalOpened({ state: false, modalToOpen: null });
   };
 
-  const handleSelectedVariantAllPoste = (variantId: string, variantName: string) => {
+  const handleSelectedVariantAllPoste = (
+    variantId: string,
+    variantName: string
+  ) => {
     // console.log(variantId) ;
     let temp = { ...listVariantSelectedAllPoste };
     temp[variantId] = 0;
     // console.log('selected variant ---> ', temp);
     setListVariantSelectedAllPoste({ ...temp });
-    let vPoste = {variantId, variantName, type: 'Variant'}
+    let vPoste = { variantId, variantName, type: "Variant" };
     // setIngredientsVariant([...ingredientsVariant, vPoste])
-    setIngredientsVariant(prevIngredientsVariant => {
+    setIngredientsVariant((prevIngredientsVariant) => {
       const newIngredientsVariant = [...prevIngredientsVariant, vPoste];
-      console.log('newIngredientsVariant --> ', newIngredientsVariant);
+      console.log("newIngredientsVariant --> ", newIngredientsVariant);
       return newIngredientsVariant;
     });
   };
@@ -219,16 +236,18 @@ function Preparation_Perte(props: PropsType) {
     // console.log('unselected variant --> ', temp);
     setListVariantSelectedAllPoste({ ...temp });
     // setIngredientsVariant(ingredientsVariant.filter(v => v.variantId !== vId))
-    setIngredientsVariant(prevIngredientsVariant => {
-      const newIngredientsVariant = prevIngredientsVariant.filter(v => v.variantId !== vId);
-      console.log('updated ingredientsVariant --> ', newIngredientsVariant);
+    setIngredientsVariant((prevIngredientsVariant) => {
+      const newIngredientsVariant = prevIngredientsVariant.filter(
+        (v) => v.variantId !== vId
+      );
+      console.log("updated ingredientsVariant --> ", newIngredientsVariant);
       return newIngredientsVariant;
     });
-    
   };
 
   const handleSelectedProductIngredientAllPoste = (
-    productIngredientId: string, productIngredientEntitled: string
+    productIngredientId: string,
+    productIngredientEntitled: string
   ) => {
     // console.log(productIngredientId) ;
     let temp = { ...listProductIngredientSelectedWithQtyAllPoste };
@@ -238,7 +257,7 @@ function Preparation_Perte(props: PropsType) {
     let iProduct = {productIngredientId, productIngredientEntitled, type: 'Ingredient', qty: 1}
     setIngredientsVariant(prevIngredientsVariant => {
       const newIngredientsVariant = [...prevIngredientsVariant, iProduct];
-      console.log('newIngredients -->', newIngredientsVariant);
+      console.log("newIngredients -->", newIngredientsVariant);
       return newIngredientsVariant;
     });
   };
@@ -252,13 +271,13 @@ function Preparation_Perte(props: PropsType) {
     temp[productIngredientId] = null;
     // console.log('unselected ingredient ---> ',temp);
     setListProductIngredientSelectedWithQtyAllPoste({ ...temp });
-    setIngredientsVariant( prevIngredientsVariant => {
-      const newIngredients = prevIngredientsVariant.filter(i => i.productIngredientId !== ingredienId);
-      console.log('updated ingredients ---> ', newIngredients);
+    setIngredientsVariant((prevIngredientsVariant) => {
+      const newIngredients = prevIngredientsVariant.filter(
+        (i) => i.productIngredientId !== ingredienId
+      );
+      console.log("updated ingredients ---> ", newIngredients);
       return newIngredients;
-    }
-
-    )
+    });
   };
 
   const handleQtyChangeProductIngredient = (
@@ -280,14 +299,16 @@ function Preparation_Perte(props: PropsType) {
       }
     }
     setListProductIngredientSelectedWithQtyAllPoste({ ...temp });
-    setIngredientsVariant(prevIngredientsVariant => {
-      const updatedIngredientsVariant = prevIngredientsVariant.map(ingredient => {
-        if (ingredient.productIngredientId === ingredientId) {
-          return { ...ingredient, qty: temp[ingredientId] };
+    setIngredientsVariant((prevIngredientsVariant) => {
+      const updatedIngredientsVariant = prevIngredientsVariant.map(
+        (ingredient) => {
+          if (ingredient.productIngredientId === ingredientId) {
+            return { ...ingredient, qty: temp[ingredientId] };
+          }
+          return ingredient;
         }
-        return ingredient;
-      });
-      console.log('update qty --> ',updatedIngredientsVariant)
+      );
+      console.log("update qty --> ", updatedIngredientsVariant);
       return updatedIngredientsVariant;
     });
   };
@@ -469,19 +490,17 @@ function Preparation_Perte(props: PropsType) {
           </div>
           <div className="row mt-4">
             {/*FIRST COL */}
-            <div
-              className="col-5 overflow-auto px-0"
-              style={{ height: heigthValue}}
-              ref={scrollRefLeft}
-            >
+            <div className="col-5 overflow-auto px-0 column-height">
               <br />
               <br />
-              <span className="fw-6 f-32">Mon poste</span>
-              <br />
-              <br />
-              <div 
+              <span className="fw-6 f-32" style={{
+                                  marginTop: 32,
+                                  fontSize: 20,
+                                  fontWeight: 400,
+                                }}>Mon poste</span>
+              <div
                 className="scroll-and-hidden"
-                style={{ position:'relative'}}
+                style={{ position: "relative" }}
               >
                 {/*<span className="f-20">Salade César</span>*/}
                 {/*<br/><br/>*/}
@@ -489,11 +508,11 @@ function Preparation_Perte(props: PropsType) {
                   listProductsOfTheTeamMember.map(
                     (product: Product, index: number) => (
                       <>
-                        <h3>{product.name}</h3>
+                        <h3 style={{ marginTop: 32}}>{product.name}</h3>
                         {product.variants.map(
                           (variant: Variant, index: number) =>
                             listVariantSelectedAllPoste[variant.id] != null ? (
-                              <div key={variant.id} className="row mb-5 fw-5">
+                              <div key={variant.id} className="row fw-5">
                                 <span
                                   className="col-1"
                                   onClick={() =>
@@ -508,7 +527,12 @@ function Preparation_Perte(props: PropsType) {
                                 </span>
                                 <span
                                   className="col-6"
-                                  style={{ marginLeft: 32 }}
+                                  style={{
+                                    marginTop: 32,
+                                    fontSize: 20,
+                                    fontWeight: 400,
+                                    marginLeft: 32 
+                                  }}
                                 >
                                   {variant.name}
                                 </span>
@@ -524,18 +548,24 @@ function Preparation_Perte(props: PropsType) {
                                 </span>
                               </div>
                             ) : (
-                              <div className="row mb-5 fw-5">
+                              <div className="row fw-5 align-items-center" style={{ marginTop: 32,
+                                fontSize: 20,
+                                fontWeight: 400,
+                                marginLeft: 32 }}>
                                 <span
                                   className="col-1"
                                   onClick={() =>
-                                    handleSelectedVariantAllPoste(variant.id, variant.name)
+                                    handleSelectedVariantAllPoste(
+                                      variant.id,
+                                      variant.name
+                                    )
                                   }
                                   style={{ cursor: "pointer" }}
                                 >
                                   <svg
                                     width="24"
                                     height="24"
-                                    viewBox="0 0 24 24"
+                                    viewBox="0 0 32 32"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
@@ -573,8 +603,11 @@ function Preparation_Perte(props: PropsType) {
                   </div>
                 )}
               </div>
-              <div className="text-center" style={{position:'sticky', bottom:-10, display: isStickyLeft ? '' : 'none' }}>
-                <IconArrowDown /> "icon"
+              <div
+                className="text-center"
+                style={{ position: "sticky", bottom: -10, display: isStickyLeft ? '' : 'none'  }}
+              >
+                <IconArrowDown />
               </div>
               {/*{totalQtyVariant > 0 && (
                                 <div className="horizontal-center mt-4">
@@ -587,33 +620,42 @@ function Preparation_Perte(props: PropsType) {
                             )}*/}
             </div>
             {/*2ND COL */}
-            <div className="col-2 d-flex justify-content-center px-0">
-              <div style={{borderLeft: "1px solid #C8C8C8", height: heigthValue}}></div>
+            <div className="col-2 d-flex justify-content-center px-0 column-height">
+              <div
+                style={{ borderLeft: "1px solid #C8C8C8" }}
+                className="column-height"
+              ></div>
             </div>
-            <div
-              className="col-5 overflow-auto px-0"
-              style={{ height: heigthValue}}
-              ref={scrollRef}
-            >
+            <div className="col-5 overflow-auto px-0 column-height">
               <div>
                 {/*<div className="text-end -mt-15">
                                 <HapyButtonWithIcon handleClick={()=>handleOpenModal(<PreparationAllOrdersModal handleCloseModal={handleCloseModal}/>)} btnWidth={210} iconComponent={<IconArchive/>}
                                                      text={"Historique"}/>
                             </div>*/}
                 <br />
-                <div style={{position:'relative'}}>
+                <div style={{ position: "relative" }}>
                   <br />
                   {listCookingStationWithVariant.map((cookingStation) => (
                     <>
-                      <div className="fw-6 f-32" style={{marginBottom: 16}}>{cookingStation.cookingPosition}</div>
+                      <div className="fw-6 f-32" style={{ marginBottom: 16 }}>
+                        {cookingStation.cookingPosition}
+                      </div>
                       <div>
                         {cookingStation.variants.map(
                           (variant: Variant, index: number) => (
                             <div className={variant.id}>
-                              <h6 className="mb-3" style={{marginTop: 32, fontSize: 20, fontWeight: 400}}>
+                              <h6
+                                className="mb-3"
+                                style={{
+                                  marginTop: 32,
+                                  fontSize: 20,
+                                  fontWeight: 400,
+                                }}
+                              >
                                 {variant.name}
                               </h6>
-                              {listVariantSelectedAllPoste[variant.id] != null ? (
+                              {listVariantSelectedAllPoste[variant.id] !=
+                              null ? (
                                 <div className="row mb-4 fw-5">
                                   <span
                                     className="col-1"
@@ -633,7 +675,7 @@ function Preparation_Perte(props: PropsType) {
                                     className="col-4 text-orange"
                                     style={{ marginLeft: 32 }}
                                   >
-                                      Produit fini
+                                    Produit fini
                                   </span>
                                 </div>
                               ) : (
@@ -641,16 +683,37 @@ function Preparation_Perte(props: PropsType) {
                                   <span
                                     className="col-1"
                                     onClick={() =>
-                                      handleSelectedVariantAllPoste(variant.id, variant.name)
+                                      handleSelectedVariantAllPoste(
+                                        variant.id,
+                                        variant.name
+                                      )
                                     }
                                     style={{ cursor: "pointer" }}
                                   >
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <rect x="0.25" y="0.25" width="23.5" height="23.5" rx="11.75" fill="white" stroke="#C8C8C8" strokeWidth="0.5"/>
+                                    <svg
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 32 32"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <rect
+                                        x="0.25"
+                                        y="0.25"
+                                        width="23.5"
+                                        height="23.5"
+                                        rx="11.75"
+                                        fill="white"
+                                        stroke="#C8C8C8"
+                                        strokeWidth="0.5"
+                                      />
                                     </svg>
                                   </span>
-                                  <span className="col-4 text-orange" style={{ marginLeft: 32 }}>
-                                    Produit fini 
+                                  <span
+                                    className="col-4 text-orange"
+                                    style={{ marginLeft: 32 }}
+                                  >
+                                    Produit fini
                                   </span>
                                 </div>
                               )}
@@ -729,13 +792,30 @@ function Preparation_Perte(props: PropsType) {
                                           className="col-1"
                                           onClick={() =>
                                             handleSelectedProductIngredientAllPoste(
-                                              productIngredient.ingredient, productIngredient.ingredientEntitled || "Ingredient inconnue"
+                                              productIngredient.ingredient,
+                                              productIngredient.ingredientEntitled ||
+                                                "Ingredient inconnue"
                                             )
                                           }
                                           style={{ cursor: "pointer" }}
                                         >
-                                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <rect   x="0.25"   y="0.25"   width="23.5"   height="23.5"   rx="11.75"   fill="white"   stroke="#C8C8C8"   strokeWidth="0.5"/>
+                                          <svg
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 32 32"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <rect
+                                              x="0.25"
+                                              y="0.25"
+                                              width="23.5"
+                                              height="23.5"
+                                              rx="11.75"
+                                              fill="white"
+                                              stroke="#C8C8C8"
+                                              strokeWidth="0.5"
+                                            />
                                           </svg>
                                         </span>
                                         <span
@@ -756,7 +836,10 @@ function Preparation_Perte(props: PropsType) {
                       </div>
                     </>
                   ))}
-                  <div className="text-center" style={{position:'sticky', bottom:-10, display: isSticky ? '' : 'none'}}>
+                  <div
+                    className="text-center"
+                    style={{ position: "sticky", bottom: -10, display: isSticky ? '' : 'none' }}
+                  >
                     <IconArrowDown />
                   </div>
                   {(totalQtyProductIngredientAllPoste > 0 ||
