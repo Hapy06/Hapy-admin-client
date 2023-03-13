@@ -77,7 +77,7 @@ function Preparation_Perte(props: PropsType) {
   const scrollRef = useRef(null);
   const scrollRefLeft = useRef(null);
   useEffect(() => {
-    const scrollBar = scrollRef.current.focus()
+    const scrollBar = scrollRef.current
     const handleScroll = () => {
       if (Math.round(scrollBar.scrollTop+scrollBar.clientHeight) === scrollBar.scrollHeight) {
         setIsSticky(false);
@@ -490,7 +490,10 @@ function Preparation_Perte(props: PropsType) {
           </div>
           <div className="row mt-4">
             {/*FIRST COL */}
-            <div className="col-5 overflow-auto px-0 column-height">
+            <div className="col-5 overflow-auto px-0 column-height"
+              style={{ height: heigthValue}}
+              ref={scrollRefLeft}
+            >
               <br />
               <br />
               <span className="fw-6 f-32" style={{
@@ -626,7 +629,10 @@ function Preparation_Perte(props: PropsType) {
                 className="column-height"
               ></div>
             </div>
-            <div className="col-5 overflow-auto px-0 column-height">
+            <div className="col-5 overflow-auto px-0 column-height"
+              style={{ height: heigthValue}}
+              ref={scrollRef}
+            >
               <div>
                 {/*<div className="text-end -mt-15">
                                 <HapyButtonWithIcon handleClick={()=>handleOpenModal(<PreparationAllOrdersModal handleCloseModal={handleCloseModal}/>)} btnWidth={210} iconComponent={<IconArchive/>}
