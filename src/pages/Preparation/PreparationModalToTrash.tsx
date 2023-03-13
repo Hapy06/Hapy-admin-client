@@ -124,7 +124,8 @@ function PreparationModalToTrash(props:PropsType) {
                                         style={{borderRadius:50, width:20, height:20,
                                             marginRight:15, 
                                             backgroundColor: listIngredientsToTrash.includes(ingredient.id) ? '#F7B927' : 'unset', 
-                                            borderColor: listIngredientsToTrash.includes(ingredient.id) ? '#F7B927' : 'unset'}}
+                                            // borderColor: listIngredientsToTrash.includes(ingredient.id) ? '#F7B927' : 'unset'}}
+                                            borderColor: listIngredientsToTrash.includes(ingredient.id) ? '#F7B927' : '#C8C8C8'}}
                                         />
                                     <label className="form-check-label ml-2 col" style={{width:310}}>
                                         <h6>{ingredient.entitled}
