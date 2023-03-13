@@ -43,31 +43,36 @@ function Table_OpenTableModal(props:PropsType) {
     } ;
 
     return (
-                <>
-                    <button className="back-btn-modal" style={{float: "left", marginTop:-5}}
-                            onClick={props.handleCloseModal}>
-                        <IconArrowLeft width={24} height={24} styleIcon={{marginLeft:5}} />
-                    </button>
-                    <br/><br/><br/>
-                    <p className="text-black"><span className="text-red-orange">{getAdminProcessValues('userLogged').firstName}</span> {getAdminProcessValues('userLogged').lastName}</p>
-                    <h1 className="text-black f-32 fw-6">Ouvrir la table</h1>
-                    <div className="text-center mt-4 mb-4">
-                        <IconHapyLogo width={48} height={48} styleIcon={{width:22}}/>
-                    </div>
-                    <span>Combien de Couvert ?</span>
-                    <br/>
-                    <div>
-                        <div className="text-center f-32 mt-4">
-                            <span onClick={()=>setNumberOfPerson(numberOfPerson+1)}>+</span>
-                            <span className="text-red-orange ml-4 mr-4 fw-6">{numberOfPerson}</span>
-                            <span onClick={()=>{numberOfPerson > 1 ? setNumberOfPerson(numberOfPerson-1) : null}}>-</span>
+                <div className="container_popup">
+                    <div className="popup" style={{width:"90%"}}>
+                        <button className="back-btn-modal" style={{float: "left", marginTop: -5}}
+                                onClick={props.handleCloseModal}>
+                            <IconArrowLeft width={24} height={24} styleIcon={{marginLeft: 5}}/>
+                        </button>
+                        <br/><br/><br/>
+                        <p className="text-black"><span
+                            className="text-red-orange">{getAdminProcessValues('userLogged').firstName}</span> {getAdminProcessValues('userLogged').lastName}
+                        </p>
+                        <h1 className="text-black f-32 fw-6">Ouvrir la table</h1>
+                        <div className="text-center mt-4 mb-4">
+                            <IconHapyLogo width={48} height={48} styleIcon={{width: 22}}/>
                         </div>
-                    </div>
-                    <br/><br/><br/><br/>
-                    {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
-                    <HapyButtonWithIcon text="Valider l'ouverture" handleClick={handleOpenTable}
-                                        iconComponent={<IconKey/>}/>
-                </>
+                        <span>Combien de Couvert ?</span>
+                        <br/>
+                        <div>
+                            <div className="text-center f-32 mt-4">
+                                <span onClick={() => setNumberOfPerson(numberOfPerson + 1)}>+</span>
+                                <span className="text-red-orange ml-4 mr-4 fw-6">{numberOfPerson}</span>
+                                <span onClick={() => {
+                                    numberOfPerson > 1 ? setNumberOfPerson(numberOfPerson - 1) : null
+                                }}>-</span>
+                            </div>
+                        </div>
+                        <br/><br/><br/><br/>
+                        {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
+                        <HapyButtonWithIcon text="Valider l'ouverture" handleClick={handleOpenTable}
+                                            iconComponent={<IconKey/>}/></div>
+                </div>
     )
 }
 export default Table_OpenTableModal

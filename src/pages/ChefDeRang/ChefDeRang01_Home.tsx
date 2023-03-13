@@ -37,7 +37,7 @@ function ChefDeRang01_Home(props) {
             cdrProcess.listNotifs = [] ;
         }
         if (!cdrProcess.listNotifs.includes(null)) {
-            let arr = cdrProcess.listNotifs || [];
+            let arr = [...cdrProcess.listNotifs] || [];
             arr.push(null);
             setListNotifs(arr);
         }
@@ -47,13 +47,24 @@ function ChefDeRang01_Home(props) {
         return axios.get(BASE_URL + API_REQUEST_NOTIFICATION + '/intitution-id?institutionID=' + getAdminProcessValues("userLogged").institutionId,
             { headers: { Authorization: `Bearer ${getAdminProcessValues("authToken").authToken}`} }).then((response) => {
             console.log(response) ;
-            let arr = response.data.data.items.filter((elt:NotificationHapy) =>
+            let arr:NotificationHapy[] = response.data.data.items.filter((elt:NotificationHapy) =>
                 (elt.nature == "commandToValidate" || elt.nature == "openTable") && !elt.isDone).reverse()
+            if (arr.length == 0) {
+                setLoadMessageNotif("(Pas de demandes de validation en cours)") ;
+            } else {
+                // if 2 or more notifs have same table number and nature == "openTable", keep only the last one
+                let arr2 = arr.filter((elt:NotificationHapy, index:number) => {
+                    let arr3 = arr.filter((elt2:NotificationHapy) => elt2.tableNumber == elt.tableNumber && elt2.nature == "openTable") ;
+                    if (arr3.length > 1) {
+                        return arr3.indexOf(elt) == arr3.length-1 ;
+                    } else {
+                        return true ;
+                    }
+                }) ;
+                arr = [...arr2] ;
+            }
             arr.push(null) ;
             setListNotifs(arr) ;
-            if (response.data.data.items.length == 0) {
-                setLoadMessageNotif("(Pas de demandes de validation en cours)") ;
-            }
             cdrProcess.listNotifs = arr.slice(0, arr.length-1) ;
             setProcessStored("cdrProcess", cdrProcess) ;
             return true ;
@@ -64,14 +75,6 @@ function ChefDeRang01_Home(props) {
                 throw error; });
     } ;
 
-    const handleLogout = () => {
-        localStorage.removeItem('isLoggedin') ;
-        removeAdminProcessValues("authToken") ;
-        removeAdminProcessValues("userLogged") ;
-        setTimeout(()=>{
-            location.reload() ;
-        }, 500) ;
-    } ;
 
     const handleNotifClicked = (notif: NotificationHapy) => {
         let temp = {...cdrProcess} ;

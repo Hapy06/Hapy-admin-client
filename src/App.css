@@ -384,7 +384,7 @@
 .ticket-container {
   border: 0.5px solid #C8C8C8;
   border-radius: 20px;
-  height: 430px;
+  min-height: 430px;
   padding: 29px 24px 7px 24px;
 }
 

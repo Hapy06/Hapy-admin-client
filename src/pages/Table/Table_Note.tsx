@@ -50,29 +50,11 @@ function Table_Note(props) {
     const [listReglement, setListReglement] = useState<{number:number, value: number, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'}[]>([]);
     const [reglement, setReglement] = useState<{number:number, value: string, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'}>(null);
     const [updateReglement, setUpdateReglement] = useState<{update: boolean, indexOnListReglement: number}>({update: false, indexOnListReglement: null});
-    const [moneyLeft, setMoneyLeft] = useState<number>(commandProcess.totalPrice);
+    const [moneyLeft, setMoneyLeft] = useState<number>(commandProcess?.totalPrice || 0);
     const [showValidateBtn, setShowValidateBtn] = useState<boolean>(false);
 
     useEffect(()=> {
-        console.log(commandProcess.allCommands) ;
-        let temp = commandProcess ;
-        temp.totalPrice = 0 ;
-        temp.allCommands?.forEach(command => {
-            if (command.status == "sendToCDR") {
-                temp.totalPrice += command.price ;
-            }
-            // Check if product and productVariant are stringified
-            if (typeof command.product == "string") {
-                command.product = JSON.parse(command.product) ;
-            }
-            if (typeof command.productVariant == "string") {
-                command.productVariant = JSON.parse(command.productVariant) ;
-            }
-        }) ;
-        temp.totalPrice += temp.tips || 0 ;
-        setCommandProcess(temp) ;
-        console.log(temp) ;
-        setProcessStored('commandProcess', temp) ;
+
     }, []) ;
 
     const addReduc = () => {
@@ -142,8 +124,12 @@ function Table_Note(props) {
     } ;
 
     const handleValidateTable = () => {
-        showErrorFunction("Validation de la table...", "text-success", 10000) ;
-        createTicketPayed() ;
+        if (commandProcess?.allCommands && commandProcess?.allCommands?.length > 0) {
+            showErrorFunction("Validation de la table...", "text-success", 10000);
+            createTicketPayed();
+        } else {
+            showErrorFunction("Aucune commande en cours, veuillez ajouter des produits !", "text-danger", 5000);
+        }
         /*putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'payed'},
             ()=> {navigate('/table-close')},
             ()=>{showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")}) ;*/
@@ -161,7 +147,7 @@ function Table_Note(props) {
         ticketPayed.morningOrEvening = ticketPayed.time <= '12:00' ? 'morning' : 'evening' ;
         ticketPayed.tableOpenTime = commandProcess.openingTime ;
         ticketPayed.tableCloseTime = ticketPayed.time ;
-        ticketPayed.totalTips = commandProcess.tips ;
+        ticketPayed.totalTips = commandProcess?.tips || 0 ;
         ticketPayed.tableZoneName = commandProcess.table.zoneName ;
         ticketPayed.numberOfPerson = commandProcess.numberOfPerson ;
         ticketPayed.reductionType = reducValue == '' ? "none" : reducType ;
@@ -170,8 +156,10 @@ function Table_Note(props) {
         ticketPayed.uniqueReglement = reglement ;
         ticketPayed.listReglement = listReglement ;
         ticketPayed.institutionId = getAdminProcessValues("userLogged").institution.id ;
-        ticketPayed.allCommands = commandProcess.allCommands ;
-        ticketPayed.allCommands.forEach((command) => {
+        ticketPayed.sendNoteEmail = commandProcess?.sendNoteEmail ;
+        ticketPayed.sendNoteWithDetail = commandProcess?.sendNoteWithDetail ;
+        ticketPayed.allCommands = commandProcess?.allCommands || [] ;
+        ticketPayed?.allCommands?.forEach((command) => {
             // check if the command.product and variant is not stringified and stringify it
             if (typeof command.product != 'string') {
                 command.product = JSON.stringify(command.product) ;
@@ -217,13 +205,13 @@ function Table_Note(props) {
             />
             <div className="happy-div-bottom pb-4">
                 <div className="row f-32 fw-5">
-                    <span className="col">Table {homeProcess.tableDetail.tableNumber}</span>
+                    <span className="col">Table {homeProcess?.tableDetail?.tableNumber}</span>
                     <div className="col text-end">
                         <span className="text-red-orange">{moneyLeft}</span> €
                     </div>
                 </div>
                 <div className="row">
-                    <span className="col-9 f-20 fw-4">{homeProcess.tableDetail?.zoneName || 'Zone Inconnue'}</span>
+                    <span className="col-9 f-20 fw-4">{homeProcess?.tableDetail?.zoneName || 'Zone Inconnue'}</span>
                     <div className="col-3 text-end">
                         {commandProcess.tips && (<>
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -236,12 +224,12 @@ function Table_Note(props) {
                 <br/>
                 <div className="ticket-container">
                     <div className="text-center">
-                        <span>{commandProcess.table.institution.name}</span> <br/>
-                        <span>{commandProcess.table.institution.postalAddress}</span> <br/>
-                        <span>{commandProcess.table.institution.city}</span>
+                        <span>{commandProcess?.table?.institution?.name}</span> <br/>
+                        <span>{commandProcess?.table?.institution?.postalAddress}</span> <br/>
+                        <span>{commandProcess?.table?.institution?.city}</span>
                         <br/><br/>
-                        <span>Table {commandProcess.table.tableNumber}</span> <br/>
-                        <span className="fw-3">Ouverte à {commandProcess.openingTime}</span>
+                        <span>Table {commandProcess?.table?.tableNumber}</span> <br/>
+                        <span className="fw-3">Ouverte à {commandProcess?.openingTime}</span>
                     </div>
                     <br/>
                     <div>
@@ -251,7 +239,7 @@ function Table_Note(props) {
                                 <span className="col text-end">{command.price} €</span>
                             </div>
                         ))}
-                        {commandProcess.tips && (
+                        {commandProcess?.tips && (
                             <div className="row mt-1 fw-3">
                                 <span className="col">Tips</span>
                                 <span className="col text-end">{commandProcess.tips} €</span>

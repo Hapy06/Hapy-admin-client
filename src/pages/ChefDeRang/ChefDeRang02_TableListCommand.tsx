@@ -14,11 +14,17 @@ import {
     setProcessStored
 } from "../../globals/GlobalVariables";
 import addNotification from "react-push-notification";
-// import {format} from "date-fns";
 
 function ChefDeRang02_TableListCommand(props) {
+    const getListCommand = () => {
+        let result = [] ;
+        if (cdrProcess?.notifDetail && cdrProcess?.notifDetail?.content && ( typeof cdrProcess?.notifDetail?.content == 'string' )) {
+            result = JSON.parse(cdrProcess?.notifDetail?.content) || [] ;
+        }
+        return result ;
+    }
     const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess: any}>(cdrProcessContext) ;
-    const [listCommand, setListCommand] = useState<SimpleCommand[]>(JSON?.parse(cdrProcess?.notifDetail?.content) || []);
+    const [listCommand, setListCommand] = useState<SimpleCommand[]>(getListCommand);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,12 +35,12 @@ function ChefDeRang02_TableListCommand(props) {
     const handleValidateCommand = () => {
         let temp = {...cdrProcess} ;
         let order: Order = new Order() ;
-        order.tableNumberOfPerson = 1 ;
         order.notificationID = temp.notifDetail.id ;
         order.institutionId = temp.notifDetail.institutionID ;
         order.tableId = temp.notifDetail.tableID ;
         order.tableNumber = temp.notifDetail.tableNumber ;
         order.tableZoneName = temp.notifDetail.tableZoneName ;
+        order.tableNumberOfPerson = temp?.notifDetail?.tableNumberOfPerson || 1 ;
         order.isFoodReady = false ;
         order.createdAt = new Date() ;
         order.startTime = new Date().getHours() + ':' + new Date().getMinutes() ;
@@ -49,6 +55,7 @@ function ChefDeRang02_TableListCommand(props) {
             coupon.tableID = temp.notifDetail.tableID ;
             coupon.tableNumber = temp.notifDetail.tableNumber ;
             coupon.tableZoneName = temp.notifDetail.tableZoneName ;
+            coupon.tableNumberOfPerson = temp?.notifDetail?.tableNumberOfPerson || 1 ;
             coupon.productId = command?.product.id ;
             coupon.productVariantId = command?.productVariant.id ;
             coupon.cookingStation = command?.product.cookingStation ;
@@ -138,7 +145,9 @@ function ChefDeRang02_TableListCommand(props) {
                 <br/>
                 <h1 className="f-32 fw-6">Table {cdrProcess.notifDetail.tableNumber}</h1>
                 <p className="f-20">{cdrProcess.notifDetail.tableZoneName}</p>
-                {/*<div className="text-center">{format(new Date(cdrProcess.notifDetail.askTime), 'HH : mm') }</div>*/}
+                { cdrProcess.notifDetail?.askTime && (
+                    <div className="text-center">{cdrProcess.notifDetail?.askTime}</div>
+                )}
                 <br/>
                 {listCommand?.map((command:SimpleCommand, index:number) => (
                     <div key={command?.id || index} className="row fw-6 command-box">
@@ -146,7 +155,7 @@ function ChefDeRang02_TableListCommand(props) {
                         <span className="col-10" style={{marginTop:-24}}>
                             {command?.isPregnant && (<span className="text-red-orange" style={{fontSize:12, paddingTop:-50}}>Enceinte</span>)}
                             <br/>
-                            <span>{command?.product.name} - {command?.productVariant.name}</span>
+                            <span>{command?.product?.name} - {command?.productVariant?.name}</span>
                             <br/>
                             <div style={{fontSize:12}}>
                                 {command?.ingredientsModifiablesStates.map(ingredient => (

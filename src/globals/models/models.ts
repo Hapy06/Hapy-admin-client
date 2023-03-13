@@ -112,6 +112,7 @@ export class CommandProcessModel {
     accessMethod: 'itself' | 'service' ;
     numberOfPerson: number ;
     table: Table;
+    tableFromDB?: Table;
     isOnline: boolean ;
     categoryOfProductChoosed: CategoryOfProduct ;
     productVariantChoosed: Variant ;
@@ -176,6 +177,7 @@ export class Coupon {
     tableID: string;
     tableNumber: number;
     tableZoneName: string;
+    tableNumberOfPerson?: number;
     product: Product ;
     productId?: string ;
     productVariant: Variant ;
@@ -202,6 +204,7 @@ export class Table {
     zone: Zone ;
     commandProcessToShare?: CommandProcessModelToShare ;
     numberOfPerson?: number ;
+    serverName?: string ;
 }
 
 export default class Booking {
@@ -229,6 +232,7 @@ export class NotificationHapy {
     tableID: string;
     tableNumber: number ;
     tableZoneName: string;
+    tableNumberOfPerson?: number;
     isDone: boolean;
     askTime: string;
     doneTime: string;
@@ -289,6 +293,6 @@ export class TicketPayed {
     uniqueReglement?: {number:number, value: string, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'} ;
     listReglement?: {number:number, value: number, paymentMethod: 'carteBleu' | 'money' | 'ticket' | 'other'}[] ;
     allCommands?: SimpleCommand[] ;
-    sendNoteEmail: string ;
-    sendNoteWithDetail: boolean ;
+    sendNoteEmail?: string ;
+    sendNoteWithDetail?: boolean ;
 }

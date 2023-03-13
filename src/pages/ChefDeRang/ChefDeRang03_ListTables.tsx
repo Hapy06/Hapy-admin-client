@@ -9,9 +9,15 @@ import {
     API_REQUEST_ZONE_BY_INSTITUTION_ID,
     BASE_URL,
     getAdminProcessValues,
-    reloadToken
+    reloadToken, setProcessStored
 } from "../../globals/GlobalVariables";
-import {CDRProcessModel, HomeProcessModel, NotificationHapy, Table} from "../../globals/models/models";
+import {
+    CDRProcessModel,
+    CommandProcessModel,
+    HomeProcessModel,
+    NotificationHapy,
+    Table
+} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
 import axios from "axios";
 import PullToRefresh from "react-simple-pull-to-refresh";
@@ -20,6 +26,7 @@ import {cdrProcessContext} from "./ChefDeRangContainer";
 function ChefDeRang03_ListTables(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
     const {cdrProcess, setCDRProcess} = useContext<{cdrProcess:CDRProcessModel, setCDRProcess: any}>(cdrProcessContext) ;
+    const {commandProcess, setCommandProcess} = useContext<{ commandProcess: CommandProcessModel, setCommandProcess: any }>(homeProcessContext);
     const [listZones, setListZones] = useState([]) ;
     const [zoneToShow, setZoneToShow] = useState(null);
     const [zoneToShowIndex, setZoneToShowIndex] = useState(0);
@@ -92,6 +99,8 @@ function ChefDeRang03_ListTables(props) {
     const handleClickTable = (tableChoosed: Table) => {
         console.log(tableChoosed) ;
         homeProcess.tableDetail = tableChoosed ;
+        setProcessStored("homeProcess", homeProcess) ;
+        setCommandProcess(new CommandProcessModel()) ;
         if (tableChoosed.status == "close" || tableChoosed.status == "closed") {
             navigate('/table') ;
         } else if (tableChoosed.status != "unavailable") {

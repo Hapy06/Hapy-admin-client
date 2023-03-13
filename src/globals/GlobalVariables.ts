@@ -237,7 +237,15 @@ export const updateTable = (commandProcess: CommandProcessModel, callBackSuccess
 export const reloadToken = () => {
     alert("Veuillez vous reconnectez !") ;
     localStorage.removeItem('isLoggedin') ;
-    localStorage.removeItem('authToken') ;
+    removeAdminProcessValues("authToken") ;
+    removeAdminProcessValues("userLogged") ;
+    removeAdminProcessValues("payloadBase") ;
+    removeAdminProcessValues("userRole") ;
+    removeProcessStored("commandProcess") ;
+    removeProcessStored("cdrProcess") ;
+    removeProcessStored("preparationProcess") ;
+    removeProcessStored("adminProcess") ;
+    removeProcessStored("homeProcess") ;
     setTimeout(()=> {
         location.reload() ;
     }, 1000) ;
