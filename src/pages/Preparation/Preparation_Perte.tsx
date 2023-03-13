@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Preparation_Top, {
   screenHeightPourcent,
   screenWidth,
@@ -69,6 +69,51 @@ function Preparation_Perte(props: PropsType) {
   ] = useState<number>(0);
 
   const [ingredientsVariant, setIngredientsVariant] = useState([])
+
+  const [isSticky, setIsSticky] = useState(false);
+  const [isStickyLeft, setIsStickyLeft] = useState(false);
+  const scrollRef = useRef(null);
+  const scrollRefLeft = useRef(null);
+  useEffect(() => {
+    const scrollBar = scrollRef.current
+    const handleScroll = () => {
+      if (Math.round(scrollBar.scrollTop+scrollBar.clientHeight) === scrollBar.scrollHeight) {
+        setIsSticky(false);
+        console.log('scrolling attempt limit')
+      } else {
+        setIsSticky(true);
+        console.log('scrolling')
+        // console.log(scrollBar.scrollTop)
+        // console.log(scrollBar.clientHeight)
+        // console.log(scrollBar.scrollHeight)
+        // console.log(Math.round(scrollBar.scrollTop+scrollBar.clientHeight))
+      }
+    }
+    scrollBar.addEventListener('scroll', handleScroll)
+    return () => {
+      scrollBar.removeListener('scroll', handleScroll)
+    }
+  }, []);
+  useEffect(() => {
+    const scrollBar = scrollRefLeft.current
+    const handleScroll = () => {
+      if (Math.round(scrollBar.scrollTop+scrollBar.clientHeight) === scrollBar.scrollHeight) {
+        setIsStickyLeft(false);
+        console.log('scrolling attempt limit')
+      } else {
+        setIsStickyLeft(true);
+        console.log('scrolling')
+        // console.log(scrollBar.scrollTop)
+        // console.log(scrollBar.clientHeight)
+        // console.log(scrollBar.scrollHeight)
+        // console.log(Math.round(scrollBar.scrollTop+scrollBar.clientHeight))
+      }
+    }
+    scrollBar.addEventListener('scroll', handleScroll)
+    return () => {
+      scrollBar.removeListener('scroll', handleScroll)
+    }
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -425,14 +470,18 @@ function Preparation_Perte(props: PropsType) {
             {/*FIRST COL */}
             <div
               className="col-5 overflow-auto px-0"
-              style={{ height: heigthValue }}
+              style={{ height: heigthValue}}
+              ref={scrollRefLeft}
             >
               <br />
               <br />
               <span className="fw-6 f-32">Mon poste</span>
               <br />
               <br />
-              <div className="scroll-and-hidden">
+              <div 
+                className="scroll-and-hidden"
+                style={{ position:'relative'}}
+              >
                 {/*<span className="f-20">Salade César</span>*/}
                 {/*<br/><br/>*/}
                 {listProductsOfTheTeamMember.length > 0 ? (
@@ -523,8 +572,8 @@ function Preparation_Perte(props: PropsType) {
                   </div>
                 )}
               </div>
-              <div className="text-center">
-                <IconArrowDown />
+              <div className="text-center" style={{position:'sticky', bottom:-10, display: isStickyLeft ? '' : 'none' }}>
+                <IconArrowDown /> "icon"
               </div>
               {/*{totalQtyVariant > 0 && (
                                 <div className="horizontal-center mt-4">
@@ -542,7 +591,8 @@ function Preparation_Perte(props: PropsType) {
             </div>
             <div
               className="col-5 overflow-auto px-0"
-              style={{ height: heigthValue }}
+              style={{ height: heigthValue}}
+              ref={scrollRef}
             >
               <div>
                 {/*<div className="text-end -mt-15">
@@ -550,7 +600,7 @@ function Preparation_Perte(props: PropsType) {
                                                      text={"Historique"}/>
                             </div>*/}
                 <br />
-                <div>
+                <div style={{position:'relative'}}>
                   <br />
                   {listCookingStationWithVariant.map((cookingStation) => (
                     <>
@@ -705,7 +755,7 @@ function Preparation_Perte(props: PropsType) {
                       </div>
                     </>
                   ))}
-                  <div className="text-center">
+                  <div className="text-center" style={{position:'sticky', bottom:-10, display: isSticky ? '' : 'none'}}>
                     <IconArrowDown />
                   </div>
                   {(totalQtyProductIngredientAllPoste > 0 ||
