@@ -79,4 +79,3 @@ function HomeContainer(props: PropsType) {
 }
 
 export default HomeContainer
-
