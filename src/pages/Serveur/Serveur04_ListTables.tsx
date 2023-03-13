@@ -16,6 +16,7 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 import axios from "axios";
 import {HomeProcessModel, ServeurProcessModel, Table} from "../../globals/models/models";
 import {homeProcessContext} from "../HomeContainer";
+import {TeamMember} from "../../globals/models/Inscription.models";
 
 function Serveur04_ListTables(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
@@ -42,7 +43,17 @@ function Serveur04_ListTables(props) {
                     zone.tableIds = zone.tableIds.sort((a,b) => a.tableNumber < b.tableNumber ? -1 : 1 ) ;
                 }) ;
                 setListZones(arr) ;
-                setZoneToShow(arr[0]) ;
+                let userLogged: TeamMember = getAdminProcessValues("userLogged") ;
+                if (userLogged.zoneAffectedName) {
+                    let zone = arr.find((zone) => zone.name == userLogged.zoneAffectedName) ;
+                    if (zone) {
+                        setZoneToShow(zone) ;
+                    } else {
+                        setZoneToShow(arr[0]) ;
+                    }
+                } else {
+                    setZoneToShow(arr[0]) ;
+                }
             } else {
                 setError("Pas de données sur les zones") ;
             }
