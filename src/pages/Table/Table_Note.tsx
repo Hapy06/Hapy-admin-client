@@ -30,10 +30,7 @@ import {
     setProcessStored
 } from "../../globals/GlobalVariables";
 import {ICONS} from "../../globals/Icons-svg";
-import IconChecked from "../../globals/icons-components/IconChecked";
 import HapyButtonOnlyIcon3 from "../../components/HapyButtonOnlyIcon3";
-import {string} from "prop-types";
-import {TeamMember} from "../../globals/models/Inscription.models";
 
 function Table_Note(props) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
@@ -67,10 +64,10 @@ function Table_Note(props) {
         } else {
             setApplyReduction(false) ;
             if (reducType == "montant") {
-                setMoneyLeft(commandProcess.totalPrice - parseFloat(reducValue)) ;
+                setMoneyLeft(commandProcess?.totalPrice - parseFloat(reducValue)) ;
             } else {
-                let valueToReduce = (commandProcess.totalPrice*parseFloat(reducValue)) / 100 ;
-                setMoneyLeft(moneyLeft - valueToReduce) ;
+                let valueToReduce = (commandProcess?.totalPrice*parseFloat(reducValue)) / 100 ;
+                setMoneyLeft(commandProcess.totalPrice - valueToReduce) ;
             }
         }
     } ;
@@ -91,22 +88,44 @@ function Table_Note(props) {
     const handleValidateSeparation = () => {
         let temp = [...listReglement] ;
         if (updateReglement.update) {
-            temp[updateReglement.indexOnListReglement] = {...reglement, value:parseFloat(reglement.value), paymentMethod:paymentMethod}
+            temp[updateReglement.indexOnListReglement] = {...reglement, value:parseFloat(reglement.value) || 0, paymentMethod:paymentMethod}
             setReglement({number:reglement.number + 1, value:'', paymentMethod:"carteBleu"}) ;
         } else if (moneyLeft > 0) {
-            temp.push({...reglement, value:parseFloat(reglement.value), paymentMethod:paymentMethod}) ;
+            temp.push({...reglement, value:parseFloat(reglement.value) || 0, paymentMethod:paymentMethod}) ;
             setReglement({number:reglement.number + 1, value:'', paymentMethod:"carteBleu"}) ;
         }
         setListReglement(temp) ;
         setUpdateReglement({update:false, indexOnListReglement:null}) ;
-        if (moneyLeft - parseFloat(reglement.value) <= 0) {
-            setMoneyLeft(0) ;
-            setShowValidateBtn(true) ;
-        } else {
-            setMoneyLeft(moneyLeft - parseFloat(reglement.value))
-        }
+        setMoneyLeft(getMoneyLeft(temp)) ;
+
         // setDivideNote(false) ;
     } ;
+
+    const  getMoneyLeft = (listReglement) => {
+        let moneyLeft = commandProcess?.totalPrice ;
+        if (reducValue != '') {
+            let value ;
+            if (typeof reducValue == "string") value = parseFloat(reducValue) ;
+            else value = reducValue ;
+            if (reducType == "montant") {
+                moneyLeft = commandProcess?.totalPrice - value ;
+            } else {
+                let valueToReduce = (commandProcess?.totalPrice*value) / 100 ;
+                moneyLeft = commandProcess.totalPrice - valueToReduce ;
+            }
+        }
+        if (listReglement && listReglement.length > 0) {
+            listReglement?.forEach((reglement) => {
+                if (typeof reglement.value == "string") reglement.value = parseFloat(reglement.value) ;
+                moneyLeft -= reglement.value ;
+            }) ;
+        }
+        if (moneyLeft <= 0) {
+            moneyLeft = 0 ;
+            setShowValidateBtn(true) ;
+        }
+        return moneyLeft ;
+    }
 
     const showErrorFunction = (errorMessage: string, color: 'text-success' | 'text-danger' = "text-danger", timeout: number = 10000) => {
         setErrorMessageColor(color);
@@ -207,7 +226,7 @@ function Table_Note(props) {
                 <div className="row f-32 fw-5">
                     <span className="col">Table {homeProcess?.tableDetail?.tableNumber}</span>
                     <div className="col text-end">
-                        <span className="text-red-orange">{moneyLeft}</span> €
+                        <span className="text-red-orange">{commandProcess?.totalPrice}</span> €
                     </div>
                 </div>
                 <div className="row">
@@ -250,7 +269,7 @@ function Table_Note(props) {
                     <hr style={{borderWidth:2}}/>
                     <div className="row">
                         <span className="col">Total</span>
-                        <span className="col text-end">{commandProcess?.totalPrice} €</span>
+                        <span className="col text-end">{moneyLeft} €</span>
                     </div>
                     {(reducValue && reducValue != '') && (
                         <div className="row mt-1 fw-3">

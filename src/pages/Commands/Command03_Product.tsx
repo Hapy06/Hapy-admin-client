@@ -13,13 +13,11 @@ import {
     getAdminProcessValues,
     IMG_PATH,
     IMG_PATH_ONLINE,
-    setProcessStored,
-    updateTable
+    setProcessStored
 } from "../../globals/GlobalVariables";
 import {CommandProcessModel, SimpleCommand} from "../../globals/models/models";
 import {Cooking, ProductIngredient, Variant} from "../../globals/models/Inscription.models";
 import {homeProcessContext} from "../HomeContainer";
-import {width} from "@mui/system";
 
 function Command03_Product(props) {
     const {commandProcess, setCommandProcess} = useContext<{commandProcess:CommandProcessModel,setCommandProcess:any}>(homeProcessContext) ;
@@ -153,17 +151,17 @@ function Command03_Product(props) {
                     </>
                 )}
                 <br/> <br/>
-                {productVariantChoosed.description && productVariantChoosed.description.length > 0 && (
+                {productVariantChoosed.description && productVariantChoosed.description.length > 0 && productVariantChoosed?.description != 'undefined'  && (
                     <div className="mb-3">
                         {/*<span><IconAlarm width={24} height={24} stroke={'#323232'}/></span>*/}
                         <span className="f-20">La recette du chef</span>
                         <div style={{marginTop:24}}>{productVariantChoosed.description}</div>
                     </div>
                 )}
-                {productVariantChoosed.allergene && productVariantChoosed.allergene.length > 0 && (
+                {productVariantChoosed.allergene && productVariantChoosed.allergene.length > 0 && productVariantChoosed?.allergene != 'undefined'  && (
                     <div style={{marginTop:32}}>
                         <span><IconInfoCircle width={24} height={24} stroke={'#323232'}/></span>
-                        <span className="f-20 fw-5 f-16 fw-6" style={{marginLeft:8}}>Les allergènes</span>
+                        <span className="f-20 fw-5 f-16 fw-4" style={{marginLeft:8}}>Les allergènes</span>
                         <div className="fw-4 f-16" style={{marginTop:24}}>
                             {productVariantChoosed.allergene}
                         </div>

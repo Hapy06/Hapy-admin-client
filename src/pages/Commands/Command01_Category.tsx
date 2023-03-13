@@ -24,11 +24,15 @@ function Command01_Category(props) {
     const handleSearchForm = (e) => {
         const { name, value } = e.target;
         if (value) {
-            setListCategoryProductsSearched(commandProcess.productCategories.filter((category:CategoryOfProduct) => {
-                return category.name.toLowerCase().includes(searchKey.toLowerCase())
-            }) ) ;
+            let array = [] ;
+            commandProcess.productCategories?.filter(elt => elt.products?.length > 0).forEach((category:CategoryOfProduct) => {
+                if (category.name.toLowerCase().includes(value.toLowerCase())) {
+                    array.push(category) ;
+                }
+            } ) ;
+            setListCategoryProductsSearched(array) ;
         }
-        setSearchKey(value) ; /*.toLowerCase().includes(searchKey.toLowerCase()) || */
+        setSearchKey(value) ;
     } ;
 
     const handleCategoryOfProductChoosed = (categoryOfProductChoosed: CategoryOfProduct) => {

@@ -21,11 +21,15 @@ function Command02_SubCategory(props) {
     const handleSearchForm = (e) => {
         const { name, value } = e.target;
         if (value) {
-            setListProductsSearched(commandProcess.products.filter((product:Product) => {
-                return product.name.toLowerCase().includes(searchKey.toLowerCase())
-            }) ) ;
+            let array = [] ;
+            commandProcess.categoryOfProductChoosed?.products?.filter(elt => elt.variants?.length > 0).forEach((product:Product) => {
+                if (product.name.toLowerCase().includes(value.toLowerCase())) {
+                    array.push(product) ;
+                }
+            } ) ;
+            setListProductsSearched(array) ;
+            setSearchKey(value) ;
         }
-        setSearchKey(value) ; /*.toLowerCase().includes(searchKey.toLowerCase()) || */
     } ;
 
     const handleProductChoosed = (productChoosed: Product) => {

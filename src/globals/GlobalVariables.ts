@@ -99,8 +99,8 @@ export const handleSendNotification = (nature: 'openTable' | 'commandToValidate'
     newNotif.tableZoneName = tableZoneName ;
     newNotif.source = nature == "demand" ? 'client-' + getAdminProcessValues("clientDemandId") : 'client' ;
     newNotif.nature = nature ;
-    newNotif.askTime = '' + new Date() ;
-    newNotif.doneTime = '' + new Date() ;
+    newNotif.askTime = new Date().getHours() + ":" + new Date().getMinutes() ;
+    newNotif.doneTime = new Date().getHours() + ":" + new Date().getMinutes() ;
     newNotif.isDone = false ;
     newNotif.content = content ;
     console.log("New Notif : ") ;
