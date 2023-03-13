@@ -424,7 +424,7 @@ function Preparation_Perte(props: PropsType) {
           <div className="row mt-4">
             {/*FIRST COL */}
             <div
-              className="col-6 overflow-auto "
+              className="col-5 overflow-auto px-0"
               style={{ height: heigthValue }}
             >
               <br />
@@ -537,11 +537,13 @@ function Preparation_Perte(props: PropsType) {
                             )}*/}
             </div>
             {/*2ND COL */}
+            <div className="col-2 d-flex justify-content-center px-0">
+              <div style={{borderLeft: "1px solid #C8C8C8", height: heigthValue}}></div>
+            </div>
             <div
-              className="col-6 overflow-auto d-flex"
+              className="col-5 overflow-auto px-0"
               style={{ height: heigthValue }}
             >
-              <div style={{borderLeft: "1px solid #C8C8C8", marginRight: 32, height: heigthValue}}></div>
               <div>
                 {/*<div className="text-end -mt-15">
                                 <HapyButtonWithIcon handleClick={()=>handleOpenModal(<PreparationAllOrdersModal handleCloseModal={handleCloseModal}/>)} btnWidth={210} iconComponent={<IconArchive/>}
@@ -552,12 +554,12 @@ function Preparation_Perte(props: PropsType) {
                   <br />
                   {listCookingStationWithVariant.map((cookingStation) => (
                     <>
-                      <div className="fw-6 f-32 mb-2">{cookingStation.cookingPosition}</div>
+                      <div className="fw-6 f-32" style={{marginBottom: 16}}>{cookingStation.cookingPosition}</div>
                       <div>
                         {cookingStation.variants.map(
                           (variant: Variant, index: number) => (
                             <div className={variant.id}>
-                              <h6 className="mb-3 fw-5">
+                              <h6 className="mb-3" style={{marginTop: 32, fontSize: 20, fontWeight: 400}}>
                                 {variant.name}
                               </h6>
                               {listVariantSelectedAllPoste[variant.id] != null ? (
