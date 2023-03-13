@@ -78,20 +78,30 @@ function ChefDeRangContainer() {
 
     }, []);
 
-    const addNewOpenTableDemand = (payload: {table: Table, numberOfPerson: number}) => {
-        let newNotif:NotificationHapy = new NotificationHapy() ;
+    const addNewOpenTableDemand = (notification: NotificationHapy) => {
+        /*let newNotif:NotificationHapy = new NotificationHapy() ;
         newNotif.tableNumber = payload.table.tableNumber ;
         newNotif.tableZoneName = payload.table.zoneName ;
         newNotif.tableID = payload.table.id ;
         newNotif.nature = "openTable" ;
-        newNotif.content = payload ;
-        let temp = cdrProcess ;
-        temp.listNotifs.push(newNotif) ;
-        setProcessStored("cdrProcess", temp) ;
+        newNotif.content = payload.numberOfPerson ;*/
+        let temp = {...cdrProcess} ;
+        temp.listNotifs.push(notification) ;
+        // if 2 or more notifs have same table number and nature == "openTable", keep only the last one
+        let arr2 = temp.listNotifs.filter((elt:NotificationHapy, index:number) => {
+            let arr3 = temp.listNotifs.filter((elt2:NotificationHapy) => elt2?.tableNumber == elt?.tableNumber && elt2?.nature == "openTable") ;
+            if (arr3.length > 1) {
+                return arr3.indexOf(elt) == arr3.length-1 ;
+            } else {
+                return true ;
+            }
+        }) ;
+        temp.listNotifs = [...arr2] ;
+        setProcessStored("cdrProcess", {...temp}) ;
         setCDRProcess({...temp}) ;
         addNotification({
             title: "Nouvelle Demande d'Ouverture de Table",
-            subtitle: 'Table ' + newNotif.tableNumber + ' - ' + (newNotif.tableZoneName || 'Terrasse Gauche'),
+            subtitle: 'Table ' + notification.tableNumber + ' - ' + (notification.tableZoneName || 'Terrasse Gauche'),
             message: 'Veuillez Confirmez !',
             theme: 'light',
             backgroundTop: '#536DFE',
@@ -148,6 +158,7 @@ function ChefDeRangContainer() {
       {path: "/command/validated", element: <Command05_Validated/>},
       /****************************************/
     {path: "/reservation/new", element: <ReservationNew/>},
+    {path: "/reservation/new/tableNumber/:tableNumber", element: <ReservationNew/>},
     {path: "/reservation/list", element: <ReservationList/>},
     {path: "/reservation/detail", element: <ReservationDetail/>},
     {path: "/reservation/validated", element: <ReservationValidated/>},

@@ -72,7 +72,10 @@ function Serveur03_FoodReady(props) {
                 <br/>
                 <h1 className="f-32 fw-6">Table {serveurProcess.notifDetail?.tableNumber}</h1>
                 <p className="f-20">{serveurProcess.notifDetail?.tableZoneName}</p>
-                <div className="text-center">{format(new Date(serveurProcess?.notifDetail?.askTime), 'HH : mm') }</div>
+                <div className="text-center">
+                    { serveurProcess.notifDetail?.askTime && (
+                    <div className="text-center">{serveurProcess.notifDetail?.askTime}</div>
+                )}</div>
                 <br/>
                 {coupons && coupons.length > 0 ? (
                     coupons?.map( (coupon:Coupon, index:number) => (

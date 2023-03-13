@@ -15,9 +15,11 @@ function Table_TableClosed(props) {
     const [errorMessageColor, setErrorMessageColor] = useState<'text-success' | 'text-danger'>('text-success');
 
     const handleCloseTable = () => {
-        putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'close', statusForNewClient: 'close'},
+        navigate('/home');
+        // Newt line already done in backend
+        /*putRequest(API_REQUEST_TABLE + '/update', homeProcess.tableDetail.id, {status: 'close', statusForNewClient: 'close'},
             ()=> {navigate('/home')},
-            ()=>{showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")}) ;
+            ()=>{showErrorFunction("Echec de la Fermeture, Veuillez ressayer !")}) ;*/
     } ;
 
     const showErrorFunction = (errorMessage: string, color: 'text-success' | 'text-danger' = "text-danger", timeout: number = 2000) => {

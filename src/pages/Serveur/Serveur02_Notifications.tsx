@@ -83,7 +83,9 @@ function Serveur02_Notifications(props) {
                 <br/>
                 <h1 className="fw-6">Table {serveurProcess.notifDetail.tableNumber}</h1>
                 <h5>{serveurProcess.notifDetail.tableZoneName || "Nom de la Zone"}</h5>
-                <div className="text-center">{format(new Date(serveurProcess.notifDetail.askTime), 'HH : mm') }</div>
+                <div className="text-center">{ serveurProcess.notifDetail?.askTime && (
+                    <div className="text-center">{serveurProcess.notifDetail?.askTime}</div>
+                )}</div>
                 <br/>
                 {serveurProcess.notifDetail.nature != "demand" && (
                     <div className="text-center mt-5">
