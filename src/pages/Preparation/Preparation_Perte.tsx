@@ -68,7 +68,7 @@ function Preparation_Perte(props: PropsType) {
   const [
     totalQtyProductIngredientAllPoste,
     setTotalQtyProductIngredientAllPoste,
-  ] = useState<number>(0);
+  ] = useState<number>(1);
 
   const [ingredientsVariant, setIngredientsVariant] = useState([]);
 
@@ -91,6 +91,7 @@ function Preparation_Perte(props: PropsType) {
         // console.log(Math.round(scrollBar.scrollTop+scrollBar.clientHeight))
       }
     }
+    console.log('scoll bar ---> ',scrollBar)
     scrollBar.addEventListener('scroll', handleScroll)
     return () => {
       scrollBar.removeListener('scroll', handleScroll)
@@ -250,16 +251,11 @@ function Preparation_Perte(props: PropsType) {
   ) => {
     // console.log(productIngredientId) ;
     let temp = { ...listProductIngredientSelectedWithQtyAllPoste };
-    temp[productIngredientId] = 0;
+    temp[productIngredientId] = 1;
     // console.log('selected ingredient ---> ', temp);
     setListProductIngredientSelectedWithQtyAllPoste({ ...temp });
-    let iProduct = {
-      productIngredientId,
-      productIngredientEntitled,
-      type: "Ingredient",
-      qty: 1,
-    };
-    setIngredientsVariant((prevIngredientsVariant) => {
+    let iProduct = {productIngredientId, productIngredientEntitled, type: 'Ingredient', qty: 1}
+    setIngredientsVariant(prevIngredientsVariant => {
       const newIngredientsVariant = [...prevIngredientsVariant, iProduct];
       console.log("newIngredients -->", newIngredientsVariant);
       return newIngredientsVariant;
@@ -296,9 +292,9 @@ function Preparation_Perte(props: PropsType) {
       );
     } else {
       if (temp[ingredientId] > 0) {
-        temp[ingredientId] -= 1;
+        temp[ingredientId] > 1 ? temp[ingredientId] -= 1 : temp[ingredientId]=1;
         setTotalQtyProductIngredientAllPoste(
-          totalQtyProductIngredientAllPoste - 1
+          totalQtyProductIngredientAllPoste - 1 >= 1 ? totalQtyProductIngredientAllPoste - 1 : 1
         );
       }
     }
