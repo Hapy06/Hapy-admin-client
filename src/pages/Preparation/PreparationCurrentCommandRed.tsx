@@ -28,6 +28,7 @@ function PreparationCurrentCommandRed(props:PropsType) {
     });
 
     const [timerText, setTimerText] = useState(timer.timerText)
+    const [timerTextLeft, setTimerTextLeft] = useState(timer.timerText)
 
     useEffect(() => {
       const intervalId = setInterval(() => {
@@ -62,6 +63,36 @@ function PreparationCurrentCommandRed(props:PropsType) {
       return () => clearInterval(intervalId);
     }, [timerText, props.order.id]);
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+          if (localStorage.getItem(`${props?.order?.id}-timer1-left`)) {
+          // let storedTimerText = props?.order?.pendingDurationText ? props?.order?.pendingDurationText : "00:00:00"
+          let storedTimerText = localStorage.getItem(`${props?.order?.id}-timer1-left`)
+          console.log('first --> ',storedTimerText)
+          const [hours, minutes, seconds] = storedTimerText.split(':').map(Number);
+          let newSeconds = seconds + 1;
+          let newMinutes = minutes;
+          let newHours = hours;
+          if (newSeconds >= 60) {
+            newSeconds = 0;
+            newMinutes += 1;
+          }
+          if (newMinutes >= 60) {
+            newMinutes = 0;
+            newHours += 1;
+          }
+          const newTimeText = `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}:${newSeconds.toString().padStart(2, '0')}`;
+          setTimerTextLeft(newTimeText);
+          localStorage.setItem(`${props?.order?.id}-timer1-left`, newTimeText);
+          }else{
+            let storedTimerText = props?.order?.pendingDurationText ? props?.order?.pendingDurationText : "00:00:00"
+            setTimerTextLeft(storedTimerText)
+            localStorage.setItem(`${props?.order?.id}-timer1-left`, storedTimerText);
+            console.log('first')
+          }
+        }, 1000)
+        return () => clearInterval(intervalId);
+      }, [timerTextLeft, props.order?.id])
     return (
         <>
             <div
@@ -80,7 +111,8 @@ function PreparationCurrentCommandRed(props:PropsType) {
                     <div className="text-disabled row">
                         <div className="f-12 col-3 mt-2">{props.order?.startTime}</div>
                         <div className="col-9 text-end">
-                            <span className="f-8">{props.order.pendingDurationText}</span>
+                            {/* <span className="f-8">{props.order.pendingDurationText} </span> */}
+                            <span className="f-8">{timerTextLeft} </span>
                             <span className="f-12" style={{color:'#F7B927'}}>  / {timerText} {ICONS.timer16Disabled}
                          </span>
                         </div>

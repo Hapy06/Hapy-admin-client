@@ -116,14 +116,14 @@ function Preparation_Attente(props:PropsType) {
                 const [hours, minutes, seconds] = localStorage.getItem(`${temp.orderDetail.id}-timer1`).split(":")
                 const durationInMs = ((parseInt(hours) * 60 + parseInt(minutes)) * 60 + parseInt(seconds)) * 1000;
                 temp.orderDetail.pendingDuration = durationInMs;
-                localStorage.removeItem(`${temp.orderDetail.id}-timer1`)
+                // localStorage.removeItem(`${temp.orderDetail.id}-timer1`)
             }
             if (localStorage.getItem(`${temp.orderDetail.id}-timer2`)) {
                 temp.orderDetail.cookingDurationText = localStorage.getItem(`${temp.orderDetail.id}-timer2`)
                 const [hours, minutes, seconds] = localStorage.getItem(`${temp.orderDetail.id}-timer2`).split(":")
                 const durationInMs = ((parseInt(hours) * 60 + parseInt(minutes)) * 60 + parseInt(seconds)) * 1000;
                 temp.orderDetail.cookingDuration = durationInMs;
-                localStorage.removeItem(`${temp.orderDetail.id}-timer2`)
+                // localStorage.removeItem(`${temp.orderDetail.id}-timer2`)
             }
             navigate('/home') ;
         }), ( (error) => {
