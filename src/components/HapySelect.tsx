@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react' ;
 import IconArrowRight from "../globals/icons-components/IconArrowRight";
 import IconArrowDown from "../globals/icons-components/IconArrowDown";
+import {resizeText} from "../globals/GlobalVariables";
 
 type Option = {
     text:string ;
@@ -65,7 +66,7 @@ function HapySelect(props:PropsType) {
                         <div key={index} className="hapy-select-option" style={{cursor:"pointer"}}>
                             <span className="mr-64"></span>
                             <span className={option == optionSelected ? 'text-blue' : ''}
-                                  onClick={()=>handleChangeOption(option)}>{option.text}</span>
+                                  onClick={()=>handleChangeOption(option)}>{resizeText(option?.text, 22)}</span>
                         </div>
                     ) )}
                 </div>

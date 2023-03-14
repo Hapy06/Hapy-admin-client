@@ -269,3 +269,11 @@ const exportError = (err:any) => {
     // console.log(data) ;
     link.click();
 };
+
+export const resizeText = (text:string, size:number = 25) => {
+    let textToReturn = text ;
+    if (text.length > size) {
+        textToReturn = text.substring(0, size) + '...' ;
+    }
+    return textToReturn ;
+}

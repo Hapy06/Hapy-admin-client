@@ -45,9 +45,11 @@ function Serveur04_ListTables(props) {
                 setListZones(arr) ;
                 let userLogged: TeamMember = getAdminProcessValues("userLogged") ;
                 if (userLogged.zoneAffectedName) {
-                    let zone = arr.find((zone) => zone.name == userLogged.zoneAffectedName) ;
-                    if (zone) {
-                        setZoneToShow(zone) ;
+                    // let zone = arr.find((zone) => zone.name == userLogged.zoneAffectedName) ;
+                    let index = arr.findIndex((zone) => zone.name == userLogged.zoneAffectedName) ;
+                    if (index != -1) {
+                        setZoneToShow(arr[index]) ;
+                        setZoneToShowIndex(index) ;
                     } else {
                         setZoneToShow(arr[0]) ;
                     }
@@ -93,6 +95,12 @@ function Serveur04_ListTables(props) {
 
     const handleClickTable = (tableChoosed: Table) => {
         console.log(tableChoosed) ;
+        homeProcess.tableDetail = tableChoosed ;
+        if (tableChoosed.status == "close" || tableChoosed.status == "closed") {
+            navigate('/table') ;
+        } else if (tableChoosed.status != "unavailable") {
+            navigate('/table-opened') ;
+        }/*
         if (tableChoosed.statusForNewClient == "close" || tableChoosed.statusForNewClient == "closed") {
             homeProcess.tableDetail = tableChoosed ;
             navigate('/table') ;
@@ -102,7 +110,7 @@ function Serveur04_ListTables(props) {
         } else if (tableChoosed.statusForNewClient == "unavailable" || tableChoosed.statusForNewClient == "waiting-to-join") {
             homeProcess.tableDetail = tableChoosed ;
             navigate('/table-unavailable') ;
-        }
+        }*/
     } ;
 
     return (
@@ -128,7 +136,7 @@ function Serveur04_ListTables(props) {
                         <div className="text-center mt-3">{error}</div>
                     ) : (
                         <>
-                            <div className="row table-item-container mt-3 ">
+                            <div className="row table-item-container mt-3 scroll-and-hidden" style={{height:400}}>
                                 { zoneToShow?.tableIds?.map((table, index) => (
                                     <div key={index} onClick={()=>handleClickTable(table)} className="col-3 mb-4">
                                         <HapyTableItemServeur tableNumber={table?.tableNumber || index} tableState={table?.status}/>

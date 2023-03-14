@@ -131,7 +131,7 @@ function ChefDeRang03_ListTables(props) {
                                 <div className="text-center mt-3">{error}</div>
                             ) : (
                                 <>
-                                    <div className="row table-item-container mt-3">
+                                    <div className="row table-item-container mt-3 scroll-and-hidden" style={{height:400}}>
                                         { zoneToShow?.tableIds?.map((table: Table, index: React.Key) => (
                                             <div key={index} onClick={()=>handleClickTable(table)} className="col-3 mb-4">
                                                 <HapyTableItemCDR tableNumber={table.tableNumber} tableStatus={table.status}/>
