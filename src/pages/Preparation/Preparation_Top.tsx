@@ -82,7 +82,7 @@ function Preparation_Top(props:PropsType) {
                                 className="d-flex align-items-center"
                             >
                               <span className="f-48 fw-6">
-                                {preparationProcess.ticketQuantity || 0}
+                                {preparationProcess?.ticketQuantity || 0}
                               </span>
                                             <div className="circle-red" style={{ marginLeft: 16 }}></div>
                                             {/* <svg className="-mt-2 ml-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
