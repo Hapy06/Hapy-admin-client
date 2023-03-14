@@ -496,10 +496,10 @@ function Preparation_Perte(props: PropsType) {
             >
               <br />
               <br />
-              <span className="fw-6 f-32" style={{
+              <span style={{
                                   marginTop: 32,
-                                  fontSize: 20,
-                                  fontWeight: 400,
+                                  fontSize: 32,
+                                  fontWeight: 600,
                                 }}>Mon poste</span>
               <div
                 className="scroll-and-hidden"
@@ -511,11 +511,13 @@ function Preparation_Perte(props: PropsType) {
                   listProductsOfTheTeamMember.map(
                     (product: Product, index: number) => (
                       <>
-                        <h3 style={{ marginTop: 32}}>{product.name}</h3>
+                        <h3 style={{ marginTop: 32,
+    fontSize: 20,
+    fontWeight: 400}}>{product.name}</h3>
                         {product.variants.map(
                           (variant: Variant, index: number) =>
                             listVariantSelectedAllPoste[variant.id] != null ? (
-                              <div key={variant.id} className="row fw-5">
+                              <div key={variant.id} className="row align-items-center fw-5">
                                 <span
                                   className="col-1"
                                   onClick={() =>
@@ -529,11 +531,9 @@ function Preparation_Perte(props: PropsType) {
                                   />
                                 </span>
                                 <span
-                                  className="col-6"
+                                  className="col-10"
                                   style={{
                                     marginTop: 32,
-                                    fontSize: 20,
-                                    fontWeight: 400,
                                     marginLeft: 32 
                                   }}
                                 >
@@ -553,8 +553,7 @@ function Preparation_Perte(props: PropsType) {
                             ) : (
                               <div className="row fw-5 align-items-center" style={{ marginTop: 32,
                                 fontSize: 20,
-                                fontWeight: 400,
-                                marginLeft: 32 }}>
+                                fontWeight: 400 }}>
                                 <span
                                   className="col-1"
                                   onClick={() =>
@@ -585,7 +584,7 @@ function Preparation_Perte(props: PropsType) {
                                   </svg>
                                 </span>
                                 <span
-                                  className="col-6"
+                                  className="col-10"
                                   style={{ marginLeft: 32 }}
                                 >
                                   {variant.name}
