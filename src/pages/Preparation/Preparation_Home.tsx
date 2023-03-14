@@ -57,9 +57,9 @@ function Preparation_Home(props: PropsType) {
       .get(
         BASE_URL +
           "api/v1/managements/order?status=waiting&institutionID=" +
-          getAdminProcessValues("userLogged").institution.id +
-          "&position=" +
-          getAdminProcessValues("userLogged").position,
+          getAdminProcessValues("userLogged").institution.id, //+
+          // "&position=" +
+          // getAdminProcessValues("userLogged").position,
         {
           headers: {
             Authorization: `Bearer ${getAdminProcessValues("authToken")}`,

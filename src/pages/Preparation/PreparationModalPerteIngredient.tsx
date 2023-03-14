@@ -92,7 +92,7 @@ function PreparationModalPerteIngredient(props:PropsType) {
                     </button>
                     <br/><br/><br/>
                     <p className="text-black">
-                        <span className="text-red-orange mr-1">
+                        <span className="text-red-orange mr-1" style={{color:'#f7b927'}}>
                             {getAdminProcessValues('userLogged').firstName}
                         </span>
                         {getAdminProcessValues('userLogged').lastName}
