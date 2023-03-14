@@ -184,7 +184,7 @@ function Perte(props) {
                         </>
                     </PullToRefresh>
                     <br/><br/><br/>
-                    <div className="horizontal-center inner-button-container-validate-btn mt-4">
+                    <div className="horizontal-center inner-button-container-validate-btn mt-4" style={{position:"fixed"}}>
                         <HapyButtonWithIcon text="Noter comme perte" handleClick={() => {
                             handleOpenModal( "PerteModal")
                         }}

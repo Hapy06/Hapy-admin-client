@@ -96,7 +96,7 @@ function ReservationList(props) {
                             )
                         )}
 
-            <div className="horizontal-center inner-button-container-validate-btn mt-4">
+            <div className="horizontal-center inner-button-container-validate-btn mt-4" style={{position:"fixed"}}>
             <HapyButtonWithIcon text="Réserver la table" handleClick={()=>{navigate('/reservation/new')}}
                                     btnWidth={350}
                                     iconComponent={<IconReservationAdd/>}/>

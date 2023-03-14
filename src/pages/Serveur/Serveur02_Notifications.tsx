@@ -113,7 +113,7 @@ function Serveur02_Notifications(props) {
                         </div>
                     </div>
                 )}
-            <div className="horizontal-center inner-button-container-validate-btn mt-4">
+            <div className="horizontal-center inner-button-container-validate-btn mt-4" style={{position:"fixed"}}>
                 <HapyButtonWithIcon text="Valider la demande" handleClick={handleValidateNotif}
                                     btnWidth={350}
                                     iconComponent={<IconChecked/>}/>

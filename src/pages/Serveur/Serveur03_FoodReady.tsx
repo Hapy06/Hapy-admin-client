@@ -100,7 +100,7 @@ function Serveur03_FoodReady(props) {
                     </div>
                 )}
                 <br/>
-                <div className="horizontal-center inner-button-container-validate-btn mt-4">
+                <div className="horizontal-center inner-button-container-validate-btn mt-4" style={{position:"fixed"}}>
                         <HapyButtonWithIcon text="La commande est servie" handleClick={handleValidateNotif}
                                             btnWidth={350}
                                             iconComponent={<IconOrder/>}/>
