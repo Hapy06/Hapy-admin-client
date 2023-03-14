@@ -54,7 +54,7 @@ function ReservationValidated(props) {
                 <span className="col-6"><IconPhoneCall/> {homeProcess.bookingDetail?.phoneNumber}</span>
                 <span className="col-6 text-end"><IconPeople/> {homeProcess.bookingDetail?.numberOfPeople} p.</span>
             </div>
-            <div className="horizontal-center inner-button-container-validate-btn mt-4">
+            <div className="horizontal-center inner-button-container-validate-btn mt-5" >
                 <HapyButtonWithIcon text="Retour à la gestion" handleClick={()=>{navigate('/')}}
                                     btnWidth={350}
                                     iconComponent={<IconArrowLeft/>}/>

@@ -155,7 +155,7 @@ function Command04_ValidationProgress(props) {
                 )}
 
                 {commandList.some(elt => elt.isValidated) && (
-                    <div className="text-center inner-button-container-validate-btn">
+                    <div className="text-center inner-button-container-validate-btn" style={{position:"fixed"}}>
                         <IconArrowDown width={32} height={32} stroke={'black'} styleIcon={{marginTop:-30}} />
                         <div className="horizontal-center">
                             <HapyButtonWithIcon text="Valider votre commande" handleClick={handleValidateAll}

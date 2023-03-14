@@ -90,7 +90,7 @@ function ReservationDetail(props) {
                 <br/>
                 <span><IconPeople/> {homeProcess.bookingDetail?.numberOfPeople} p.</span>
                 <br/>
-                <div className="text-center inner-button-container-validate-btn mb-4">
+                <div className="text-center inner-button-container-validate-btn mb-4" style={{position:"fixed"}}>
                 {showError && (<div className={"mb-3 " + errorMessageColor}>{errorMessage}</div>)}
                     <div className="horizontal-center">
                         <HapyButtonWithIcon text="Il sont arrivés" handleClick={validateBooking}

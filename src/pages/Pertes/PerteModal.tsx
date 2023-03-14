@@ -39,8 +39,6 @@ export const customStyles = {
     },
 };
 
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-Modal.setAppElement('#root');
 
 function PerteModal(props:PropsType) {
     const {homeProcess, setHomeProcess} = useContext<{homeProcess:HomeProcessModel, setHomeProcess: any}>(homeProcessContext) ;
@@ -90,7 +88,7 @@ function PerteModal(props:PropsType) {
                         Les pertes sont notées
                     </div>
                     <br/><br/><br/><br/>
-                    <div style={{position:'fixed', bottom:'24px', left:'24px', right:'24px'}}>
+                    <div style={{bottom:'24px', left:'24px', right:'24px'}}>
                         <HapyButtonWithIcon text="Retour à votre interface" handleClick={()=>navigate(('/home'))}
                                         iconComponent={
                                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -122,7 +120,7 @@ function PerteModal(props:PropsType) {
                     ))}
                     <br/><br/><br/><br/>
                     {showError && (<div className={"mb-3 text-center " + errorMessageColor}>{errorMessage}</div>)}
-                    <div style={{position:'fixed', bottom:'24px', left:'24px', right:'24px'}}>
+                    <div style={{bottom:'24px', left:'24px', right:'24px'}}>
                     <HapyButtonWithIcon text="Valider la perte" handleClick={handleValidateLose}
                                         numberAtEnd={props.totalQty + ''} numberAtEndColor={"#FF6063"} iconComponent={<IconLose/>}/>
                     </div>

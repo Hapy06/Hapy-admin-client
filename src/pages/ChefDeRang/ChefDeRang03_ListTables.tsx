@@ -50,10 +50,10 @@ function ChefDeRang03_ListTables(props) {
                     zone.tableIds = zone.tableIds.sort((a,b) => a.tableNumber < b.tableNumber ? -1 : 1 ) ;
                         zone.tableIds.forEach((table:Table) => {
                             if (table.status == "ask-to-open" && !cdrProcess.listNotifs.some((notif:NotificationHapy) => notif?.tableID == table?.id)) {
-                                table.status = "close" ;
+                                table.status = "opened" ;
                             }
                             if (table.status == "command-waiting-validation" && !cdrProcess.listNotifs.some((notif:NotificationHapy) => notif?.tableID == table?.id)) {
-                                table.status = "close" ;
+                                table.status = "opened" ;
                             }
                         }) ;
                 }) ;

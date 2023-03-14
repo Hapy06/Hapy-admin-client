@@ -222,14 +222,22 @@ export const deleteRequest = (request, entityId,
 
 export const updateTable = (commandProcess: CommandProcessModel, callBackSuccess?:any,
                             callBackError?:any) => {
+    let temp = Object.assign({}, commandProcess) ;
     let commandProcessModelToShare: CommandProcessModelToShare = new CommandProcessModelToShare() ;
     for (let key in commandProcessModelToShare) {
-        if (commandProcess[key]) commandProcessModelToShare[key] = commandProcess[key] ;
+        if (temp[key]) commandProcessModelToShare[key] = temp[key] ;
     }
-    let table = commandProcess.table ;
+    if (temp.allCommands && temp.allCommands.length > 0) {
+        temp?.allCommands?.forEach((command) => {
+            // check if type of command.product is not string and stringify it
+            if (typeof command.product != 'string') command.product = JSON.stringify(command.product) ;
+            if (typeof command.productVariant != 'string') command.productVariant = JSON.stringify(command.productVariant) ;
+        }) ;
+    }
+    let table = {...temp.table} ;
     table.commandProcessToShare = commandProcessModelToShare ;
     console.log(table) ;
-    putRequest(API_REQUEST_TABLE + '/update-table', table.id, table, getAdminProcessValues("authToken"),
+    putRequest(API_REQUEST_TABLE + '/update-table', table.id, table,
         (response)=>{if (callBackSuccess) callBackSuccess(response);},
         (error)=>{if (callBackError) callBackError(error)})
 } ;
