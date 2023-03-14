@@ -103,7 +103,7 @@ function LoginTablet(props:PropType) {
                 Celui ci vous a été envoyé par mail ce matin à 5:00 ainsi qu'à votre manager
             </div> */}
             </div>
-                <div className="text-center inner-button-container-validate-btn mt-2">
+                <div className="text-center inner-button-container-validate-btn mt-2" style={{position:"fixed"}}>
                     {showError && (<div className={"mb-3 -mt-4 " + errorMessageColor}>{errorMessage}</div>)}
                     <div className="horizontal-center">
                         <HapyButtonWithIcon text="Vous connecter" handleClick={handleLogin}

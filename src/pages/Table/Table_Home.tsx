@@ -52,9 +52,9 @@ function Table_Home(props) {
 
             />
                 <div className="happy-div-bottom">
-                    <span className="f-32 fw-6">Table {homeProcess.tableDetail.tableNumber}</span> <br/>
+                    <span className="f-32 fw-6">Table {homeProcess.tableDetail?.tableNumber}</span> <br/>
                     <span
-                        className="f-20 fw-4">{homeProcess.tableDetail.zone?.name || homeProcess.tableDetail.zoneName || 'Zone Inconnue'}</span>
+                        className="f-20 fw-4">{homeProcess.tableDetail?.zoneName || 'Zone Inconnue'}</span>
                     <br/>
                     <br/> <HapyButtonWithIcon text="Ouvrir la table" handleClick={() => handleOpenModal(<Table_OpenTableModal handleCloseModal={handleCloseModal}/>)}
                                               iconComponent={<IconChecked/>}/>

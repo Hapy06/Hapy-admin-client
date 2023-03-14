@@ -65,7 +65,7 @@ function Command02_SubCategory(props) {
                         </div>
                     ))
                 ) : (
-                    commandProcess.categoryOfProductChoosed?.products.map((product, indexProduct) => (
+                    commandProcess.categoryOfProductChoosed?.products?.filter(elt => elt.variants?.length > 0).map((product, indexProduct) => (
                         <div key={indexProduct}>
                             <br/>
                             <HapyButtonWithoutIcon text={product.name}

@@ -185,13 +185,13 @@ function Table_TableOpened(props) {
                 />
                     <div className="happy-div-bottom">
                         <div className="row">
-                            <span className="col-9 f-32 fw-5">Table {homeProcess.tableDetail.tableNumber}</span>
+                            <span className="col-9 f-32 fw-5">Table {homeProcess?.tableDetail?.tableNumber}</span>
                             <div className="col-3 text-center" style={{marginTop: -20}}>
                                 <IconUser width={16} height={16} styleIcon={{width: 16}}/>
                                 <div className="f-16" style={{marginTop: -10}}>
                                     {/*<span onClick={()=>setNumberOfPerson(numberOfPerson+1)}>+</span>*/}
                                     <span
-                                        className="text-red-orange ml-2 mr-2 fw-6">{homeProcess.tableDetail?.numberOfPerson || 0}</span>
+                                        className="text-red-orange ml-2 mr-2 fw-6">{homeProcess?.tableDetail?.numberOfPerson || 0}</span>
                                     {/*<span onClick={()=>{numberOfPerson > 1 ? setNumberOfPerson(numberOfPerson-1) : null}}>-</span>*/}
                                 </div>
                             </div>

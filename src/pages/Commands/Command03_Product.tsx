@@ -95,7 +95,7 @@ function Command03_Product(props) {
         navigate('/command') ;
     } ;
 
-    const divideNumber = (value:number) => { return value.toLocaleString()} ;
+    const divideNumber = (value:number) => { return value?.toLocaleString() || 0} ;
 
     const calculateNewPriceIfProductIsHapyHour = (price:number) => {
         let newPrice = price ;
@@ -114,7 +114,7 @@ function Command03_Product(props) {
                            subtitleStart={getAdminProcessValues("userLogged")?.firstName || "serveur"}
                            subtitleStartClassName="text-red-orange"
                            subtitleEnd={getAdminProcessValues("userLogged")?.lastName || "Hâpy"}
-                           title={<span>{commandProcess.categoryOfProductChoosed?.name} <br/> {productVariantChoosed?.name}</span>}
+                           title={<span><span style={{fontSize:18, fontWeight:400}}>{commandProcess.categoryOfProductChoosed?.name}</span> <br/> {productVariantChoosed?.name}</span>}
                            showBtnBack={true}
                            handleClickBtnBack={()=>navigate('/command/sub-category')}
                            showRightSideBtn={false}

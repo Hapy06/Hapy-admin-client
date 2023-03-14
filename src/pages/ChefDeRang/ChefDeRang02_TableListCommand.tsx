@@ -150,7 +150,7 @@ function ChefDeRang02_TableListCommand(props) {
                 )}
                 <br/>
                 {listCommand?.map((command:SimpleCommand, index:number) => (
-                    <div key={command?.id || index} className="row fw-6 command-box">
+                    <div key={command?.id || index} className="row command-box">
                         <span className="col-2">{index + 1}</span>
                         <span className="col-10" style={{marginTop:-24}}>
                             {command?.isPregnant && (<span className="text-red-orange" style={{fontSize:12, paddingTop:-50}}>Enceinte</span>)}
